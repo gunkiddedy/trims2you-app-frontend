@@ -49,11 +49,11 @@
 
             <div class="summary_table w-full overflow-auto px-0 py-0 rounded shadow font-semibold text-center hover:shadow-md">
                 <vue-good-table
-                    mode="pages"
+                    mode="remote"
                     :pagination-options="{
                         enabled: true,
                         perPage: 2,
-                        mode: 'records'
+                        perPageDropdownEnabled: false,
                     }"
                     @on-page-change="onPageChange"
                     @on-sort-change="onSortChange"
@@ -226,7 +226,7 @@ export default {
     },
     methods: {
         getRecords(){
-            axios.get(`/api/dashboard`,
+            axios.get(`/api/dashboard?page=${this.serverParams.page}`,
             {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -239,7 +239,8 @@ export default {
                 this.summary_table = response.data.summary_table;
                 this.totalRecords = response.data.summary_table.total;
                 this.rows = response.data.summary_table.data;
-                console.log(response.data);
+                console.log(response.data.summary_table);
+                console.log(this.serverParams);
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -361,7 +362,6 @@ export default {
     border: 1px solid #dcdfe6;
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
 }
-
 /* The hack for Safari */
 .h-screen {
     height: 100vh;
