@@ -61,7 +61,7 @@
         </div>
 
         <!-- FOOTER -->
-        <div class="flex flex-col absolute bottom-0 w-full">
+        <!-- <div class="flex flex-col absolute bottom-0 w-full">
             <div class="footer-small text-gray-800">
                 <svg class="svg" style="pointer-events: none" fill="currentColor" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 75">
                     <g class="b"><path class="c" d="M1963,327H-105V65A2647.49,2647.49,0,0,1,431,19c217.7,3.5,239.6,30.8,470,36,297.3,6.7,367.5-36.2,642-28a2511.41,2511.41,0,0,1,420,48"></path></g>
@@ -78,7 +78,7 @@
                     Bantuan:trims2you.id
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
 </template>

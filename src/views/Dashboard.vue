@@ -1,8 +1,9 @@
 <template>
-    <main class="pt-16 sm:pl-48 dashboard-wrape">
+    <main class="pt-16 sm:pl-28 dashboard-wrape">
 
         <div v-if="loading" class="opacity-25 fixed inset-0 z-30 bg-white"></div>
 
+        <!-- MAIN CONTENT -->
         <div class="main-content p-4 bg-indigo-50 lg:h-screen h-full">
 
             <!-- loader -->
@@ -23,77 +24,123 @@
 				</svg>
 			</div>
 
-            <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1">
+            <!-- TABS WRAPER-->
+            <div class="tab-wraper bg-white">
+                <!-- NAV TAB -->
+                <ul class="flex border-b border-gray-300 font-bold py-3">
+                    <li 
+                        v-for="(item, i) in index_statistic"
+                        :key="i"
+                        class="mx-2">
+                        <a class="inline-block py-2 px-4 text-blue-500 font-semibold  hover:text-blue-800" href="#" v-on:click="toggleTabs(i)" v-bind:class="{'text-blue-600': openTab !== i, 'border-b-2 border-blue-500': openTab === i}">{{i}} {{item.label}}</a>
+                    </li>
+                </ul>
+                
+                <!-- index_statistic -->
+                <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
 
-                <div 
-                    v-for="(item, i) in index_statistic"
-                    :key="i"
-                    class="kotak3 px-4 py-8 bg-white rounded shadow font-semibold text-center hover:shadow-md">
-                    <div class="flex items-center justify-start">
-                        <div class="icon">
-                            <svg class="w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                        <div class="flex flex-col items-start ml-2">
-                            <div class="uang text-3xl text-gray-500">
-                                {{ item.count }}
+                    <div 
+                        v-for="(item, i) in index_statistic"
+                        :key="i"
+                        class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
+                        <div class="flex items-center justify-start">
+                            <div class="icon bg-blue-500 rounded px-4 py-2 text-4xl">
+                                <i :class="item.icon" class="text-gray-50"></i>
                             </div>
-                            <div class="title text-gray-400">
-                                {{ item.label }}
+                            <div class="flex flex-col items-start ml-2">
+                                <div class="uang text-3xl text-gray-500">
+                                    {{ item.count }}
+                                </div>
+                                <div class="title text-gray-400">
+                                    {{ item.label }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-            </div>
+                    
+                </div><!-- index_statistic -->
 
-
-            <div class="summary_table w-full overflow-auto px-0 py-0 rounded shadow font-semibold text-center hover:shadow-md">
-                <vue-good-table
-                    mode="remote"
-                    :pagination-options="{
-                        enabled: true,
-                        perPage: 2,
-                        perPageDropdownEnabled: false,
-                    }"
-                    @on-page-change="onPageChange"
-                    @on-sort-change="onSortChange"
-                    @on-column-filter="onColumnFilter"
-                    @on-per-page-change="onPerPageChange"
-                    :lineNumbers="false"
-                    :totalRows="totalRecords"
-                    :isLoading.sync="isLoading"
-                    :rows="rows"
-                    :columns="columns"
-                >
-                    <!-- <div slot="table-actions">
-                        <button
-                            @click="exportExcel()"
-                            class="bg-indigo-500 hover:bg-indigo-600 px-3 py-1 text-white text-xs rounded-full mr-2"
-                        >
-                            Download
-                        </button>
-                    </div> -->
-                    <template
-                        slot="table-row"
-                        slot-scope="props"
-                        v-if="role === 'gudang' || role === 'reseller'"
+                <!-- summary_table -->
+                <div class="summary_table px-4 py-8 w-full overflow-auto px-0 py-0 rounded font-semibold text-center hover:shadow-md">
+                    <vue-good-table
+                        mode="remote"
+                        :pagination-options="{
+                            enabled: true,
+                            perPage: 2,
+                            perPageDropdownEnabled: false,
+                        }"
+                        :sort-options="{
+                            enabled: true,
+                            initialSortBy: [
+                                {field: 'transaction_code', type: 'asc'},
+                                {field: 'payment_method', type: 'desc'}
+                            ],
+                        }"
+                        @on-page-change="onPageChange"
+                        @on-sort-change="onSortChange"
+                        @on-column-filter="onColumnFilter"
+                        @on-per-page-change="onPerPageChange"
+                        :lineNumbers="false"
+                        :totalRows="totalRecords"
+                        :isLoading.sync="isLoading"
+                        :rows="rows"
+                        :columns="columns"
                     >
-                        <span v-if="props.column.field == 'action'">
+                        <!-- <div slot="table-actions">
                             <button
-                                class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
-                                @click="editData(props.row.id)"
+                                @click="exportExcel()"
+                                class="bg-indigo-500 hover:bg-indigo-600 px-3 py-1 text-white text-xs rounded-full mr-2"
                             >
-                                <svg class="w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Edit
+                                Download
                             </button>
-                        </span>
-                        <span v-else>
-                            {{ props.formattedRow[props.column.field] }}
-                        </span>
-                    </template>
-                </vue-good-table>
-            </div>
-            <!-- <Pagination :pagination="pagination" @paginate="getRecords" />             -->
-        </div>
+                        </div> -->
+                        <template
+                            slot="table-row"
+                            slot-scope="props"
+                            v-if="role === 'gudang' || role === 'reseller'"
+                        >
+                            <span v-if="props.column.field == 'action'">
+                                <button
+                                    class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
+                                    @click="editData(props.row.id)"
+                                >
+                                    <svg class="w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Edit
+                                </button>
+                            </span>
+                            <span v-else>
+                                {{ props.formattedRow[props.column.field] }}
+                            </span>
+                        </template>
+                    </vue-good-table>
+                </div><!-- summary_table -->
+
+                <!-- index_statistic -->
+                <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
+
+                    <div 
+                        v-for="(item, i) in index_statistic"
+                        :key="i"
+                        class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
+                        <div class="flex items-center justify-start">
+                            <div class="icon bg-blue-500 rounded px-4 py-2 text-4xl">
+                                <i :class="item.icon" class="text-gray-50"></i>
+                            </div>
+                            <div class="flex flex-col items-start ml-2">
+                                <div class="uang text-3xl text-gray-500">
+                                    {{ item.count }}
+                                </div>
+                                <div class="title text-gray-400">
+                                    {{ item.label }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div><!-- index_statistic -->
+
+            </div><!-- TABS WRAPER-->
+
+        </div><!-- MAIN CONTENT -->
         
     </main>
 </template>
@@ -215,16 +262,22 @@ export default {
             pagination: {},
             selected: {
                 keywords: ''
-            }
+            },
+            openTab: ''
         }
-    },
-    mounted() {
-        this.getRecords();
     },
     created() {
         this.getRecords();
     },
     methods: {
+        toggleTabs(tabNumber) {
+            this.openTab = tabNumber;
+            // if (this.openTab == 0) {
+            //     this.openTab = tabNumber;
+            // } else {
+
+            // }
+        },
         getRecords(){
             axios.get(`/api/dashboard?page=${this.serverParams.page}`,
             {
@@ -239,7 +292,7 @@ export default {
                 this.summary_table = response.data.summary_table;
                 this.totalRecords = response.data.summary_table.total;
                 this.rows = response.data.summary_table.data;
-                console.log(response.data.summary_table);
+                console.log(response);
                 console.log(this.serverParams);
             })
             .catch((error) => {
