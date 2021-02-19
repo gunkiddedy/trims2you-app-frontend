@@ -32,7 +32,14 @@
                         v-for="(item, i) in index_statistic"
                         :key="i"
                         class="mx-2">
-                        <a class="inline-block py-2 px-4 text-blue-500 font-semibold  hover:text-blue-800" href="#" v-on:click="toggleTabs(i)" v-bind:class="{'text-blue-600': openTab !== i, 'border-b-2 border-blue-500': openTab === i}">{{i}} {{item.label}}</a>
+                        <a 
+                            class="inline-block py-2 px-4 text-gray-500 font-semibold  hover:text-blue-300" href="#" v-on:click="toggleTabs(i)" 
+                            :class="{
+                                'text-gray-600': openTab !== i, 
+                                'text-blue-500 border-b-2 border-blue-500': openTab === i, }
+                        ">
+                            {{item.label}}
+                        </a>
                     </li>
                 </ul>
                 
@@ -61,7 +68,7 @@
                 </div><!-- index_statistic -->
 
                 <!-- summary_table -->
-                <div class="summary_table px-4 py-8 w-full overflow-auto px-0 py-0 rounded font-semibold text-center hover:shadow-md">
+                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
                     <vue-good-table
                         mode="remote"
                         :pagination-options="{
@@ -113,30 +120,6 @@
                         </template>
                     </vue-good-table>
                 </div><!-- summary_table -->
-
-                <!-- index_statistic -->
-                <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
-
-                    <div 
-                        v-for="(item, i) in index_statistic"
-                        :key="i"
-                        class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
-                        <div class="flex items-center justify-start">
-                            <div class="icon bg-blue-500 rounded px-4 py-2 text-4xl">
-                                <i :class="item.icon" class="text-gray-50"></i>
-                            </div>
-                            <div class="flex flex-col items-start ml-2">
-                                <div class="uang text-3xl text-gray-500">
-                                    {{ item.count }}
-                                </div>
-                                <div class="title text-gray-400">
-                                    {{ item.label }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div><!-- index_statistic -->
 
             </div><!-- TABS WRAPER-->
 
