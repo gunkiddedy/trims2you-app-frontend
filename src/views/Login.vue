@@ -102,7 +102,8 @@ export default {
             .then((response) => {
                 if(response.data.access_token !== undefined){
                     localStorage.setItem('access_token', response.data.access_token);
-                    this.$router.push('/dashboard')
+                    this.$router.push('/dashboard');
+                    this.$store.dispatch('currentUser/afterLogin', response.data);
                     console.log(response.data);
                 }else{
                     console.log('error');
