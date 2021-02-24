@@ -1,30 +1,5 @@
 <template>
     <div>
-
-        <!-- index_statistic -->
-        <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
-
-            <div 
-                v-for="(item, i) in index_statistic"
-                :key="i"
-                class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
-                <div class="flex items-center justify-start">
-                    <div class="icon bg-blue-500 rounded px-4 py-2 text-4xl">
-                        <i :class="item.icon" class="text-gray-50"></i>
-                    </div>
-                    <div class="flex flex-col items-start ml-2">
-                        <div class="uang text-3xl text-gray-500">
-                            {{ item.count }}
-                        </div>
-                        <div class="title text-gray-400">
-                            {{ item.label }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div><!-- index_statistic -->
-
         <!-- summary_table -->
         <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
             <vue-good-table
@@ -50,8 +25,8 @@
                 :lineNumbers="false"
                 :totalRows="totalRecords"
                 :isLoading.sync="isLoading"
-                :columns="columns"
                 :rows="rows"
+                :columns="columns"
             >
                 <!-- <div slot="table-actions">
                     <button
@@ -66,18 +41,6 @@
                     slot-scope="props"
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
-                    <span v-if="props.column.field == 'status_custom'">
-                        <span class="bg-yellow-500 px-3 rounded-md text-white font-bold py-1 leading-3">
-                            {{ props.row.status == 1 ? 'proses' : '' }}
-                        </span>
-                    </span>
-                    <span v-if="props.column.field == 'payment_method_custom'">
-                        <span
-                            :class="{'bg-green-500': props.row.payment_method == 'cod', 'bg-blue-500': props.row.payment_method == 'transfer'}" 
-                            class="px-3 rounded-md text-white font-bold py-1 leading-3">
-                            {{ props.row.payment_method }}
-                        </span>
-                    </span>
                     <span v-if="props.column.field == 'action'">
                         <button
                             class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
@@ -104,13 +67,10 @@ export default {
             role: 'gudang',
             loading: true,
             isLoading: false,
-            index_statistic: '',
-            page_title: '',
-            summary_table: '',
             columns: [
                 {
-                    label: "Transaction Code",
-                    field: "transaction_code",
+                    label: "Reseller",
+                    field: "cms_users_id",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -121,8 +81,8 @@ export default {
                     // },
                 },
                 {
-                    label: "Reseller",
-                    field: "name",
+                    label: "Transaction Code",
+                    field: "transaction_code",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -146,7 +106,7 @@ export default {
                 },
                 {
                     label: "Customer Name",
-                    field: "name",
+                    field: "customer_name",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -158,27 +118,42 @@ export default {
                 },
                 {
                     label: "Status",
-                    field: "status_custom",
-                    tdClass: 'text-center',
-                    sortable: false,
-                    width: "70px",
-                    // filterable: true,
-                },
-                {
-                    label: "Payment Method",
-                    field: "payment_method_custom",
+                    field: "status",
                     sortable: true,
                     width: "150px",
                     filterable: true,
-                    filterOptions: {
-                        enabled: true,
-                        placeholder: "Filter",
-                        filterDropdownItems: [
-                            { value: 'cod', text: 'COD' },  
-                            { value: 'transfer', text: 'TRANSFER' } 
-                        ],
-                        trigger: "keyup",
-                    },
+                },
+                {
+                    label: "Payment Status",
+                    field: "payment_status",
+                    sortable: true,
+                    width: "150px",
+                    filterable: true,
+                    // filterOptions: {
+                    //     enabled: true,
+                    //     placeholder: "Filter",
+                    //     filterDropdownItems: [
+                    //         { value: 'cod', text: 'COD' },  
+                    //         { value: 'transfer', text: 'TRANSFER' } 
+                    //     ],
+                    //     trigger: "keyup",
+                    // },
+                },
+                {
+                    label: "Tracking Number",
+                    field: "tracking_number",
+                    sortable: true,
+                    width: "150px",
+                    filterable: true,
+                    // filterOptions: {
+                    //     enabled: true,
+                    //     placeholder: "Filter",
+                    //     filterDropdownItems: [
+                    //         { value: 'cod', text: 'COD' },  
+                    //         { value: 'transfer', text: 'TRANSFER' } 
+                    //     ],
+                    //     trigger: "keyup",
+                    // },
                 },
                 {
                     label: "Action",
@@ -206,7 +181,7 @@ export default {
     },
     methods: {
         async getRecords(){
-            await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.serverParams.columnFilters.payment_method}`,
+            await axios.get(`/api/retur`,
             {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('access_token')
@@ -214,13 +189,9 @@ export default {
             })
             .then((response) => {
                 this.loading = false;
-                this.index_statistic = response.data.index_statistic;
-                this.page_title = response.data.page_title;
-                this.summary_table = response.data.summary_table;
-                this.totalRecords = response.data.summary_table.total;
-                this.rows = response.data.summary_table.data;
-
-                this.$store.dispatch('warehouseData/handleDashboard', response.data);
+                this.totalRecords = response.data.total;
+                this.rows = response.data.data;
+                this.$store.dispatch('warehouseData/handleRetur', response.data);
                 console.log(response);
                 console.log(this.serverParams);
             })

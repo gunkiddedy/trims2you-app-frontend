@@ -30,7 +30,7 @@
 
                 <!-- INCOMING PRODUCT -->
                 <div v-if="openTab == 1" class="ip-container">
-                    <h1>ip-container</h1>
+                    <IncomingProduct />
                 </div>
 
                 <!-- OUTGOING PRODUCT -->
@@ -40,12 +40,12 @@
 
                 <!-- RETUR PRODUCT-->
                 <div v-if="openTab == 3" class="rp-container">
-                    <h1>rp-container</h1>
+                    <ReturProduct />
                 </div>
 
                 <!-- WAREHOUSE INCOME -->
                 <div v-if="openTab == 4" class="wi-container">
-                    <h1>wi-container</h1>
+                    <WarehouseIncome />
                 </div>
                 
 
@@ -59,24 +59,24 @@
 <script>
 import Dashboard from '@/components/warehouse/Dashboard'
 import OutgoingProduct from '@/components/warehouse/OutgoingProduct'
+import IncomingProduct from '@/components/warehouse/IncomingProduct'
+import ReturProduct from '@/components/warehouse/ReturProduct'
+import WarehouseIncome from '@/components/warehouse/WarehouseIncome'
 export default {
     components: {
         Dashboard,
-        OutgoingProduct
+        OutgoingProduct,
+        IncomingProduct,
+        ReturProduct,
+        WarehouseIncome
     },
     data() {
         return {
             openTab: 0,
-            sub_menus: '',
+            sub_menus: ['Dashboard', 'Incoming Product', 'Outgoing Product', 'Retur Product', 'Warehouse Income'],
         }
     },
-    created() {
-        this.getSubMenus();
-    },
     methods: {
-        async getSubMenus(){
-            this.sub_menus = await this.$store.getters['warehouseData/getSubmenu'];
-        },
         toggleTabs(tabNumber) {
             this.openTab = tabNumber;
         },
