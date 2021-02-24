@@ -179,6 +179,7 @@ export default {
     },
     methods: {
         async getRecords(){
+            this.isLoading = true;
             await axios.get(`/api/outgoing_product`,
             {
                 headers: {
@@ -186,6 +187,7 @@ export default {
                 }
             })
             .then((response) => {
+                this.isLoading = false;
                 this.loading = false;
                 this.totalRecords = response.data.total;
                 this.rows = response.data.data;

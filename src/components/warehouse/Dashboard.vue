@@ -206,6 +206,7 @@ export default {
     },
     methods: {
         async getRecords(){
+            this.isLoading = true;
             await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.serverParams.columnFilters.payment_method}`,
             {
                 headers: {
@@ -213,6 +214,7 @@ export default {
                 }
             })
             .then((response) => {
+                this.isLoading = false;
                 this.loading = false;
                 this.index_statistic = response.data.index_statistic;
                 this.page_title = response.data.page_title;

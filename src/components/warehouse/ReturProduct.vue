@@ -128,7 +128,7 @@ export default {
                 },
                 {
                     label: "Customer Name",
-                    field: "customer_name",
+                    field: "name",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -204,6 +204,10 @@ export default {
     },
     methods: {
         async addRetur(param){
+            if(param == ''){
+                this.$swal('cannot empty!');
+                return false;
+            }
             await axios.post(`/api/retur/${param}`,
             {
                 headers: {
@@ -221,6 +225,7 @@ export default {
             });
         },
         async getRecords(){
+            this.isLoading = true;
             await axios.get(`/api/retur`,
             {
                 headers: {
@@ -228,6 +233,7 @@ export default {
                 }
             })
             .then((response) => {
+                this.isLoading = false;
                 this.loading = false;
                 this.totalRecords = response.data.total;
                 this.rows = response.data.data;
@@ -298,3 +304,18 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.swal2-title {
+    position: relative;
+    max-width: 100%;
+    margin: 0 0 .4em;
+    padding: 0;
+    color: #595959;
+    font-size: .875em;
+    font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    word-wrap: break-word;
+}
+</style>
