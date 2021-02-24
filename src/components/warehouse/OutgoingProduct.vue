@@ -41,12 +41,24 @@
                     slot-scope="props"
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
+                    <span v-if="props.column.field == 'status_custom'">
+                        <span class="bg-yellow-500 px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                            {{ props.row.status == 0 ? 'proses' : 'dikemas' }}
+                        </span>
+                    </span>
+                    <span v-if="props.column.field == 'payment_status_custom'">
+                        <span
+                            :class="{'bg-green-500': props.row.payment_status == 0, 'bg-blue-500': props.row.payment_status == 1}" 
+                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
+                            {{ props.row.payment_status == 0 ? 'waiting': 'review' }}
+                        </span>
+                    </span>
                     <span v-if="props.column.field == 'action'">
                         <button
-                            class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
-                            @click="editData(props.row.id)"
+                            class="bg-gray-500 rounded border border-gray-600 hover:bg-gray-600 px-2 py-1 text-white font-semibold mx-1 flex items-center justify-center"
+                            @click="detailData(props.row.id)"
                         >
-                            <svg class="w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Edit
+                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Detail
                         </button>
                     </span>
                     <span v-else>
@@ -118,16 +130,18 @@ export default {
                 },
                 {
                     label: "Status",
-                    field: "status",
+                    field: "status_custom",
+                    tdClass: 'text-center',
                     sortable: true,
-                    width: "150px",
+                    width: "70px",
                     filterable: true,
                 },
                 {
                     label: "Payment Status",
-                    field: "payment_status",
+                    field: "payment_status_custom",
+                    tdClass: 'text-center',
                     sortable: true,
-                    width: "150px",
+                    width: "110px",
                     filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -209,7 +223,7 @@ export default {
             this.updateParams(params);
             this.getRecords();
         },
-        editData(param) {
+        detailData(param) {
             alert(param);
         },
         deleteData(param) {
