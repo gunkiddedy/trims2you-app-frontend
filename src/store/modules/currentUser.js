@@ -1,17 +1,18 @@
 const state = {
-    userData: [],
+    userData: '',
 };
 
 const getters = {
     userData: state => state.userData,
+    userToken: state => state.userData.access_token,
 };
 
 const mutations = {
     AFTER_LOGIN : (state, payload) => {
-        state.userData.push(payload);
+        state.userData = payload;
     },
     AFTER_LOGOUT: (state) => {
-        state.userData = [];
+        state.userData = '';
     }
 };
 

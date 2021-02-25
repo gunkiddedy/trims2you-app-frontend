@@ -2,7 +2,7 @@
     <div class="bg-purple-700 h-screen relative">
 
         <!-- TITLE -->
-        <div class="wrap-all py-10">
+        <div class="wrap-all py-16">
             <div class="big-title-wrap flex flex-col items-center mx-auto w-2/3 px-8">
                 <div class="big-title md:text-4xl text-2xl font-semibold text-white w-full text-center">
                     Trims2You Login Page
@@ -101,7 +101,7 @@ export default {
             axios.post("/api/auth/login", this.user)
             .then((response) => {
                 if(response.data.access_token !== undefined){
-                    localStorage.setItem('access_token', response.data.access_token);
+                    // localStorage.setItem('access_token', response.data.access_token);
                     this.$router.push('/dashboard');
                     this.$store.dispatch('currentUser/afterLogin', response.data);
                     console.log(response.data);

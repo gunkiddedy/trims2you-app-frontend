@@ -42,15 +42,43 @@
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
                     <span v-if="props.column.field == 'status_custom'">
-                        <span class="bg-yellow-500 px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
-                            {{ props.row.status == 0 ? 'proses' : 'dikemas' }}
+                        <span 
+                            :class="{
+                                'bg-gray-400': props.row.status == 0, 
+                                'bg-red-400': props.row.status == 1,
+                                'bg-yellow-400': props.row.status == 2,
+                                'bg-green-400': props.row.status == 3,
+                                'bg-blue-400': props.row.status == 4,
+                                'bg-indigo-400': props.row.status == 5,
+                                'bg-purple-400': props.row.status == 6,
+                                'bg-pink-400': props.row.status == 7,
+                                'bg-gray-600': props.row.status == 8
+                            }"
+                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                            {{ props.row.status == 0 ? 'Review' : '' }}
+                            {{ props.row.status == 1 ? 'Proses' : '' }}
+                            {{ props.row.status == 2 ? 'Dikemas' : '' }}
+                            {{ props.row.status == 3 ? 'Dikirim' : '' }}
+                            {{ props.row.status == 4 ? 'Terkirim' : '' }}
+                            {{ props.row.status == 5 ? 'Cancel oleh user' : '' }}
+                            {{ props.row.status == 6 ? 'Cancel oleh reseller' : '' }}
+                            {{ props.row.status == 7 ? 'Cancel oleh warehouse' : '' }}
+                            {{ props.row.status == 8 ? 'Retur' : '' }}
                         </span>
                     </span>
                     <span v-if="props.column.field == 'payment_status_custom'">
                         <span
-                            :class="{'bg-green-500': props.row.payment_status == 0, 'bg-blue-500': props.row.payment_status == 1}" 
+                            :class="{
+                                'bg-blue-400': props.row.payment_status == 0,
+                                'bg-purple-400': props.row.payment_status == 1,
+                                'bg-green-400': props.row.payment_status == 2,
+                                'bg-red-400': props.row.payment_status == 3
+                            }" 
                             class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
-                            {{ props.row.payment_status == 0 ? 'waiting': 'review' }}
+                            {{ props.row.payment_status == 0 ? 'Waiting': '' }}
+                            {{ props.row.payment_status == 1 ? 'Review': '' }}
+                            {{ props.row.payment_status == 2 ? 'Paid': '' }}
+                            {{ props.row.payment_status == 3 ? 'Failed': '' }}
                         </span>
                     </span>
                     <span v-if="props.column.field == 'action'">
@@ -177,13 +205,18 @@ export default {
     mounted() {
         this.getRecords();
     },
+    computed: {
+        userToken(){
+            return this.$store.getters['currentUser/userToken'];
+        }
+    },
     methods: {
         async getRecords(){
             this.isLoading = true;
             await axios.get(`/api/outgoing_product`,
             {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    'Authorization': 'Bearer ' + this.userToken
                 }
             })
             .then((response) => {

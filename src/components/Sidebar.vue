@@ -16,6 +16,15 @@
                     </div>
                 </div>
 
+                <div 
+                    @click="handleLogout"
+                    class="logout flex flex-col items-center my-4 cursor-pointer">
+                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span>
+                        Logout
+                    </span>
+                </div>
+
                 <!-- Extract: menu_items -->
                 <!-- <div class="mt-4 menu"> -->
 
@@ -56,12 +65,36 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data(){
         return {
             
         }
-    }
+    },
+    computed: {
+        userToken(){
+            return this.$store.getters['currentUser/userToken'];
+        }
+    },
+    methods: {
+        handleLogout(){
+            axios.post("/api/auth/logout", {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.$store.dispatch('currentUser/afterLogout');
+                this.$router.push('/');
+                console.log(response);
+                console.log('token sidebar' + this.userToken);
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        }
+    },
 }
 </script>
 

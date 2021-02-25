@@ -147,13 +147,18 @@ export default {
     mounted() {
         this.getRecords();
     },
+    computed: {
+        userToken(){
+            return this.$store.getters['currentUser/userToken'];
+        }
+    },
     methods: {
         async getRecords(){
             this.isLoading = true;
             await axios.get(`/api/income`,
             {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    'Authorization': 'Bearer ' + this.userToken
                 }
             })
             .then((response) => {

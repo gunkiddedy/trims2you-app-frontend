@@ -25,6 +25,18 @@
             
         </div><!-- index_statistic -->
 
+        <div
+            v-if="userToken !== 'undefined'" 
+            class="refresh my-2 px-4">
+            <button
+                @click="refreshTable" 
+                class="bg-green-500 hover:bg-green-600 focus:bg-green-600
+             px-2 py-1 rounded-full text-white flex items-center">
+                <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span>Refresh Table</span>
+            </button>
+        </div>
+
         <!-- summary_table -->
         <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
             <vue-good-table
@@ -67,7 +79,7 @@
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
                     <span v-if="props.column.field == 'status_custom'">
-                        <span class="bg-yellow-500 px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                        <span class="bg-purple-500 px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
                             {{ props.row.status == 1 ? 'proses' : '' }}
                         </span>
                     </span>
@@ -80,10 +92,11 @@
                     </span>
                     <span v-if="props.column.field == 'action'">
                         <button
-                            class="bg-gray-500 rounded border border-gray-600 hover:bg-gray-600 px-2 py-1 text-white font-semibold mx-1 flex items-center justify-between"
+                            class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold mx-1 flex items-center justify-between"
                             @click="detailData(props.row.id)"
                         >
-                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Detail
+                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Check
                         </button>
                     </span>
                     <span v-else>
@@ -93,6 +106,12 @@
             </vue-good-table>
         </div><!-- summary_table -->
 
+        <form>
+            <input 
+                v-model="orderStatus"
+                type="hidden" 
+                name="status">
+        </form>
     </div>
 </template>
 
@@ -199,18 +218,32 @@ export default {
                 perPage: 5,
             },
             keyword: '',
+            orderStatus: 0,
         }
     },
     mounted() {
-        this.getRecords();
+        if(this.userToken == undefined){
+            this.$router.push('/');
+        }else{
+            this.getRecords();
+            console.log(this.userToken)
+        }
+    },
+    computed: {
+        userToken(){
+            return this.$store.getters['currentUser/userToken'];
+        }
     },
     methods: {
+        refreshTable(){
+            this.getRecords();
+        },
         async getRecords(){
             this.isLoading = true;
             await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.serverParams.columnFilters.payment_method}`,
             {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                    'Authorization': 'Bearer ' + this.userToken
                 }
             })
             .then((response) => {
@@ -225,6 +258,7 @@ export default {
                 this.$store.dispatch('warehouseData/handleDashboard', response.data);
                 console.log(response);
                 console.log(this.serverParams);
+                console.log('token dashboard '+this.userToken);
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -257,7 +291,37 @@ export default {
             this.getRecords();
         },
         detailData(param) {
-            alert(param);
+            //alert(param);
+            this.$swal({
+                title: "Anda Yakin?",
+                text: "Anda akan memproses produk ini!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, proses ini!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.put(`/api/outgoing_product/status/${param}`, this.orderStatus,
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.getRecords();
+                        console.log(response);
+                        console.log(this.orderStatus);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                    this.$swal("Success!", `Data berhasil diproses.`, "success");
+                    // this.getRecords();
+                } else if (result.isDismissed) {
+                    this.$swal("Canceled!", "Proses Dibatalkan!", "info");
+                }
+            });
         },
         deleteData(param) {
             //alert(param);
