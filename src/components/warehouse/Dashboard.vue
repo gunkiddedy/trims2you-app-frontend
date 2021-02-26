@@ -96,7 +96,7 @@
                             @click="detailData(props.row.id)"
                         >
                             <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Check
+                            <span>Check</span>
                         </button>
                     </span>
                     <span v-else>
@@ -105,13 +105,6 @@
                 </template>
             </vue-good-table>
         </div><!-- summary_table -->
-
-        <form>
-            <input 
-                v-model="orderStatus"
-                type="hidden" 
-                name="status">
-        </form>
     </div>
 </template>
 
@@ -218,7 +211,7 @@ export default {
                 perPage: 5,
             },
             keyword: '',
-            orderStatus: 0,
+            orderStatus: 2,
         }
     },
     mounted() {
@@ -232,6 +225,13 @@ export default {
     computed: {
         userToken(){
             return this.$store.getters['currentUser/userToken'];
+        },
+        paymentMethod(){
+            let pm = this.serverParams.columnFilters.payment_method_custom;
+            if (pm == undefined){
+                return pm = '';
+            }
+            return pm;
         }
     },
     methods: {
@@ -240,7 +240,7 @@ export default {
         },
         async getRecords(){
             this.isLoading = true;
-            await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.serverParams.columnFilters.payment_method}`,
+            await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.paymentMethod}`,
             {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
@@ -302,7 +302,7 @@ export default {
                 confirmButtonText: "Ya, proses ini!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.put(`/api/outgoing_product/status/${param}`, this.orderStatus,
+                    axios.put(`/api/outgoing_product/status/${param}`, {status: this.orderStatus},
                     {
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
@@ -318,9 +318,10 @@ export default {
                     });
                     this.$swal("Success!", `Data berhasil diproses.`, "success");
                     // this.getRecords();
-                } else if (result.isDismissed) {
-                    this.$swal("Canceled!", "Proses Dibatalkan!", "info");
-                }
+                } 
+                // else if (result.isDismissed) {
+                //     this.$swal("Canceled!", "Proses Dibatalkan!", "info");
+                // }
             });
         },
         deleteData(param) {

@@ -16,7 +16,8 @@
                             class="inline-block py-2 px-4 text-gray-500 font-semibold  hover:text-blue-300" href="#" v-on:click="toggleTabs(i)" 
                             :class="{
                                 'text-gray-600': openTab !== i, 
-                                'text-blue-500 border-b-2 border-blue-500': openTab === i, }
+                                'text-blue-500 border-b-2 border-blue-500': openTab === i,
+                            }
                         ">
                             {{item}}
                         </a>
@@ -73,7 +74,13 @@ export default {
     data() {
         return {
             openTab: 0,
-            sub_menus: ['Dashboard', 'Incoming Product', 'Outgoing Product', 'Retur Product', 'Warehouse Income'],
+            sub_menus: [
+                'Dashboard',
+                'Incoming Product',
+                'Outgoing Product',
+                'Retur Product',
+                'Warehouse Income'
+            ],
         }
     },
     methods: {
