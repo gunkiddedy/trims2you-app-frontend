@@ -16,6 +16,12 @@ const route = [
 		component: Dashboard,
 		// props: true
 	},
+	{
+		path: '/incoming-product-name/:name',
+		name: 'IncomingProductName',
+		component: () => import('../components/warehouse/IncomingProductName.vue'),
+		props: true
+	},
 	// {
 	//   path: '/home/:id',
 	//   name: 'Home',
