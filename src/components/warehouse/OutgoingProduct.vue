@@ -102,29 +102,29 @@
             </vue-good-table>
         </div><!-- summary_table -->
 
-        <div
-            hidden 
-            class="paper" 
+        <div 
+            v-if="printProductDetail"
+            class="paper ml-8 hidden"
             id="printMe">
-            <div class="wrap-table-satu grid grid-cols-2 gap-4">
+            <div class="wrap-table-satu grid grid-cols-2 gap-10">
 
                 <div class="">
                     <table class="metode border-collapse">
                         <tr>
                             <td class="border border-green-600">Metode Pembayaran</td>
-                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">{{printProductDetail.payment_method}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Tanggal</td>
-                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">{{printProductDetail.created_at}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Status Order</td>
-                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">{{printProductDetail.status}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Catatan</td>
-                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">{{printProductDetail.remarks}}</td>
                         </tr>
                     </table>
                 </div>
@@ -132,47 +132,53 @@
                     <table class="table-auto courier">
                         <tr>
                             <td>Kurir</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.courier}}</td>
                         </tr>
                         <tr>
                             <td>Shipping Service</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.courier_detail}}</td>
                         </tr>
                         <tr>
                             <td>Tracking Number</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.tracking_number}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <table class="table-auto gudang">
+                    <table class="table-auto alamat-gudang">
+                        <tr>
+                            <td colspan="3">Alamat Gudang</td>
+                        </tr>
                         <tr>
                             <td>Nama</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetailWarehouse.name}}</td>
                         </tr>
                         <tr>
                             <td>Alamat Lengkap</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetailWarehouse.address}}</td>
                         </tr>
                         <tr>
                             <td>Nomor Telp</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetailWarehouse.phone}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <table class="table-auto alamat border-collapse border border-green-800">
+                    <table class="table-auto alamat-pembeli">
+                        <tr>
+                            <td colspan="3">Alamat Pengiriman</td>
+                        </tr>
                         <tr>
                             <td>Nama</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.name}}</td>
                         </tr>
                         <tr>
                             <td>Alamat Lengkap</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.address}}</td>
                         </tr>
                         <tr>
                             <td>Nomor Telp</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td>{{printProductDetail.no_hp}}</td>
                         </tr>
                     </table>
                 </div>
@@ -186,10 +192,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{printProductDetail.product_name}}</td>
+                                <td>{{printProductDetail.qty}}</td>
+                                <td>{{printProductDetail.price}}</td>
+                                <td>{{printProductDetail.price * printProductDetail.qty}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -302,7 +308,9 @@ export default {
             },
             keyword: '',
             printID: '',
-            productDetail: {}
+            printMeText: '',
+            printProductDetail: {},
+            printProductDetailWarehouse: {},
         }
     },
     mounted() {
@@ -315,12 +323,10 @@ export default {
     },
     methods: {
         printData(param) {
-            this.printID = param;
-            this.getOutgoingProductDetail(param);
-            // Pass the element id here
-            this.$htmlToPaper('printMe');
+            this.getOutgoingProductDetail(param)
         },
         async getOutgoingProductDetail(param){
+            if(!param) return false;
             await axios.get(`/api/outgoing_product/detail/${param}`,
             {
                 headers: {
@@ -328,8 +334,12 @@ export default {
                 }
             })
             .then((response) => {
-                this.productDetail = response.data;
-                console.log(response);
+                this.printProductDetail = response.data.order;
+                this.printProductDetailWarehouse = response.data.order.warehouse;
+                this.$htmlToPaper('printMe',  null, () => {
+                    console.log('Printing completed!');
+                });
+                console.log(response.data.order);
             })
             .catch((error) => {
                 console.log('woooo...'+error);

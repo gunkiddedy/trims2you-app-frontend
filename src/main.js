@@ -18,7 +18,7 @@ import VueHtmlToPaper from 'vue-html-to-paper'
 const options = {
   name: '_blank',
   specs: [
-    'fullscreen=yes',
+    'fullscreen=no',
     'titlebar=yes',
     'scrollbars=yes'
   ],
