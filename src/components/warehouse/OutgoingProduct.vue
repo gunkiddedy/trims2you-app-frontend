@@ -1,5 +1,10 @@
 <template>
     <div>
+        <!-- IF PRINTING -->
+        <!-- <div v-if="isPrinting" class="relative"> 
+            <Loader />
+        </div> -->
+
         <!-- summary_table -->
         <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
             <vue-good-table
@@ -41,6 +46,11 @@
                     slot-scope="props"
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
+                    <span v-if="props.column.field == 'reseller_name_'">
+                        <span>
+                            {{ props.row.reseller.full_name }}
+                        </span>
+                    </span>
                     <span v-if="props.column.field == 'status_custom'">
                         <span 
                             :class="{
@@ -86,7 +96,9 @@
                             class="bg-green-500 rounded border border-green-600 hover:bg-green-600 px-2 py-1 text-white font-semibold mr-1 flex items-center justify-center shadow-lg"
                             @click="printData(props.row.id)"
                         >
-                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg> Print
+                            <!-- <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg> -->
+                            <i class="fa fa-print mr-1"></i>
+                            <span>Print</span>
                         </button>
                         <button
                             class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold flex items-center justify-center shadow-lg"
@@ -102,93 +114,118 @@
             </vue-good-table>
         </div><!-- summary_table -->
 
+        <!-- PRINT DATA -->
         <div 
             v-if="printProductDetail"
             class="paper ml-8 hidden"
             id="printMe">
             <div class="wrap-table-satu grid grid-cols-2 gap-10">
-
+                <div class="barcode col-span-2 w-full">
+                    <div class="barcode-bar flex flex-col items-center">
+                        <div class="barcode-img">
+                            <span v-html="printProductDetail.barcode_html"></span>
+                        </div>
+                        <div class="barcode-text">
+                            {{printProductDetail.transaction_code}}
+                        </div>
+                    </div>
+                </div>
                 <div class="">
-                    <table class="metode border-collapse">
+                    <table class="border metode">
                         <tr>
                             <td class="border border-green-600">Metode Pembayaran</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td class="border border-green-600">{{printProductDetail.payment_method}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Tanggal</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td class="border border-green-600">{{printProductDetail.created_at}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Status Order</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td class="border border-green-600">{{printProductDetail.status}}</td>
                         </tr>
                         <tr>
                             <td class="border border-green-600">Catatan</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td class="border border-green-600">{{printProductDetail.remarks}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <table class="table-auto courier">
+                    <table class="border table-auto courier">
                         <tr>
                             <td>Kurir</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.courier}}</td>
                         </tr>
                         <tr>
                             <td>Shipping Service</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.courier_detail}}</td>
                         </tr>
                         <tr>
                             <td>Tracking Number</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.tracking_number}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <table class="table-auto alamat-gudang">
+                    <table class="border table-auto alamat-gudang">
                         <tr>
                             <td colspan="3">Alamat Gudang</td>
                         </tr>
                         <tr>
                             <td>Nama</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetailWarehouse.name}}</td>
                         </tr>
                         <tr>
                             <td>Alamat Lengkap</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetailWarehouse.address}}</td>
                         </tr>
                         <tr>
                             <td>Nomor Telp</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetailWarehouse.phone}}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <table class="table-auto alamat-pembeli">
+                    <table class="border table-auto alamat-pembeli">
                         <tr>
                             <td colspan="3">Alamat Pengiriman</td>
                         </tr>
                         <tr>
                             <td>Nama</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.name}}</td>
                         </tr>
                         <tr>
                             <td>Alamat Lengkap</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.address}}</td>
                         </tr>
                         <tr>
                             <td>Nomor Telp</td>
+                            <td>&nbsp;:&nbsp;</td>
                             <td>{{printProductDetail.no_hp}}</td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-span-2">
-                    <table class="table-auto produk">
-                        <thead>
-                            <th>Nama Produk</th>
-                            <th>QTY</th>
-                            <th>Harga</th>
-                            <th>Total</th>
+                <div class="col-span-2 w-full">
+                    <table class="border table-auto produk w-full">
+                        <thead class="text-left text-gray-400">
+                            <tr>
+                                <th>Nama Produk</th>
+                                <th>QTY</th>
+                                <th>Harga</th>
+                                <th>Total</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
@@ -200,23 +237,26 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div><!-- *grid*-->
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Loader from '@/components/Loader'
 export default {
+    components: {Loader},
     data(){
         return {
             role: 'gudang',
             loading: true,
             isLoading: false,
+            isPrinting: false,
             columns: [
                 {
                     label: "Reseller",
-                    field: "cms_users_id",
+                    field: "reseller_name_",
                     sortable: true,
                     // width: "150px",
                     // filterable: true,
@@ -325,6 +365,12 @@ export default {
         printData(param) {
             this.getOutgoingProductDetail(param)
         },
+        detailData(param){
+            this.$router.push({
+                name: 'OutgoingProductDetail',
+                params: { id: param }
+            });
+        },
         async getOutgoingProductDetail(param){
             if(!param) return false;
             await axios.get(`/api/outgoing_product/detail/${param}`,
@@ -392,12 +438,6 @@ export default {
             this.updateParams(params);
             this.getRecords();
         },
-        detailData(param) {
-            alert(param);
-        },
-        // printData(param) {
-        //     alert(param);
-        // },
         deleteData(param) {
             //alert(param);
             this.$swal({

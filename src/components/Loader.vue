@@ -1,5 +1,5 @@
 <template>
-    <div class="z-30 mx-auto flex items-center justify-center" v-if="loading">
+    <div class="z-30 mx-auto flex items-center justify-center">
         <svg class="w-12 text-blue-500" viewBox="0 0 120 30" fill="currentColor">
             <circle cx="15" cy="15" r="15">
             <animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite" />

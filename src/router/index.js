@@ -28,6 +28,12 @@ const route = [
 		component: () => import('../components/warehouse/IncomingProductNameDetail.vue'),
 		props: true
 	},
+	{
+		path: '/outgoing-product-detail/:id',
+		name: 'OutgoingProductDetail',
+		component: () => import('../components/warehouse/OutgoingProductDetail.vue'),
+		props: true
+	},
 	// {
 	//   path: '/home/:id',
 	//   name: 'Home',

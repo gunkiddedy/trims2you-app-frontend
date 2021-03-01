@@ -4,6 +4,7 @@ const state = {
     incomingProductName: '',
     incomingProductNameDetail: '',
     outgoingProduct: '',
+    outgoingProductDetail: '',
     returProduct: '',
     warehouseIncome: '',
 };
@@ -14,6 +15,7 @@ const getters = {
     getIncomingProductName: state => state.incomingProductName,
     getIncomingProductNameDetail: state => state.incomingProductNameDetail,
     getOutgoingProduct: state => state.outgoingProduct,
+    getOutgoingProductDetail: state => state.outgoingProductDetail,
     getReturProduct: state => state.returProduct,
     getWarehouseIncome: state => state.warehouseIncome,
 };
@@ -33,6 +35,9 @@ const mutations = {
     },
     SET_OUTGOING_DATA : (state, payload) => {
         state.outgoingProduct = payload;
+    },
+    SET_OUTGOING_DATA_DETAIL : (state, payload) => {
+        state.outgoingProductDetail = payload;
     },
     SET_RETUR_DATA : (state, payload) => {
         state.returProduct = payload;
@@ -57,6 +62,9 @@ const actions = {
     },
     handleOutgoing: (context, payload) => {
         context.commit('SET_OUTGOING_DATA', payload);
+    },
+    handleOutgoingProductDetail: (context, payload) => {
+        context.commit('SET_OUTGOING_DATA_DETAIL', payload);
     },
     handleRetur: (context, payload) => {
         context.commit('SET_RETUR_DATA', payload);
