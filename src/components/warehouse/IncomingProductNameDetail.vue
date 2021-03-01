@@ -7,7 +7,7 @@
                 <!-- TITLE -->
                 <div class="title px-4 py-4 border-b border-gray-200 flex items-center justify-between">
                     <span class="text-2xl font-semibold text-gray-400">
-                        Product Name : {{ name}}</span>
+                        Product ID : {{ id }}</span>
                     <div>
                         <button 
                             @click="goBackPrevious"
@@ -82,13 +82,38 @@
                             slot-scope="props"
                             v-if="role === 'gudang' || role === 'reseller'"
                         >
+                            <span v-if="props.column.field == 'status'">
+                                <span 
+                                    :class="{
+                                        'bg-gray-400': props.row.barcode_status.status == 0, 
+                                        'bg-red-400': props.row.barcode_status.status == 1,
+                                        'bg-yellow-400': props.row.barcode_status.status == 2,
+                                        'bg-green-400': props.row.barcode_status.status == 3,
+                                        'bg-blue-400': props.row.barcode_status.status == 4,
+                                        'bg-indigo-400': props.row.barcode_status.status == 5,
+                                        'bg-purple-400': props.row.barcode_status.status == 6,
+                                        'bg-pink-400': props.row.barcode_status.status == 7,
+                                        'bg-gray-600': props.row.barcode_status.status == 8
+                                    }"
+                                    class="px-2 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center max-w-max">
+                                    {{ props.row.barcode_status.status == 0 ? 'Review' : '' }}
+                                    {{ props.row.barcode_status.status == 1 ? 'Proses' : '' }}
+                                    {{ props.row.barcode_status.status == 2 ? 'Sudah diterima' : '' }}
+                                    {{ props.row.barcode_status.status == 3 ? 'Terjual' : '' }}
+                                    {{ props.row.barcode_status.status == 4 ? 'Terkirim' : '' }}
+                                    {{ props.row.barcode_status.status == 5 ? 'Cancel oleh user' : '' }}
+                                    {{ props.row.barcode_status.status == 6 ? 'Cancel oleh reseller' : '' }}
+                                    {{ props.row.barcode_status.status == 7 ? 'Cancel oleh warehouse' : '' }}
+                                    {{ props.row.barcode_status.status == 8 ? 'Retur' : '' }}
+                                </span>
+                            </span>
                             <span v-if="props.column.field == 'action'">
                                 <button
                                     class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold mx-1 flex items-center justify-between"
                                     @click="detailData(props.row.id)"
                                 >
-                                    <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    <span>Detail</span>
+                                    <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <span>Hapus</span>
                                 </button>
                             </span>
                             <span v-else>
@@ -106,7 +131,7 @@
 <script>
 import axios from 'axios'
 export default {
-    props: ['name'],
+    props: ['id'],
     data(){
         return {
             role: 'gudang',
@@ -114,10 +139,10 @@ export default {
             isLoading: false,
             columns: [
                 {
-                    label: "Batch No",
-                    field: "batch_no",
+                    label: "Barcode",
+                    field: "barcode",
                     sortable: true,
-                    width: "150px",
+                    // width: "150px",
                     // filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -138,46 +163,10 @@ export default {
                     // },
                 },
                 {
-                    label: "Total Product",
-                    field: "total_product",
-                    sortable: true,
-                    width: "150px",
-                    // filterable: true,
-                    // filterOptions: {
-                    //     enabled: true,
-                    //     placeholder: "Filter",
-                    //     trigger: "enter",
-                    // },
-                },
-                {
-                    label: "Shipping Date",
-                    field: "shipping_date",
-                    sortable: true,
-                    width: "150px",
-                    // filterable: true,
-                    // filterOptions: {
-                    //     enabled: true,
-                    //     placeholder: "Filter",
-                    //     trigger: "enter",
-                    // },
-                },
-                {
-                    label: "Delivered Date",
-                    field: "delivered_date",
-                    sortable: true,
-                    width: "150px",
-                    // filterable: true,
-                    // filterOptions: {
-                    //     enabled: true,
-                    //     placeholder: "Filter",
-                    //     trigger: "enter",
-                    // },
-                },
-                {
                     label: "Action",
                     field: "action",
                     sortable: false,
-                    width: "70px",
+                    width: "100px",
                 },
             ],
             rows: [],
@@ -204,40 +193,13 @@ export default {
         }
     },
     methods: {
-        detailData(param){
-            this.$router.push({
-                name: 'IncomingProductNameDetail',
-                params: { id: param }
-            });
-        },
         goBackPrevious(){
             this.$router.go(-1);
         },
-        async addIncoming(param){
-            if(param == ''){
-                this.$swal('cannot empty!');
-                return false;
-            }
-            await axios.post(`/api/incoming_product/status/${param}`, {status: this.incomingData},
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
-                }
-            })
-            .then((response) => {
-                this.loading = false;
-                this.getRecords();
-                // this.$store.dispatch('warehouseData/handleRetur', response.data);
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log('woooo...'+error);
-            });
-        },
         async getRecords(){
             this.isLoading = true;
-            if(!this.name) return false;
-            await axios.get(`/api/incoming_product/${this.name}`,
+            if(!this.id) return false;
+            await axios.get(`/api/incoming_product/detail/${this.id}`,
             {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
@@ -248,7 +210,7 @@ export default {
                 // this.loading = false;
                 this.totalRecords = response.data.length;
                 this.rows = response.data.data;
-                this.$store.dispatch('warehouseData/handleIncomingProductName', response.data);
+                this.$store.dispatch('warehouseData/handleIncomingProductNameDetail', response.data);
                 console.log(response);
                 console.log(this.serverParams);
             })
@@ -282,8 +244,32 @@ export default {
             this.updateParams(params);
             this.getRecords();
         },
-        editData(param) {
-            alert(param);
+        detailData(param) {
+            this.$swal({
+                title: "Anda Yakin?",
+                text: `Data ${param} akan dihapus!`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus ini!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // axios
+                    // .post("/api/delete-umkm-desa/" + param)
+                    // .then((response) => {
+                    //     console.log(response);
+                    // })
+                    // .catch((error) => {
+                    //     console.log(error);
+                    // });
+                    // this.$swal("Success!", "Data berhasil dihapus.", "success");
+                    // this.getRecords();
+                } 
+                // else if (result.isDismissed) {
+                //     this.$swal("Canceled!", "Proses Dibatalkan!", "info");
+                // }
+            });
         },
     },
 }
