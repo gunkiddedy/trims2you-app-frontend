@@ -79,14 +79,14 @@
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
                     <span v-if="props.column.field == 'status_custom'">
-                        <span class="bg-purple-500 px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                        <span class="bg-purple-500 px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
                             {{ props.row.status == 1 ? 'proses' : '' }}
                         </span>
                     </span>
                     <span v-if="props.column.field == 'payment_method_custom'">
                         <span
                             :class="{'bg-green-500': props.row.payment_method == 'cod', 'bg-blue-500': props.row.payment_method == 'transfer'}" 
-                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
                             {{ props.row.payment_method }}
                         </span>
                     </span>

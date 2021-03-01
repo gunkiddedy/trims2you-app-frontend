@@ -54,7 +54,7 @@
                                 'bg-pink-400': props.row.status == 7,
                                 'bg-gray-600': props.row.status == 8
                             }"
-                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
                             {{ props.row.status == 0 ? 'Review' : '' }}
                             {{ props.row.status == 1 ? 'Proses' : '' }}
                             {{ props.row.status == 2 ? 'Dikemas' : '' }}
@@ -74,16 +74,22 @@
                                 'bg-green-400': props.row.payment_status == 2,
                                 'bg-red-400': props.row.payment_status == 3
                             }" 
-                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
                             {{ props.row.payment_status == 0 ? 'Waiting': '' }}
                             {{ props.row.payment_status == 1 ? 'Review': '' }}
                             {{ props.row.payment_status == 2 ? 'Paid': '' }}
                             {{ props.row.payment_status == 3 ? 'Failed': '' }}
                         </span>
                     </span>
-                    <span v-if="props.column.field == 'action'">
+                    <span v-if="props.column.field == 'action'" class="flex items-center justify-start max-w-max">
                         <button
-                            class="bg-gray-500 rounded border border-gray-600 hover:bg-gray-600 px-2 py-1 text-white font-semibold mx-1 flex items-center justify-center"
+                            class="bg-green-500 rounded border border-green-600 hover:bg-green-600 px-2 py-1 text-white font-semibold mr-1 flex items-center justify-center shadow-lg"
+                            @click="printData(props.row.id)"
+                        >
+                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg> Print
+                        </button>
+                        <button
+                            class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold flex items-center justify-center shadow-lg"
                             @click="detailData(props.row.id)"
                         >
                             <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Detail
@@ -96,6 +102,102 @@
             </vue-good-table>
         </div><!-- summary_table -->
 
+        <div
+            hidden 
+            class="paper" 
+            id="paperID">
+            <div class="wrap-table-satu grid grid-cols-2 row">
+
+                <div class="col-6">
+                    <table class="table metode">
+                        <tr>
+                            <td>Metode Pembayaran</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Status Order</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Catatan</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table courier">
+                        <tr>
+                            <td>Kurir</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Shipping Service</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tracking Number</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+                <div class="col-6">
+                    <table class="table gudang">
+                        <tr>
+                            <td>Nama</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat Lengkap</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Nomor Telp</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table alamat">
+                        <tr>
+                            <td>Nama</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat Lengkap</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                        <tr>
+                            <td>Nomor Telp</td>
+                            <td>{{productDetail.payment_method}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+                <div class="col-12">
+                    <table class="table produk">
+                        <thead>
+                            <th>Nama Produk</th>
+                            <th>QTY</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -112,7 +214,7 @@ export default {
                     label: "Reseller",
                     field: "cms_users_id",
                     sortable: true,
-                    width: "150px",
+                    // width: "150px",
                     // filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -124,7 +226,7 @@ export default {
                     label: "Transaction Code",
                     field: "transaction_code",
                     sortable: true,
-                    width: "150px",
+                    // width: "150px",
                     // filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -136,7 +238,7 @@ export default {
                     label: "Product Name",
                     field: "product_name",
                     sortable: true,
-                    width: "150px",
+                    // width: "150px",
                     // filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -148,7 +250,7 @@ export default {
                     label: "Customer Name",
                     field: "customer_name",
                     sortable: true,
-                    width: "150px",
+                    // width: "150px",
                     // filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -161,7 +263,7 @@ export default {
                     field: "status_custom",
                     tdClass: 'text-center',
                     sortable: true,
-                    width: "70px",
+                    // width: "70px",
                     filterable: true,
                 },
                 {
@@ -169,7 +271,7 @@ export default {
                     field: "payment_status_custom",
                     tdClass: 'text-center',
                     sortable: true,
-                    width: "110px",
+                    // width: "110px",
                     filterable: true,
                     // filterOptions: {
                     //     enabled: true,
@@ -185,7 +287,8 @@ export default {
                     label: "Action",
                     field: "action",
                     sortable: false,
-                    width: "70px",
+                    tdClass: 'text-center',
+                    // width: "150px",
                 },
             ],
             rows: [],
@@ -200,6 +303,8 @@ export default {
                 perPage: 5,
             },
             keyword: '',
+            printID: '',
+            productDetail: {}
         }
     },
     mounted() {
@@ -211,6 +316,27 @@ export default {
         }
     },
     methods: {
+        printData(param) {
+            this.printID = param;
+            this.getOutgoingProductDetail(param);
+            // Pass the element id here
+            this.$htmlToPaper('paperID');
+        },
+        async getOutgoingProductDetail(param){
+            await axios.get(`/api/outgoing_product/detail/${param}`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.productDetail = response.data;
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
         async getRecords(){
             this.isLoading = true;
             await axios.get(`/api/outgoing_product`,
@@ -261,6 +387,9 @@ export default {
         detailData(param) {
             alert(param);
         },
+        // printData(param) {
+        //     alert(param);
+        // },
         deleteData(param) {
             //alert(param);
             this.$swal({
@@ -291,3 +420,41 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.col-6 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+table {
+    border-collapse: collapse;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+</style>

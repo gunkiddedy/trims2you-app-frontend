@@ -76,7 +76,7 @@
                                 'bg-pink-400': props.row.status == 7,
                                 'bg-gray-600': props.row.status == 8
                             }"
-                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
                             {{ props.row.status == 0 ? 'Review' : '' }}
                             {{ props.row.status == 1 ? 'Proses' : '' }}
                             {{ props.row.status == 2 ? 'Dikemas' : '' }}
@@ -96,7 +96,7 @@
                                 'bg-green-400': props.row.payment_status == 2,
                                 'bg-red-400': props.row.payment_status == 3
                             }" 
-                            class="px-3 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-1/2">
                             {{ props.row.payment_status == 0 ? 'Waiting': '' }}
                             {{ props.row.payment_status == 1 ? 'Review': '' }}
                             {{ props.row.payment_status == 2 ? 'Paid': '' }}

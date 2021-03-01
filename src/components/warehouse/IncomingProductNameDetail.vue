@@ -95,7 +95,7 @@
                                         'bg-pink-400': props.row.barcode_status.status == 7,
                                         'bg-gray-600': props.row.barcode_status.status == 8
                                     }"
-                                    class="px-2 rounded-md text-white font-bold py-0 leading-loose flex items-center justify-center max-w-max">
+                                    class="px-2 text-white font-bold py-0 leading-loose flex items-center justify-center max-w-max">
                                     {{ props.row.barcode_status.status == 0 ? 'Review' : '' }}
                                     {{ props.row.barcode_status.status == 1 ? 'Proses' : '' }}
                                     {{ props.row.barcode_status.status == 2 ? 'Sudah diterima' : '' }}
@@ -155,12 +155,18 @@ export default {
                     field: "status",
                     sortable: true,
                     width: "150px",
-                    // filterable: true,
-                    // filterOptions: {
-                    //     enabled: true,
-                    //     placeholder: "Filter",
-                    //     trigger: "enter",
-                    // },
+                    filterable: true,
+                    filterOptions: {
+                        enabled: true,
+                        placeholder: "Filter",
+                        filterDropdownItems: [
+                            { value: '1', text: 'GAGAL' },  
+                            { value: '2', text: 'DITERIMA' },
+                            { value: '3', text: 'TERJUAL' },
+                            { value: '4', text: 'RETUR' }
+                        ],
+                        trigger: "keyup",
+                    },
                 },
                 {
                     label: "Action",
