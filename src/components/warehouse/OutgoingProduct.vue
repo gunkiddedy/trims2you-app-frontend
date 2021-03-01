@@ -105,31 +105,31 @@
         <div
             hidden 
             class="paper" 
-            id="paperID">
-            <div class="wrap-table-satu grid grid-cols-2 row">
+            id="printMe">
+            <div class="wrap-table-satu grid grid-cols-2 gap-4">
 
-                <div class="col-6">
-                    <table class="table metode">
+                <div class="">
+                    <table class="metode border-collapse">
                         <tr>
-                            <td>Metode Pembayaran</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">Metode Pembayaran</td>
+                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
                         </tr>
                         <tr>
-                            <td>Tanggal</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">Tanggal</td>
+                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
                         </tr>
                         <tr>
-                            <td>Status Order</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">Status Order</td>
+                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
                         </tr>
                         <tr>
-                            <td>Catatan</td>
-                            <td>{{productDetail.payment_method}}</td>
+                            <td class="border border-green-600">Catatan</td>
+                            <td class="border border-green-600">{{productDetail.payment_method}}</td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-6">
-                    <table class="table courier">
+                <div class="">
+                    <table class="table-auto courier">
                         <tr>
                             <td>Kurir</td>
                             <td>{{productDetail.payment_method}}</td>
@@ -144,9 +144,8 @@
                         </tr>
                     </table>
                 </div>
-                <br>
-                <div class="col-6">
-                    <table class="table gudang">
+                <div class="">
+                    <table class="table-auto gudang">
                         <tr>
                             <td>Nama</td>
                             <td>{{productDetail.payment_method}}</td>
@@ -161,8 +160,8 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-6">
-                    <table class="table alamat">
+                <div class="">
+                    <table class="table-auto alamat border-collapse border border-green-800">
                         <tr>
                             <td>Nama</td>
                             <td>{{productDetail.payment_method}}</td>
@@ -177,9 +176,8 @@
                         </tr>
                     </table>
                 </div>
-                <br>
-                <div class="col-12">
-                    <table class="table produk">
+                <div class="col-span-2">
+                    <table class="table-auto produk">
                         <thead>
                             <th>Nama Produk</th>
                             <th>QTY</th>
@@ -320,7 +318,7 @@ export default {
             this.printID = param;
             this.getOutgoingProductDetail(param);
             // Pass the element id here
-            this.$htmlToPaper('paperID');
+            this.$htmlToPaper('printMe');
         },
         async getOutgoingProductDetail(param){
             await axios.get(`/api/outgoing_product/detail/${param}`,
@@ -422,7 +420,7 @@ export default {
 </script>
 
 <style scoped>
-.row {
+/* .row {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -442,8 +440,8 @@ export default {
     -ms-flex: 0 0 50%;
     flex: 0 0 100%;
     max-width: 100%;
-}
-table {
+} */
+/* table {
     border-collapse: collapse;
 }
 .table {
@@ -456,5 +454,5 @@ table {
     padding: .75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
-}
+} */
 </style>

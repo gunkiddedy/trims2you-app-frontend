@@ -168,6 +168,7 @@ module.exports = {
 		zIndex: ['responsive', 'focus-within', 'focus'],
     	extend: {
       		animation: ['hover', 'focus'],
+			tableLayout: ['hover', 'focus'],
     	},
   	},
   	plugins: [],
