@@ -18,8 +18,152 @@
                 </div>
 
                 <!-- summary_table -->
-                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-green-200">
-                    
+                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
+                    <div class="grid grid-cols-2 gap-8 text-gray-500">
+                        <table class="border-collapse text-left w-full">
+                            <tr>
+                                <td class="border-t border-b border-collapse">Kode Transaksi</td>
+                                <td class="border-t border-b border-collapse">...</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Metode Pembayaran</td>
+                                <td class="border-t border-b border-collapse">Columbus</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Status Order</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                        </table>
+                        <table class="border-collapse text-left w-full">
+                            <tr>
+                                <td class="border-t border-b border-collapse">Kode Transaksi</td>
+                                <td class="border-t border-b border-collapse">...</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Metode Pembayaran</td>
+                                <td class="border-t border-b border-collapse">Columbus</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                        </table>
+
+                        <!-- ALAMAT GUDANG -->
+                        <table class="border-collapse text-left w-full">
+                            <tr>
+                                <td colspan="2" class="font-bold text-gray-700">Alamat Gudang</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Kode Transaksi</td>
+                                <td class="border-t border-b border-collapse">...</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Metode Pembayaran</td>
+                                <td class="border-t border-b border-collapse">Columbus</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                        </table>
+
+                        <!-- ALAMAT PENGIRIMAN -->
+                        <table class="border-collapse text-left w-full">
+                            <tr>
+                                <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Kode Transaksi</td>
+                                <td class="border-t border-b border-collapse">...</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Metode Pembayaran</td>
+                                <td class="border-t border-b border-collapse">Columbus</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                            <tr>
+                                <td class="border-t border-b border-collapse">Tanggal</td>
+                                <td class="border-t border-b border-collapse">Detroit</td>
+                            </tr>
+                        </table>
+
+                        <!-- PRODUCT -->
+                        <div class="col-span-2 my-4">
+                            <table class="border-collapse text-left w-full">
+                                <thead class="font-bold bg-gray-200 text-gray-700">
+                                    <tr>
+                                        <th>Gambar Produk</th>
+                                        <th>Barcode</th>
+                                        <th>Nama Produk</th>
+                                        <th>QTY</th>
+                                        <th>Harga</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                        <td class="border-t border-b border-collapse">1</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="border-t border-b border-collapse text-right">Promo</td>
+                                        <td class="border-t border-b border-collapse">:</td>
+                                        <td class="border-t border-b border-collapse">isi promo</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="border-t border-b border-collapse text-right">Ongkir</td>
+                                        <td class="border-t border-b border-collapse">:</td>
+                                        <td class="border-t border-b border-collapse">isi promo</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="border-t border-b border-collapse text-right">Total</td>
+                                        <td class="border-t border-b border-collapse">:</td>
+                                        <td class="border-t border-b border-collapse">isi promo</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- col-span-2 -->
+                    </div><!-- grid -->
                 </div><!-- summary_table -->
             </div>
         </div>
@@ -62,7 +206,7 @@ export default {
                 this.ProductDetailOrder = response.data.order;
                 this.ProductDetailWarehouse = response.data.order.warehouse;
                 this.$store.dispatch('warehouseData/handleOutgoingProductDetail', response.data);
-                console.log(response.data);
+                // console.log(response.data);
                 // this.$swal(response.data.order.address);
             })
             .catch((error) => {
