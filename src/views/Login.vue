@@ -5,11 +5,11 @@
         <div class="wrap-all py-16">
             <div class="big-title-wrap flex flex-col items-center mx-auto w-2/3 px-8">
                 <div class="big-title md:text-4xl text-2xl font-semibold text-white w-full text-center">
-                    Trims2You Login Page
+                    Login Page
                 </div>
-                <div class="small text-gray-300 text-md font-semibold md:w-3/4 w-full text-center">
-                    Silahkan login dengan menggunakan username dan password anda!
-                </div>
+                <!-- <div class="small text-gray-300 text-md font-semibold md:w-3/4 w-full text-center">
+                    Login menggunakan username dan password anda!
+                </div> -->
             </div>
 
             <!-- FORM -->

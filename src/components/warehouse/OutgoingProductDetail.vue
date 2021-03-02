@@ -6,9 +6,7 @@
 
                 <!-- TITLE -->
                 <div class="title px-4 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <span class="text-2xl font-semibold text-gray-400">
-                        Product ID : {{ id }}
-                        </span>
+                    <span class="text-2xl font-semibold text-gray-400">Order Detail</span>
                     <div>
                         <button 
                             @click="goBackPrevious"
@@ -20,9 +18,8 @@
                 </div>
 
                 <!-- summary_table -->
-                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
-                    {{ productDetail }}
-                    {{ productDetailWarehouse }}
+                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-green-200">
+                    
                 </div><!-- summary_table -->
             </div>
         </div>
@@ -37,7 +34,7 @@ export default {
         return {
             role: 'gudang',
             keyword: '',
-            productDetail: '',
+            ProductDetailOrder: '',
             productDetailWarehouse: '',
         }
     },
@@ -62,11 +59,11 @@ export default {
                 }
             })
             .then((response) => {
-                this.ProductDetail = response.data;
-                this.ProductDetailWarehouse = response.data;
+                this.ProductDetailOrder = response.data.order;
+                this.ProductDetailWarehouse = response.data.order.warehouse;
                 this.$store.dispatch('warehouseData/handleOutgoingProductDetail', response.data);
-                console.log(response.data.order);
-                console.log(response.data.order.warehouse);
+                console.log(response.data);
+                // this.$swal(response.data.order.address);
             })
             .catch((error) => {
                 console.log('woooo...'+error);
