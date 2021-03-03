@@ -20,7 +20,7 @@
                 <!-- summary_table -->
                 <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
                     <div class="grid grid-cols-2 gap-8 text-gray-500">
-                        <div class="bg-gray-50 shadow px-2 rounded border py-4">
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-gray-50 shadow px-2 rounded border py-4">
                             <table class="table text-left w-full">
                                 <tr>
                                     <td class="">Kode Transaksi</td>
@@ -57,25 +57,30 @@
                                                 {{ productDetailOrder.status == 7 ? 'Cancel Warehouse': '' }}
                                                 {{ productDetailOrder.status == 8 ? 'Retur': '' }}
                                             </span>
-                                            <div class="">
-                                                <button
-                                                    @click="changeStatusOrder(productDetailOrder.status)" 
-                                                    class="bg-blue-500 px-3 hover:bg-blue-600 focus:bg-blue-600 rounded-sm shadow py-1 text-white mr-2">
-                                                    <span class="font-semibold">
-                                                        {{ productDetailOrder.status == 1 ? 'Kemas': 'Kirim' }}
-                                                    </span>
-                                                </button>
-                                                <button class="bg-gray-500 px-3 hover:bg-gray-600 focus:bg-gray-600 rounded-sm shadow py-1 text-white mr-2">
-                                                    <span class="font-semibold">Cancel</span>
-                                                </button>
-                                                <!-- {{ statusOrder }} -->
-                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <div class="mt-4">
+                                            <button
+                                                @click="changeStatusOrder(productDetailOrder.status)" 
+                                                class="bg-blue-500 px-6 hover:bg-blue-600 focus:bg-blue-600 rounded-full shadow-lg py-2 text-white mr-2">
+                                                <span class="font-semibold">
+                                                    {{ productDetailOrder.status == 1 ? 'Kemas': 'Kirim' }}
+                                                </span>
+                                            </button>
+                                            <button class="bg-pink-500 px-6 hover:bg-pink-600 focus:bg-pink-600 rounded-full shadow-lg py-2 text-white mr-2">
+                                                <span class="font-semibold">Cancel</span>
+                                            </button>
+                                            <!-- {{ statusOrder }} -->
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="bg-gray-50 shadow px-2 rounded border py-4">
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-gray-50 shadow px-2 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td class="">Kurir</td>
@@ -99,7 +104,7 @@
                         </div>
 
                         <!-- ALAMAT GUDANG -->
-                        <div class="bg-gray-50 shadow px-2 rounded border py-4">
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-gray-50 shadow px-2 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2" class="font-bold text-gray-700">Alamat Gudang</td>
@@ -150,7 +155,7 @@
                         </div>
 
                         <!-- ALAMAT PENGIRIMAN -->
-                        <div class="bg-gray-50 shadow px-2 rounded border py-4">
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-gray-50 shadow px-2 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
@@ -222,7 +227,11 @@
                                     </div>
                                 </div>
                             </div><!-- form -->
-                            <div class="bg-gray-50 shadow px-2 rounded border py-4">
+                            <div class="text-left px-2 py-2 bg-gray-100 shadow">
+                                <span class="text-xl text-gray-500 font-bold">Infomasi Produk</span>
+                            </div>
+                            <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-gray-50 shadow px-2 rounded-b border py-4">
+                                
                                 <table class="table border-collapse text-left w-full">
                                     <thead class="font-bold text-gray-700">
                                         <tr>
