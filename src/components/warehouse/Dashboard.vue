@@ -22,23 +22,20 @@
                     </div>
                 </div>
             </div>
-            
         </div><!-- index_statistic -->
-
-        <div
-            v-if="userToken !== 'undefined'" 
-            class="refresh my-2 px-4">
-            <button
-                @click="refreshTable" 
-                class="bg-green-500 hover:bg-green-600 focus:bg-green-600
-             px-2 py-1 rounded-full text-white flex items-center">
-                <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                <span>Refresh Table</span>
-            </button>
-        </div>
 
         <!-- summary_table -->
         <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
+            <div
+                v-if="userToken !== 'undefined'" 
+                class="refresh mb-2 px-2">
+                <button
+                    @click="refreshTable" 
+                    class="bg-green-500 hover:bg-green-600 px-4 py-1 rounded-full text-white flex items-center">
+                    <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>Refresh Table</span>
+                </button>
+            </div>
             <vue-good-table
                 mode="remote"
                 :pagination-options="{
