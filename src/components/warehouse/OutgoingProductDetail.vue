@@ -1,7 +1,7 @@
 <template>
     <main class="pt-16 sm:pl-28 dashboard-wrape">
         <!-- MAIN CONTENT -->
-        <div class="main-content p-4 lg:h-screen h-full bg-indigo-50">
+        <div class="main-content p-4 h-full bg-indigo-50">
             <div class="bg-white">
 
                 <!-- TITLE -->
@@ -385,10 +385,10 @@ export default {
 </script>
 
 <style scoped>
-    table {
-        font-family: Arial, Helvetica, sans-serif;
+    /* table {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .table > td{
         font-style: italic;
-    }
+    } */
 </style>
