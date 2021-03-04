@@ -243,10 +243,12 @@
                                 <div class="input flex items-center justify-start">
                                     <div class="flex items-center mr-2">
                                         <input
+                                            v-model="barcodes"
                                             class="shadow rounded w-full py-2 leading-none border px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" 
                                             type="text" 
                                             placeholder="Transaction Code">
                                         <button 
+                                            @click="addBarcode(barcodes)"
                                             class="hover:bg-gray-400 bg-gray-300 px-3 py-2 rounded ml-2">
                                             <span class="text-gray-600">Add</span>
                                         </button>
@@ -354,6 +356,7 @@ export default {
                 phone: '',
             },
             tracking_number: '',
+            barcodes: [],
         }
     },
     mounted() {
@@ -371,6 +374,22 @@ export default {
         // }
     },
     methods: {
+        addBarcode(param){
+            axios.put(`/api/outgoing_product/barcode/${this.id}`, 
+            {barcodes: param},
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.getRecords();
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
         changeTrackingNumber(){
             this.$swal({
                 title: "Anda Yakin!",
