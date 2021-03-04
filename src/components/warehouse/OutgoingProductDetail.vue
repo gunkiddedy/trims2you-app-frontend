@@ -62,7 +62,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-if="productDetailOrder.status <= 2">
                                     <td>&nbsp;</td>
                                     <td>
                                         <div class="mt-4">
@@ -419,10 +419,13 @@ export default {
                 if (result.isConfirmed) {
                     this.isChangeStatusOrder = false;
                     // this.$swal(result.value)
-                    let notice = result.value;
+                    let message = result.value;
                     let status = 7; //cancel by warehouse
                     axios.put(`/api/outgoing_product/status/${this.id}`, 
-                    {status: status},
+                    {
+                        status: status,
+                        remarks: message
+                    },
                     {
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
