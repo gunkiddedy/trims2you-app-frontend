@@ -18,12 +18,14 @@
                 </div>
 
                 <!-- summary_table -->
-                <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
+                <div class="summary_table px-10 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
                     <div class="grid grid-cols-2 gap-8 text-gray-500">
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-2 rounded border py-4">
-                            <table class="table text-left w-full">
+
+                        <!-- ====================TRANSAKSI -->
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                            <table class="table text-left w-full table-auto">
                                 <tr>
-                                    <td class="">Kode Transaksi</td>
+                                    <td>Kode Transaksi</td>
                                     <td class=" text-gray-700">
                                         {{productDetailOrder.transaction_code}}
                                     </td>
@@ -31,7 +33,7 @@
                                 <tr>
                                     <td class="">Metode Pembayaran</td>
                                     <td class="">
-                                        <span class="bg-yellow-500 px-2 py-1 text-white lowercase">
+                                        <span class="bg-green-200 px-4 py-1 text-green-700 uppercase font-bold text-sm rounded-full">
                                             {{ productDetailOrder.payment_method }}
                                         </span>
                                     </td>
@@ -46,7 +48,7 @@
                                     <td class="">Status Order</td>
                                     <td class="">
                                         <div class="flex items-center justify-start">
-                                            <span class="bg-green-400 px-2 py-0 text-white mr-2 lowercase">
+                                            <span class="bg-green-200 px-4 py-1 text-green-700 uppercase font-bold text-sm rounded-full">
                                                 {{ productDetailOrder.status == 0 ? 'Review': '' }}
                                                 {{ productDetailOrder.status == 1 ? 'Proses': '' }}
                                                 {{ productDetailOrder.status == 2 ? 'Dikemas': '' }}
@@ -66,12 +68,14 @@
                                         <div class="mt-4">
                                             <button
                                                 @click="changeStatusOrder(productDetailOrder.status)" 
-                                                class="bg-blue-500 px-6 hover:bg-blue-600 focus:bg-blue-600 rounded-full shadow-lg py-2 text-white mr-2">
+                                                class="bg-blue-600 px-6 hover:bg-blue-700 focus:bg-blue-700 rounded-full shadow py-1 text-white mr-2">
                                                 <span class="font-semibold">
                                                     {{ productDetailOrder.status == 1 ? 'Kemas': 'Kirim' }}
                                                 </span>
                                             </button>
-                                            <button class="bg-pink-500 px-6 hover:bg-pink-600 focus:bg-pink-600 rounded-full shadow-lg py-2 text-white mr-2">
+                                            <button
+                                                @click="cancelOrder" 
+                                                class="bg-yellow-500 px-6 hover:bg-yellow-600 focus:bg-yellow-600 rounded-full shadow-lg py-1 text-white mr-2">
                                                 <span class="font-semibold">Cancel</span>
                                             </button>
                                             <!-- {{ statusOrder }} -->
@@ -80,12 +84,16 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-2 rounded border py-4">
+
+                        <!-- ====================KURIR -->
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td class="">Kurir</td>
                                     <td class=" text-gray-700">
-                                        <span class="bg-yellow-500 px-2 py-1 text-white">{{productDetailOrder.courier}}</span>
+                                        <span
+                                            v-if="productDetailOrder.courier !== null" 
+                                            class="bg-green-200 px-4 py-1 text-green-700 uppercase font-bold text-sm rounded-full">{{productDetailOrder.courier}}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -97,17 +105,40 @@
                                 <tr>
                                     <td class="">Tracking Number</td>
                                     <td class=" text-gray-700">
-                                        {{ productDetailOrder.tracking_number }}
+                                        <input
+                                            v-model="tracking_number"
+                                            :readonly="productDetailOrder.payment_method == 'cod'"
+                                            class="shadow rounded-full w-2/3 py-1 leading-none border px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" 
+                                            type="text" 
+                                            name="" 
+                                            id="">
+                                        <!-- {{ productDetailOrder.tracking_number }} -->
+                                    </td>
+                                </tr>
+                                <tr v-if="productDetailOrder.payment_method == 'transfer'">
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <div class="mt-4">
+                                            <button
+                                                @click="changeTrackingNumber" 
+                                                class="bg-blue-500 px-6 hover:bg-blue-600 focus:bg-blue-600 rounded-full shadow-lg py-1 text-white mr-2">
+                                                <span class="font-semibold">
+                                                    Update
+                                                </span>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
                         </div>
 
-                        <!-- ALAMAT GUDANG -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-2 rounded border py-4">
+                        <!-- ====================ALAMAT GUDANG -->
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
-                                    <td colspan="2" class="font-bold text-gray-700">Alamat Gudang</td>
+                                    <td colspan="2" class="font-bold text-gray-700">
+                                        <span class="">Alamat Gudang</span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="">Nama</td>
@@ -154,8 +185,8 @@
                             </table>
                         </div>
 
-                        <!-- ALAMAT PENGIRIMAN -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-2 rounded border py-4">
+                        <!-- ======================ALAMAT PENGIRIMAN -->
+                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
@@ -205,8 +236,9 @@
                             </table>
                         </div>
 
-                        <!-- PRODUCT -->
+                        <!-- ============================PRODUCT -->
                         <div class="col-span-2 my-8">
+                            <!-- ==============FORM  -->
                             <div class="add-retur py-8 border-t">
                                 <div class="input flex items-center justify-start">
                                     <div class="flex items-center mr-2">
@@ -227,10 +259,13 @@
                                     </div>
                                 </div>
                             </div><!-- form -->
+
                             <div class="text-left px-2 py-2 bg-gray-100 shadow">
                                 <span class="text-xl text-gray-500 font-bold">Infomasi Produk</span>
                             </div>
-                            <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-white shadow px-2 rounded-b border py-4">
+
+                            <!-- INFORMASI PRODUK -->
+                            <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-white shadow px-10 rounded-b border py-4">
                                 
                                 <table class="table border-collapse text-left w-full">
                                     <thead class="font-bold text-gray-700">
@@ -304,6 +339,8 @@ export default {
     props: ['id'],
     data(){
         return {
+            isChangeStatusOrder: false,
+            isChangeTrackingNumber: false,
             role: 'gudang',
             keyword: '',
             productDetailOrder: '',
@@ -316,6 +353,7 @@ export default {
                 postal_code: '',
                 phone: '',
             },
+            tracking_number: '',
         }
     },
     mounted() {
@@ -333,23 +371,110 @@ export default {
         // }
     },
     methods: {
-        changeStatusOrder(param){
-            // alert(param)
-            let status = parseInt(param) + 1;
-            axios.put(`/api/outgoing_product/status/${this.id}`, 
-            {status: status},
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
+        changeTrackingNumber(){
+            this.$swal({
+                title: "Anda Yakin!",
+                text: "Akan mengupdate tracking number ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                // cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, update ini!",
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.isChangeTrackingNumber = true;
+                    axios.put(`/api/outgoing_product/tracking_number/${this.id}`, 
+                    {tracking_number: this.tracking_number},
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.isChangeTrackingNumber = false;
+                        this.$swal('Tracking Number berhasil diupdate!');
+                        this.getRecords();
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log('woooo...'+error);
+                    });
+                } 
+            });
+        },
+        cancelOrder(){
+            this.$swal({
+                title: 'Tulis alasan anda!',
+                input: 'textarea',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Cancel Orderan',
+                cancelButtonText: 'Batal',
+                // showLoaderOnConfirm: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    this.isChangeStatusOrder = false;
+                    // this.$swal(result.value)
+                    let notice = result.value;
+                    let status = 7; //cancel by warehouse
+                    axios.put(`/api/outgoing_product/status/${this.id}`, 
+                    {status: status},
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.isChangeStatusOrder = false;
+                        this.$swal('Status Order berhasil diupdate!');
+                        this.getRecords();
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log('woooo...'+error);
+                    });
                 }
             })
-            .then((response) => {
-                this.$swal('Data berhasil diupdate!');
-                this.getRecords();
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log('woooo...'+error);
+        },
+        changeStatusOrder(param){
+            this.$swal({
+                title: "Anda Yakin!",
+                text: "Akan memproses orderan ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                // cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, proses ini!",
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.isChangeStatusOrder = true;
+                    // alert(param)
+                    let status = parseInt(param) + 1;
+                    axios.put(`/api/outgoing_product/status/${this.id}`, 
+                    {status: status},
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.isChangeStatusOrder = false;
+                        this.$swal('Status Order berhasil diupdate!');
+                        this.getRecords();
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log('woooo...'+error);
+                    });
+                } 
+                // else if (result.isDismissed) {
+                //     this.$swal("Canceled!", "Proses Dibatalkan!", "info");
+                // }
             });
         },
         goBackPrevious(){
@@ -365,6 +490,7 @@ export default {
             })
             .then((response) => {
                 this.productDetailOrder = response.data.order;
+                this.tracking_number = response.data.order.tracking_number;
                 this.warehouse.name = response.data.order.warehouse.name;
                 this.warehouse.address = response.data.order.warehouse.address;
                 this.warehouse.kecamatan = response.data.order.warehouse.district.subdistrict_name;
@@ -385,10 +511,10 @@ export default {
 </script>
 
 <style scoped>
-    /* table {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    table {
+        font-family: Arial, Helvetica, sans-serif;
     }
     .table > td{
         font-style: italic;
-    } */
+    }
 </style>
