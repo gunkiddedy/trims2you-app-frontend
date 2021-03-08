@@ -358,7 +358,8 @@ export default {
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         }
     },
     methods: {
@@ -373,8 +374,7 @@ export default {
         },
         async getOutgoingProductDetail(param){
             if(!param) return false;
-            await axios.get(`/api/outgoing_product/detail/${param}`,
-            {
+            await axios.get(`/api/outgoing_product/detail/${param}`,{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
@@ -385,7 +385,6 @@ export default {
                 this.$htmlToPaper('printMe',  null, () => {
                     console.log('Printing completed!');
                 });
-                console.log(response.data.order);
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -405,8 +404,8 @@ export default {
                 this.totalRecords = response.data.total;
                 this.rows = response.data.data;
                 this.$store.dispatch('warehouseData/handleOutgoing', response.data);
-                console.log(response);
-                console.log(this.serverParams);
+                // console.log(response);
+                // console.log(this.serverParams);
             })
             .catch((error) => {
                 console.log('woooo...'+error);

@@ -87,8 +87,8 @@ export default {
             .then((response) => {
                 this.$store.dispatch('currentUser/afterLogout');
                 this.$router.push('/');
-                console.log(response);
-                console.log('token sidebar' + this.userToken);
+                // console.log(response);
+                // console.log('token sidebar' + this.userToken);
             })
             .catch((error) => {
                 console.log('woooo...'+error);

@@ -131,7 +131,8 @@ export default {
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         }
     },
     methods: {
@@ -155,8 +156,8 @@ export default {
                 this.totalRecords = response.data.total;
                 this.rows = response.data.data;
                 this.$store.dispatch('warehouseData/handleIncoming', response.data);
-                console.log(response);
-                console.log(this.serverParams);
+                // console.log(response);
+                // console.log(this.serverParams);
             })
             .catch((error) => {
                 console.log('woooo...'+error);

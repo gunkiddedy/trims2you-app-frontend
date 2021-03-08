@@ -22,7 +22,7 @@
                         <div class="my-8">
                             <input 
                                 v-model="user.email"
-                                class="shadow border rounded-full w-full py-2 px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" 
+                                class="shadow border rounded-full w-full py-2 px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100 text-center" 
                                 id="email" 
                                 type="text" 
                                 placeholder="Masukkan alamat email">
@@ -30,7 +30,7 @@
                         <div class="mb-4">
                             <input
                                 v-model="user.password" 
-                                class="shadow border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3 focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" id="password" 
+                                class="shadow border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3 focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100 text-center" id="password" 
                                 type="password" 
                                 placeholder="Masukkan password anda">
                         </div>
@@ -101,10 +101,9 @@ export default {
             axios.post("/api/auth/login", this.user)
             .then((response) => {
                 if(response.data.access_token !== undefined){
-                    // localStorage.setItem('access_token', response.data.access_token);
                     this.$router.push('/dashboard');
                     this.$store.dispatch('currentUser/afterLogin', response.data);
-                    console.log(response.data);
+                    // console.log(response.data);
                 }else{
                     console.log('error');
                 }

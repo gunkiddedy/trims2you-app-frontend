@@ -10,9 +10,12 @@ const getters = {
 const mutations = {
     AFTER_LOGIN : (state, payload) => {
         state.userData = payload;
+        localStorage.setItem('access_token', payload.access_token);
+        console.log(localStorage.access_token);
     },
     AFTER_LOGOUT: (state) => {
         state.userData = '';
+        localStorage.removeItem('access_token');
     }
 };
 

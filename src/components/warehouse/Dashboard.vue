@@ -216,18 +216,16 @@ export default {
             this.$router.push('/');
         }else{
             this.getRecords();
-            console.log(this.userToken)
         }
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         },
         paymentMethod(){
             let pm = this.serverParams.columnFilters.payment_method_custom;
-            if (pm == undefined){
-                return pm = '';
-            }
+            if (pm == undefined) return pm = '';
             return pm;
         }
     },
@@ -237,8 +235,7 @@ export default {
         },
         async getRecords(){
             this.isLoading = true;
-            await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.paymentMethod}`,
-            {
+            await axios.get(`/api/dashboard?page=${this.serverParams.page}&keyword=${this.keyword}&perpage=${this.serverParams.perPage}&payment_method=${this.paymentMethod}`,{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
@@ -253,9 +250,9 @@ export default {
                 this.rows = response.data.summary_table.data;
 
                 this.$store.dispatch('warehouseData/handleDashboard', response.data);
-                console.log(response);
-                console.log(this.serverParams);
-                console.log('token dashboard '+this.userToken);
+                // console.log(response);
+                // console.log(this.serverParams);
+                // console.log('token dashboard '+this.userToken);
             })
             .catch((error) => {
                 console.log('woooo...'+error);

@@ -17,11 +17,7 @@ import './assets/css/tailwind.css'
 import VueHtmlToPaper from 'vue-html-to-paper'
 const options = {
   name: '_blank',
-  specs: [
-    'fullscreen=no',
-    'titlebar=yes',
-    'scrollbars=yes'
-  ],
+  specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
   styles: [
     'https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css',
   ]
