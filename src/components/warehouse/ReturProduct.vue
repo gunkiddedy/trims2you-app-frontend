@@ -9,7 +9,7 @@
                         type="text" 
                         placeholder="Transaction Code">
                     <button 
-                        @click="addRetur(returData)"
+                        @click="postRetur(returData)"
                         class="bg-gray-200 px-3 py-2 rounded ml-2">
                         <span class="">Add</span>
                     </button>
@@ -105,10 +105,10 @@
                     </span>
                     <span v-if="props.column.field == 'action'">
                         <button
-                            class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
-                            @click="editData(props.row.id)"
+                            class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold flex items-center justify-center shadow-lg"
+                            @click="detailData(props.row.id)"
                         >
-                            <svg class="w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Edit
+                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Detail
                         </button>
                     </span>
                     <span v-else>
@@ -126,6 +126,7 @@ import axios from 'axios'
 export default {
     data(){
         return {
+            isRetur: false,
             role: 'gudang',
             loading: true,
             isLoading: false,
@@ -250,27 +251,75 @@ export default {
         }
     },
     methods: {
-        async addRetur(param){
-            if(param == ''){
-                this.$swal('cannot empty!');
-                return false;
-            }
-            await axios.post(`/api/retur/${param}`,
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
-                }
-            })
-            .then((response) => {
-                this.loading = false;
-                this.getRecords();
-                // this.$store.dispatch('warehouseData/handleRetur', response.data);
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log('woooo...'+error);
+        detailData(param){
+            this.$router.push({
+                name: 'OutgoingProductDetail',
+                params: { id: param }
             });
         },
+        postRetur(param){
+            this.$swal({
+                title: 'Tulis alasan anda!',
+                input: 'textarea',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Retur Produk',
+                cancelButtonText: 'Batal',
+                // showLoaderOnConfirm: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    this.isRetur = false;
+                    let message = result.value;
+                    // let status = 8; //retur product
+                    axios.post(`/api/retur/${param}`, 
+                    {
+                        transaction_code: param,
+                        remarks: message
+                    },
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.isRetur = false;
+                        this.$swal('Produk berhasil diretur!');
+                        this.returData = '';
+                        this.getRecords();
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        this.isRetur = false;
+                        this.$swal('Error!', `${error}`, 'error');
+                        console.log('woooo...'+error);
+                    });
+                }
+            })
+        },
+        // async postRetur(param){
+        //     if(param == ''){
+        //         this.$swal('cannot empty!');
+        //         return false;
+        //     }
+        //     await axios.post(`/api/retur/${param}`,
+        //     {
+        //         headers: {
+        //             'Authorization': 'Bearer ' + this.userToken
+        //         }
+        //     })
+        //     .then((response) => {
+        //         this.loading = false;
+        //         this.getRecords();
+        //         // this.$store.dispatch('warehouseData/handleRetur', response.data);
+        //         console.log(response);
+        //     })
+        //     .catch((error) => {
+        //         console.log('woooo...'+error);
+        //     });
+        // },
         async getRecords(){
             this.isLoading = true;
             await axios.get(`/api/retur`,
