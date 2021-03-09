@@ -12,11 +12,14 @@ const mutations = {
         state.userData = payload;
         localStorage.setItem('access_token', payload.access_token);
         localStorage.setItem('userRole', payload.user.id_cms_privileges);
-        console.log(localStorage.access_token);
+        localStorage.setItem('userName', payload.user.name);
+        // console.log(localStorage.access_token);
     },
     AFTER_LOGOUT: (state) => {
         state.userData = '';
         localStorage.removeItem('access_token');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
     }
 };
 

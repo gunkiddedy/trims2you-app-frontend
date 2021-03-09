@@ -101,7 +101,6 @@ export default {
             axios.post("/api/auth/login", this.user)
             .then((response) => {
                 if(response.data.access_token !== undefined){
-                    // if(response.data.user.id_cms_privileges == )
                     this.$router.push('/dashboard');
                     this.$store.dispatch('currentUser/afterLogin', response.data);
                     // console.log(response.data);
