@@ -83,6 +83,9 @@ export default {
             ],
         }
     },
+    mounted(){
+        console.log(localStorage.userRole);
+    },
     methods: {
         toggleTabs(tabNumber) {
             this.openTab = tabNumber;

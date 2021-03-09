@@ -11,6 +11,7 @@ const mutations = {
     AFTER_LOGIN : (state, payload) => {
         state.userData = payload;
         localStorage.setItem('access_token', payload.access_token);
+        localStorage.setItem('userRole', payload.user.id_cms_privileges);
         console.log(localStorage.access_token);
     },
     AFTER_LOGOUT: (state) => {
