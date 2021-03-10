@@ -34,6 +34,12 @@ const route = [
 		component: () => import('../components/warehouse/OutgoingProductDetail.vue'),
 		props: true
 	},
+	{
+		path: '/order-detail/:id',
+		name: 'OrderDetail',
+		component: () => import('../components/reseller/OrderDetail.vue'),
+		props: true
+	},
 ]
 
 const router = new VueRouter({

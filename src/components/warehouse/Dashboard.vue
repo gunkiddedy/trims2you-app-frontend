@@ -214,7 +214,6 @@ export default {
     mounted() {
         if(this.userToken == undefined){
             this.$router.push('/');
-            console.log('warehouse connected....');
         }else{
             this.getRecords();
         }
