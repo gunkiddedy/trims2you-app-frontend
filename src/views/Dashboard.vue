@@ -1,7 +1,7 @@
 <template>
     <main class="pt-16 sm:pl-28 dashboard-wrape">
         <!-- WAREHOUSE-->
-        <div v-if="userRole == '4'" class="main-content p-4 bg-indigo-50 lg:h-screen h-full">
+        <div v-if="userRole == '4'" class="main-content pl-16 pt-4 bg-indigo-50 lg:h-screen h-full">
             <!-- TABS WRAPER-->
             <div class="tab-wraper bg-white">
                 <!-- NAV TAB -->
@@ -44,7 +44,7 @@
             </div><!-- TABS WRAPER-->
         </div>
         <!-- RESELLER -->
-        <div v-if="userRole == '3'" class="main-content p-4 bg-indigo-50 lg:h-screen h-full">
+        <div v-if="userRole == '3'" class="main-content pl-16 pt-4 bg-indigo-50 lg:h-screen h-full">
             <div class="wraper bg-white">
                 <DashboardReseller />
             </div>
@@ -83,7 +83,6 @@ export default {
         }
     },
     mounted(){
-        this.userRole = localStorage.userRole;
         this.userRole = localStorage.userRole;
         // console.log(localStorage.userRole + localStorage.userName);
     },

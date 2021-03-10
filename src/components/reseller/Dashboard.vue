@@ -9,7 +9,7 @@
                 :key="i"
                 class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
                 <div class="flex items-center justify-start">
-                    <div class="icon bg-blue-500 rounded px-4 py-2 text-4xl">
+                    <div class="icon bg-pink-500 rounded px-4 py-2 text-4xl">
                         <i :class="item.icon" class="text-gray-50"></i>
                     </div>
                     <div class="flex flex-col items-start ml-2">
@@ -267,7 +267,6 @@ export default {
                 perPage: 5,
             },
             keyword: '',
-            orderStatus: 2,
         }
     },
     mounted() {

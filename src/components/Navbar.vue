@@ -58,14 +58,16 @@
 
         <!-- Extract: Notifications Vue component -->
         <div class="w-16 h-16 flex justify-center items-center text-gray-600">
-            <button class="p-1 hover:text-white focus:text-white focus:outline-none" :class="{'text-white': isNotificationsOpen}" @click="toggleNotifications">
-                <svg class="w-8 text-blue-500" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <button 
+            class="p-1 hover:text-white focus:text-white focus:outline-none" :class="{'text-white': isNotificationsOpen}" @click="toggleNotifications">
+                <svg @click="handleLogout" class="w-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
             </button>
         </div>
     </nav>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data() {
         return {
@@ -73,7 +75,26 @@ export default {
             isMenuOpen: false
         }
     },
+    computed: {
+        userToken(){
+            return localStorage.access_token;
+        }
+    },
     methods: {
+        handleLogout(){
+            axios.post("/api/auth/logout", {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.$store.dispatch('currentUser/afterLogout');
+                this.$router.push('/');
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
         toggleNotifications() {
             this.$refs.notifications.scrollTo(0, 0)
             this.isNotificationsOpen = !this.isNotificationsOpen;
