@@ -91,19 +91,32 @@ export default {
     },
     methods: {
         handleLogout(){
-            axios.post("/api/auth/logout", {
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
-                }
-            })
-            .then((response) => {
-                this.$store.dispatch('currentUser/afterLogout');
-                this.$router.push('/');
-            })
-            .catch((error) => {
-                console.log('woooo...'+error);
+            this.$swal({
+                title: "Anda Yakin?",
+                text: "Akan logout",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                // cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, logout!",
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post("/api/auth/logout", {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken
+                        }
+                    })
+                    .then((response) => {
+                        this.$store.dispatch('currentUser/afterLogout');
+                        this.$router.push('/');
+                    })
+                    .catch((error) => {
+                        console.log('woooo...'+error);
+                    });
+                } 
             });
-        }
+        },
     },
 }
 </script>
