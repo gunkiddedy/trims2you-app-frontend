@@ -62,7 +62,7 @@
                                         'bg-yellow-500': props.row.status == 0,
                                         'bg-green-500': props.row.status == 1,
                                     }"
-                                    class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                                    class="px-1 text-white font-bold py-0 leading-loose flex items-center justify-center max-w-min">
                                     {{ props.row.status == 0 ? 'Inactive' : '' }}
                                     {{ props.row.status == 1 ? 'Active' : '' }}
                                 </span>
@@ -124,22 +124,24 @@
                     <!--body-->
                     <div class="relative px-4 py-2 flex-auto">
                         <table class="table-auto text-gray-500 w-full">
-                            <tr>
-                            <td class="">Name</td>
-                            <td class="text-gray-600 font-semibold">{{customerDetail.cuctomer_servicename}}</td>
+                            <tbody>
+                            <tr >
+                                <td class="py-2 px-2">Name</td>
+                                <td class="text-gray-600 font-semibold">{{customerDetail.cuctomer_servicename}}</td>
                             </tr>
-                            <tr>
-                            <td class="">Whatsapp Number</td>
-                            <td class="text-gray-600 font-semibold">{{customerDetail.whatsapp_number}}</td>
+                            <tr class="bg-gray-100">
+                                <td class="py-2 px-2">Whatsapp Number</td>
+                                <td class="text-gray-600 font-semibold">{{customerDetail.whatsapp_number}}</td>
                             </tr>
-                            <tr>
-                            <td class="">Username</td>
-                            <td class="text-gray-600 font-semibold">{{customerDetail.username}}</td>
+                            <tr >
+                                <td class="py-2 px-2">Username</td>
+                                <td class="text-gray-600 font-semibold">{{customerDetail.username}}</td>
                             </tr>
-                            <tr>
-                            <td class="">Status</td>
-                            <td class="text-gray-600 font-semibold">{{customerDetail.status==1 ? 'Active' : 'Inactive'}}</td>
+                            <tr class="bg-gray-100">
+                                <td class="py-2 px-2">Status</td>
+                                <td class="text-gray-600 font-semibold">{{customerDetail.status==1 ? 'Active' : 'Inactive'}}</td>
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                     <!--footer-->
@@ -169,65 +171,76 @@
                     </div>
                     <!--body-->
                     <div class="relative px-4 py-2 flex-auto">
-                        <!-- component -->
-                        <div class="-mx-3 md:flex mb-6">
-                            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
-                                First Name
-                            </label>
-                            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane">
-                            <p class="text-red text-xs italic">Please fill out this field.</p>
-                            </div>
-                            <div class="md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
-                                Last Name
-                            </label>
-                            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe">
-                            </div>
-                        </div>
-                        <div class="-mx-3 md:flex mb-6">
+                        <div class="-mx-3 md:flex my-4">
                             <div class="md:w-full px-3">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-password">
-                                Password
-                            </label>
-                            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" id="grid-password" type="password" placeholder="******************">
-                            <p class="text-grey-dark text-xs italic">Make it as long and as crazy as you'd like</p>
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Name *</label>
+                                <input 
+                                    v-model="customerDetail.cuctomer_servicename"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
                             </div>
                         </div>
-                        <div class="-mx-3 md:flex mb-2">
-                            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-                                City
-                            </label>
-                            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-city" type="text" placeholder="Albuquerque">
+                        <div class="-mx-3 md:flex my-4">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Whatsapp Number *</label>
+                                <input 
+                                    v-model="customerDetail.whatsapp_number"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
                             </div>
-                            <div class="md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                                State
-                            </label>
-                            <div class="relative">
-                                <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded" id="grid-state">
-                                <option>New Mexico</option>
-                                <option>Missouri</option>
-                                <option>Texas</option>
-                                </select>
-                                <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                        <div class="-mx-3 md:flex my-4">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Username *</label>
+                                <input 
+                                    v-model="customerDetail.username"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex my-4">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Password</label>
+                                <input
+                                    type="password" class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                                <p class="text-red-400 text-xs italic">Minimum 5 characters. Please leave empty if you did not change the password.</p>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex my-4">
+                            <div class="md:w-full px-3 flex items-center">
+                                <div class="block uppercase tracking-wide text-xs font-bold">
+                                    Status *
                                 </div>
-                            </div>
-                            </div>
-                            <div class="md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
-                                Zip
-                            </label>
-                            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-zip" type="text" placeholder="90210">
+                                <div class="flex items-center justify-start">
+                                    <label @click="checkActive" for="active" class="ml-1 block text-md font-semibold text-white mr-2 px-2 flex items-center">
+                                        <input
+                                            v-model="customerDetail.status"
+                                            required
+                                            value="1"
+                                            id="active"
+                                            type="radio"
+                                            :checked="check_active"
+                                            class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
+                                        <span class="font-semibold bg-blue-500 rounded shadow ml-2 px-2 text-white">Activated</span>
+                                    </label>
+                                    <label @click="checkInactive" for="inactive" class="ml-1 block text-md font-semibold text-white px-2 flex items-center">
+                                        <input
+                                            v-model="customerDetail.status"
+                                            required
+                                            value="0"
+                                            id="inactive"
+                                            type="radio"
+                                            :checked="check_inactive"
+                                            class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
+                                        <span class="font-semibold bg-yellow-500 rounded shadow ml-2 px-2 text-white">Deactivated</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
-                        <button class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease" @click="showModalEdit = !showModalEdit">
-                        Update
+                        <button 
+                            @click="updateData(customerDetail.id)"
+                            class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            {{isUpdate ? 'Updating...': 'Update'}}
                         </button>
                     </div>
                 </div>
@@ -243,6 +256,9 @@ import axios from 'axios'
 export default {
     data(){
         return {
+            isUpdate: false,
+            check_active: false,
+            check_inactive: false,
             showModalDetail: false,
             showModalEdit: false,
             role: 'gudang',
@@ -266,18 +282,6 @@ export default {
                 {
                     label: "Name",
                     field: "cuctomer_servicename",
-                    sortable: true,
-                    width: "150px",
-                    // filterable: true,
-                    // filterOptions: {
-                    //     enabled: true,
-                    //     placeholder: "Filter",
-                    //     trigger: "enter",
-                    // },
-                },
-                {
-                    label: "Status",
-                    field: "status",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -354,6 +358,14 @@ export default {
         },
     },
     methods: {
+        checkActive(){
+            this.check_active = true;
+            this.check_inactive = false;
+        },
+        checkInactive(){
+            this.check_inactive = true;
+            this.check_active = false;
+        },
         refreshTable(){
             this.getRecords();
         },
@@ -387,47 +399,53 @@ export default {
                 this.$swal("Error!", `${error}`, "error");
             });
         },
-        updateData(){
+        updateData(param){
+            this.isUpdate = true;
             axios.put(`/api/customer_service/update/${param}`,{
+                cuctomer_servicename: this.customerDetail.cuctomer_servicename,
+                whatsapp_number: this.customerDetail.whatsapp_number,
+                username: this.customerDetail.username,
+                status: this.customerDetail.status,
+            },{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
             })
             .then((response) => {
+                this.isUpdate = false;
                 this.showModalEdit = false;
+                this.customerDetail = '';
+                this.getRecords();
                 console.log(response);
             })
             .catch((error) => {
+                this.isUpdate = false;
                 this.$swal("Error!", `${error}`, "error");
             });
         },
         hapusData(param){
-            alert(param)
-        },
-        sendToWarehouse(param) {
             this.$swal({
                 title: "Anda Yakin?",
-                text: "Akan mengirim produk ini ke Gudang!",
+                text: "Akan menghapus customer ini!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 // cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, kirim ini!",
+                confirmButtonText: "Ya, hapus ini!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.put(`/api/orders/send-to-warehouse/${param}`,{
+                    axios.delete(`/api/customer_service/${param}`,{
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
                         }
                     })
                     .then((response) => {
-                        this.$swal("Success!", `Produk berhasil dikirim ke Gudang.`, "success");
+                        this.$swal("Success!", `Data berhasil dihapus`, "success");
                         this.getRecords();
                         console.log(response);
                     })
                     .catch((error) => {
                         this.$swal("Error!", `${error}`, "error");
-                        // console.log(error);
                     });
                 } 
             });
