@@ -17,6 +17,11 @@ const route = [
 		// props: true
 	},
 	{
+		path: '/customer-service',
+		name: 'CustomerService',
+		component: () => import('../components/reseller/CustomerService.vue')
+	},
+	{
 		path: '/incoming-product-name/:name',
 		name: 'IncomingProductName',
 		component: () => import('../components/warehouse/IncomingProductName.vue'),

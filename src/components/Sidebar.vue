@@ -5,40 +5,40 @@
             class="hidden z-50 sidebar-desktop pt-0 w-40 text-white fixed inset-y-0 overflow-x-hidden overflow-y-auto sm:block">
             <div class="p-4 min-h-full">
                 <!-- Extract: user_info blade partial -->
-                <div class="px-1 pb-6  border-b border-gray-500 sm:flex-col">
+                <div class="px-1 pb-6  border-b border-indigo-400 sm:flex-col">
                     <div class="my-4 flex flex-col items-center">
-                        <svg class="w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg class="w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
-                        <span class="text-gray-200 font-bold text-xs sm:text-sm">{{userName}}</span>
+                        <span class="text-yellow-300 font-bold text-xs sm:text-sm">{{userName}}</span>
                     </div>
                 </div>
                 <!--  RESELLER MENU-->
                 <div v-if="userRole == '3'" class="flex flex-col">
-                    <div class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
+                    <router-link to="/dashboard" class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
                         <svg class="w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                         <span class="text-sm text-gray-200">
                             Dashboard
                         </span>
-                    </div>
-                    <div class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
+                    </router-link>
+                    <router-link to="/products" class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
                         <svg class="w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                         </svg>
                         <span class="text-sm text-gray-200">
                             Products
                         </span>
-                    </div>
-                    <div class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
+                    </router-link>
+                    <router-link to="/customer-service" class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
                         <svg class="w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span class="text-sm text-gray-200">
                             Customer Service
                         </span>
-                    </div>
+                    </router-link>
                     <div class="logout flex flex-col items-center my-4 cursor-pointer py-2 hover:bg-purple-900">
                         <svg class="w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -123,9 +123,9 @@ export default {
 
 <style scoped>
 .router-link-exact-active {
-  /* background-color: #1947ee; */
-  color: #1e30b8;
-  cursor: pointer;
+  background-color: #3d2e80;
+  /* color: #1e30b8; */
+  /* cursor: pointer; */
   /*border-radius: 0.5rem;*/
 }
 </style>

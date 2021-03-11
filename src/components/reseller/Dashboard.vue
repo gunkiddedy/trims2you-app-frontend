@@ -1,9 +1,10 @@
 <template>
     <div>
-
+        <div class="title px-4 py-4 border-b">
+            <span class="text-xl text-gray-600 font-semibold">Dashboard</span>
+        </div>
         <!-- index_statistic -->
         <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
-
             <div 
                 v-for="(item, i) in index_statistic"
                 :key="i"
@@ -304,7 +305,7 @@ export default {
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                // cancelButtonColor: "#d33",
                 confirmButtonText: "Ya, kirim ini!",
             }).then((result) => {
                 if (result.isConfirmed) {

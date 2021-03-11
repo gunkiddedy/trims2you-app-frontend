@@ -84,7 +84,6 @@ export default {
     },
     mounted(){
         this.userRole = localStorage.userRole;
-        // console.log(localStorage.userRole + localStorage.userName);
     },
     methods: {
         toggleTabs(tabNumber) {
