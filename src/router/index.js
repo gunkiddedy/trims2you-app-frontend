@@ -22,6 +22,16 @@ const route = [
 		component: () => import('../components/reseller/CustomerService.vue')
 	},
 	{
+		path: '/reseller-bank',
+		name: 'ResellerBank',
+		component: () => import('../components/reseller/ResellerBank.vue')
+	},
+	{
+		path: '/deposite',
+		name: 'Deposite',
+		component: () => import('../components/reseller/Deposite.vue')
+	},
+	{
 		path: '/incoming-product-name/:name',
 		name: 'IncomingProductName',
 		component: () => import('../components/warehouse/IncomingProductName.vue'),
