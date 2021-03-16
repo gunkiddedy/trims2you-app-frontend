@@ -5,6 +5,53 @@
                 <div class="title px-4 py-4 border-b">
                     <span class="text-xl text-gray-600 font-semibold">Deposite</span>
                 </div>
+
+                <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
+                    <div class="kotak3 px-4 py-8 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                        <div class="flex flex-col items-center justify-start">
+                            <svg class="w-10 mr-1 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            <div class="uang text-xl text-gray-500">
+                                Cara Deposite
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kotak3 px-4 py-8 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                        <div class="flex flex-col items-center justify-start">
+                            <svg class="w-10 mr-1 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <div class="uang text-xl text-gray-500">
+                                Upload Bukti Transfer
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kotak3 px-4 py-8 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
+                        <div class="flex flex-col items-center justify-start">
+                            <svg class="w-10 mr-1 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="uang flex flex-col">
+                                <span class="text-gray-500">Your Balance</span> 
+                                <span class="text-gray-500 text-2xl">{{userBalance}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        @click="getTransactionHistory" 
+                        class="kotak3 px-4 py-8 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                        <div class="flex flex-col items-center justify-start">
+                            <svg class="w-10 mr-1 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <div class="uang text-xl text-gray-500">
+                                Transaction History
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- summary_table -->
                 <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
                     <div
@@ -143,17 +190,18 @@
                 </div>
             </div>
         </div><!-- end MODAL DETAIL-->
-        <!-- MODAL EDIT-->
-        <div v-if="showModalEdit" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
-            <div class="relative w-2/5 max-w-lg pl-20">
+        <!-- MODAL HISTORY-->
+        <div v-if="showModalHistory" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-2/3 pl-20">
                 <!--content-->
                 <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
-                        Customer Edit
+                        History
                         </span>
-                        <button class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalEdit = !showModalEdit">
+                        <button 
+                            class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalHistory = !showModalHistory">
                             <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -161,83 +209,52 @@
                     </div>
                     <!--body-->
                     <div class="relative px-4 py-2 flex-auto">
-                        <div class="-mx-3 md:flex my-4">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Name *</label>
-                                <input 
-                                    v-model="customerDetail.cuctomer_servicename"
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
-                            </div>
+                        <div class="filter flex items-center justify-start pt-1 pb-4 text-gray-400">
+                            <span
+                                @click="changeHistoryType(0)"
+                                :class="{'bg-blue-500 text-white':historyType == 'all'}" 
+                                class="px-2 py-1 font-semibold cursor-pointer">Semua</span>
+                            <span
+                                @click="changeHistoryType(1)"
+                                :class="{'bg-blue-500 text-white':historyType == 'debit'}" 
+                                class="px-2 py-1 font-semibold cursor-pointer">Debit</span>
+                            <span
+                                @click="changeHistoryType(2)"
+                                :class="{'bg-blue-500 text-white':historyType == 'credit'}" 
+                                class="px-2 py-1 font-semibold cursor-pointer">Credit</span>
                         </div>
-                        <div class="-mx-3 md:flex my-4">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Whatsapp Number *</label>
-                                <input 
-                                    v-model="customerDetail.whatsapp_number"
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
-                            </div>
-                        </div>
-                        <div class="-mx-3 md:flex my-4">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Username *</label>
-                                <input 
-                                    v-model="customerDetail.username"
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
-                            </div>
-                        </div>
-                        <div class="-mx-3 md:flex my-4">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">Password</label>
-                                <input
-                                    type="password" class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
-                                <p class="text-red-400 text-xs italic">Minimum 5 characters. Please leave empty if you did not change the password.</p>
-                            </div>
-                        </div>
-                        <div class="-mx-3 md:flex my-4">
-                            <div class="md:w-full px-3 flex items-center">
-                                <div class="block uppercase tracking-wide text-xs font-bold">
-                                    Status *
-                                </div>
-                                <div class="flex items-center justify-start">
-                                    <label @click="checkActive" for="active" class="ml-1 block text-md font-semibold text-white mr-2 px-2 flex items-center">
-                                        <input
-                                            v-model="customerDetail.status"
-                                            required
-                                            value="1"
-                                            id="active"
-                                            type="radio"
-                                            :checked="check_active"
-                                            class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
-                                        <span class="font-semibold bg-blue-500 rounded shadow ml-2 px-2 text-white">Activated</span>
-                                    </label>
-                                    <label @click="checkInactive" for="inactive" class="ml-1 block text-md font-semibold text-white px-2 flex items-center">
-                                        <input
-                                            v-model="customerDetail.status"
-                                            required
-                                            value="0"
-                                            id="inactive"
-                                            type="radio"
-                                            :checked="check_inactive"
-                                            class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
-                                        <span class="font-semibold bg-yellow-500 rounded shadow ml-2 px-2 text-white">Deactivated</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <table class="w-full border-collapse text-left">
+                            <thead class="text-gray-500">
+                                <tr>
+                                <th class="border-collapse">Type</th>
+                                <th class="border-collapse">Posting date</th>
+                                <th class="border-collapse">Amount</th>
+                                <th class="border-collapse">Reference</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-400">
+                                <tr v-for="(item, i) in customerHistory" :key="i">
+                                    <td class="border-collapse">{{item.type}}</td>
+                                    <td class="border-collapse">{{item.posting_date}}</td>
+                                    <td class="border-collapse">{{item.amount}}</td>
+                                    <td class="border-collapse">{{item.reference_id}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
-                        <button 
-                            @click="updateData(customerDetail.id)"
-                            class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
-                            {{isUpdate ? 'Updating...': 'Update'}}
+                        <button
+                            @click="showModalHistory = false" 
+                            class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Close
                         </button>
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL EDIT-->
+        </div><!-- end MODAL HISTORY-->
         <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        <div v-if="showModalEdit" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        <div v-if="showModalHistory" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </main>
 </template>
 
@@ -250,7 +267,7 @@ export default {
             check_active: false,
             check_inactive: false,
             showModalDetail: false,
-            showModalEdit: false,
+            showModalHistory: false,
             role: 'gudang',
             loading: true,
             isLoading: false,
@@ -341,7 +358,21 @@ export default {
             },
             keyword: '',
             customerDetail: '',
+            customerHistory: '',
+            userBalance: 0,
+            historyType: 'all',
         }
+    },
+    watch: {
+        historyType(oldValue, newValue){
+            this.getTransactionHistory();
+        },
+        deep: true
+    },
+    computed: {
+        userToken(){
+            return localStorage.access_token;
+        },
     },
     mounted() {
         if(this.userToken == undefined){
@@ -350,14 +381,33 @@ export default {
             this.getRecords();
         }
     },
-    computed: {
-        userToken(){
-            return localStorage.access_token;
-        },
-    },
     methods: {
         refreshTable(){
             this.getRecords();
+        },
+        changeHistoryType(param){
+            if(param == 1){
+                this.historyType = 'debit';
+            }else if(param == 2){
+                this.historyType = 'credit';
+            }else{
+                this.historyType = 'all';
+            }
+        },
+        async getTransactionHistory(){
+            await axios.get(`/api/deposites/transaction-history?perpage=10&page=1&type=${this.historyType}`,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.customerHistory = response.data.data.data;
+                this.showModalHistory = true;
+                console.log(response.data.data.data);
+            })
+            .catch((error) => {
+                this.$swal("Error!", `${error}`, "error");
+            });
         },
         detailData(param){
             axios.get(`/api/customer_service/${param}`,{
@@ -374,72 +424,6 @@ export default {
                 this.$swal("Error!", `${error}`, "error");
             });
         },
-        editData(param){
-            axios.get(`/api/customer_service/${param}`,{
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
-                }
-            })
-            .then((response) => {
-                this.customerDetail = response.data;
-                this.showModalEdit = !this.showModalEdit;
-                console.log(response);
-            })
-            .catch((error) => {
-                this.$swal("Error!", `${error}`, "error");
-            });
-        },
-        updateData(param){
-            this.isUpdate = true;
-            axios.put(`/api/customer_service/update/${param}`,{
-                cuctomer_servicename: this.customerDetail.cuctomer_servicename,
-                whatsapp_number: this.customerDetail.whatsapp_number,
-                username: this.customerDetail.username,
-                status: this.customerDetail.status,
-            },{
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken
-                }
-            })
-            .then((response) => {
-                this.isUpdate = false;
-                this.showModalEdit = false;
-                this.customerDetail = '';
-                this.getRecords();
-                console.log(response);
-            })
-            .catch((error) => {
-                this.isUpdate = false;
-                this.$swal("Error!", `${error}`, "error");
-            });
-        },
-        hapusData(param){
-            this.$swal({
-                title: "Anda Yakin?",
-                text: "Akan menghapus customer ini!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                // cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, hapus ini!",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    axios.delete(`/api/customer_service/${param}`,{
-                        headers: {
-                            'Authorization': 'Bearer ' + this.userToken
-                        }
-                    })
-                    .then((response) => {
-                        this.$swal("Success!", `Data berhasil dihapus`, "success");
-                        this.getRecords();
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        this.$swal("Error!", `${error}`, "error");
-                    });
-                } 
-            });
-        },
         async getRecords(){
             this.isLoading = true;
             // {{url}}/api/deposites?perpage=2&keyword=&page=1&status=approved
@@ -454,6 +438,7 @@ export default {
                 this.summary_table = response.data.data;
                 this.totalRecords = response.data.data.length;
                 this.rows = response.data.data.data;
+                this.userBalance = response.data.user.balance;
                 this.$store.dispatch('warehouseData/handleDashboard', response.data);
             })
             .catch((error) => {
