@@ -8,7 +8,9 @@
 
                 <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
                     <div class="kotak3 px-4 py-4 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
-                        <div class="flex flex-col items-center justify-start">
+                        <div
+                            @click="getHowToDeposite" 
+                            class="flex flex-col items-center justify-start">
                             <svg class="w-10 mr-1 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                             </svg>
@@ -306,8 +308,41 @@
                 </div>
             </div>
         </div><!-- end MODAL HISTORY-->
+        <!-- MODAL HOW TO DEPOSITE-->
+        <div v-if="showModalHowToDeposite" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-2/3 pl-20">
+                <!--content-->
+                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
+                        <span class="text-xl font-semibold pt-2">
+                        How To Deposite
+                        </span>
+                        <button 
+                            class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalHowToDeposite = !showModalHowToDeposite">
+                            <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!--body-->
+                    <div class="relative px-4 py-2 flex-auto">
+                        {{howDeposite}}
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="showModalHowToDeposite = false" 
+                            class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end MODAL HOW TO DEPOSITE-->
         <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
         <div v-if="showModalHistory" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
+        <div v-if="showModalHowToDeposite" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
     </main>
 </template>
 
@@ -321,6 +356,7 @@ export default {
             check_inactive: false,
             showModalDetail: false,
             showModalHistory: false,
+            showModalHowToDeposite: false,
             role: 'gudang',
             loading: true,
             isLoading: false,
@@ -412,6 +448,7 @@ export default {
             keyword: '',
             depositeDetail: '',
             customerHistory: '',
+            howDeposite: '',
             userBalance: 0,
             historyType: 'all',
         }
@@ -437,6 +474,21 @@ export default {
     methods: {
         refreshTable(){
             this.getRecords();
+        },
+        async getHowToDeposite(){
+            await axios.get(`/api/deposites/how-to-deposite`,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.howDeposite = response.data;
+                this.showModalHowToDeposite = true;
+                console.log(response.data);
+            })
+            .catch((error) => {
+                this.$swal("Error!", `${error}`, "error");
+            });
         },
         changeHistoryType(param){
             if(param == 1){
