@@ -17,6 +17,11 @@ const route = [
 		// props: true
 	},
 	{
+		path: '/products',
+		name: 'Products',
+		component: () => import('../components/reseller/Products.vue')
+	},
+	{
 		path: '/customer-service',
 		name: 'CustomerService',
 		component: () => import('../components/reseller/CustomerService.vue')

@@ -17,6 +17,7 @@
                             <div class="uang text-xl text-gray-500">
                                 Cara Deposite
                             </div>
+                            <div class="text-sm text-yellow-400">Click to detail</div>
                         </div>
                     </div>
                     <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
@@ -27,6 +28,7 @@
                             <div class="uang text-xl text-gray-500">
                                 Upload Bukti Transfer
                             </div>
+                            <div class="text-sm text-purple-400">Click to detail</div>
                         </div>
                     </div>
                     <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg font-semibold text-center hover:shadow-md">
@@ -50,6 +52,7 @@
                             <div class="uang text-xl text-gray-500">
                                 Transaction History
                             </div>
+                            <div class="text-sm text-green-400">Click to detail</div>
                         </div>
                     </div>
                 </div>
@@ -327,7 +330,12 @@
                     </div>
                     <!--body-->
                     <div class="relative px-4 py-2 flex-auto">
-                        {{howDeposite}}
+                        <div class="title">
+                            {{howDeposite.content}}
+                        </div>
+                        <div v-for="(item, i) in howDeposite.admin_banks" :key="i">
+                            {{item}}
+                        </div>
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
