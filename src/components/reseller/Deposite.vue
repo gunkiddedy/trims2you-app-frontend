@@ -1,6 +1,6 @@
 <template>
     <main class="pt-16 sm:pl-28 dashboard-wrape">
-        <div class="main-content pl-16 pt-4 bg-indigo-50 lg:h-screen h-full">
+        <div class="main-content pl-16 pt-4 bg-indigo-50 h-full">
             <div class="wraper bg-white">
                 <div class="title px-4 py-4 border-b">
                     <span class="text-xl text-gray-600 font-semibold">Deposite</span>
@@ -20,7 +20,9 @@
                             <div class="text-sm text-yellow-400">Click to detail</div>
                         </div>
                     </div>
-                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                    <div
+                        @click="getUploadBukti" 
+                        class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
                         <div class="flex flex-col items-center justify-start">
                             <svg class="w-10 mr-1 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -56,7 +58,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- summary_table -->
                 <div class="summary_table px-4 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md">
                     <div
@@ -370,9 +371,134 @@
                 </div>
             </div>
         </div><!-- end MODAL HOW TO DEPOSITE-->
-        <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
-        <div v-if="showModalHistory" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
-        <div v-if="showModalHowToDeposite" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
+        <!-- MODAL HOW TO DEPOSITE-->
+        <div v-if="showModalUploadBukti" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-2/3 pl-20 pb-4">
+                <!--content-->
+                <div class="border rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
+                        <span class="text-xl font-semibold pt-2">
+                        Upload bukti transfer
+                        </span>
+                        <button 
+                            class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalUploadBukti = !showModalUploadBukti">
+                            <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!--body-->
+                    <div class="relative px-4 py-2 flex-auto">
+                        <div class="-mx-3 md:flex mb-4">
+                            <div class="md:w-full px-3 flex items-center">
+                                <div class="block uppercase tracking-wide text-xs font-bold">
+                                    Bank tujuan transfer *
+                                </div>
+                                <div class="flex items-center justify-start">
+                                    <label
+                                        v-for="(item, i) in uploadBukti.admin_banks"
+                                        :key="i" 
+                                        :for="item.bank_id" class="ml-1 block text-md font-semibold text-white mr-2 px-2 flex items-center">
+                                        <input
+                                            v-model="upload.admin_bank_id"
+                                            required
+                                            :value="item.bank_id"
+                                            :id="item.bank_id"
+                                            type="radio"
+                                            :checked="check_active"
+                                            class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
+                                        <img
+                                            class="object-contain w-20" 
+                                            :src="item.bank.logo" 
+                                            :alt="item.bank.name"
+                                            >
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-4">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                    Jumlah transfer *
+                                </label>
+                                <input 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                    Tanggal dan jam transfer *
+                                </label>
+                                <input 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-4">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                    Di transfer dari Bank *
+                                </label>
+                                <input 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                    Nama rekening *
+                                </label>
+                                <input 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                        </div>
+                        <div class="-mx-3 flex mb-4 items-center">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                    Nomor rekening *
+                                </label>
+                                <input 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            </div>
+                            <!-- <div class="flex items-center my-4">
+                                <div v-if="url" class="title w-40 min font-semibold text-md sm:block hidden">*Bukti Transfer</div>
+                                <div class="value w-full sm:w-1/2 px-2 flex justify-end">
+                                    <div class="bg-gray-100 mx-auto">
+                                        <img v-if="url" :src="url" class="object-contain w-full border-dashed border-2 border-gray-300 rounded-lg"/>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="md:w-full px-3 mt-5 flex items-center">
+                                <label class="border flex justify-center w-1/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500">
+									<svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+										<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+									</svg>
+									<span class="font-semibold ml-1" >Pilih file</span>
+									<input 
+										type='file' class="hidden" name="proof_of_payment" ref="file" @change="onFileChange"
+									/>
+							    </label>
+                            </div>
+                        </div>
+                        <div class="flex mb-4 flex-col" v-if="url">
+                            <img :src="url" class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg"/>
+                            <div class="my-2">
+                                <span 
+                                    class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFile">
+                                    Clear file
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="showModalUploadBukti = false" 
+                            class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end MODAL HOW TO DEPOSITE-->
+        <div v-if="showModalDetail || showModalHistory || showModalHowToDeposite || showModalUploadBukti" class="opacity-25 absolute inset-0 z-30 h-full"></div>
     </main>
 </template>
 
@@ -387,6 +513,7 @@ export default {
             showModalDetail: false,
             showModalHistory: false,
             showModalHowToDeposite: false,
+            showModalUploadBukti: false,
             role: 'gudang',
             loading: true,
             isLoading: false,
@@ -479,8 +606,20 @@ export default {
             depositeDetail: '',
             customerHistory: '',
             howDeposite: '',
+            uploadBukti: '',
+            upload: {
+                admin_bank_id: '',
+                amount: '',
+                transfer_date: '',
+                transfer_time: '',
+                bank_id: '',
+                account_name: '',
+                account_no: '',
+                proof_of_payment: '',
+            },
             userBalance: 0,
             historyType: 'all',
+            url: '',
         }
     },
     watch: {
@@ -502,8 +641,31 @@ export default {
         }
     },
     methods: {
+        clearFile(){
+            this.url = '';
+            this.upload.proof_of_payment = '';
+        },
+        onFileChange(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+            this.upload.proof_of_payment = file;
+            console.log(this.upload.proof_of_payment);
+        },
         refreshTable(){
             this.getRecords();
+        },
+        async getUploadBukti(){
+            await axios.get(`/api/deposites/add`,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            }).then((response) => {
+                this.uploadBukti = response.data;
+                this.showModalUploadBukti = true;
+                console.log(response.data);
+            }).catch((error) => {
+                this.$swal("Error!", `${error}`, "error");
+            });
         },
         async getHowToDeposite(){
             await axios.get(`/api/deposites/how-to-deposite`,{
