@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
-                    <div class="kotak3 px-4 py-4 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
                         <div
                             @click="getHowToDeposite" 
                             class="flex flex-col items-center justify-start">
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="kotak3 px-4 py-4 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
                         <div class="flex flex-col items-center justify-start">
                             <svg class="w-10 mr-1 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="kotak3 px-4 py-4 bg-white rounded shadow-lg font-semibold text-center hover:shadow-md">
+                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg font-semibold text-center hover:shadow-md">
                         <div class="flex flex-col items-center justify-start">
                             <svg class="w-10 mr-1 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -42,7 +42,7 @@
                     </div>
                     <div
                         @click="getTransactionHistory" 
-                        class="kotak3 px-4 py-4 bg-white rounded shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
+                        class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
                         <div class="flex flex-col items-center justify-start">
                             <svg class="w-10 mr-1 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -145,10 +145,10 @@
             </div>
         </div>
         <!-- MODAL DETAIL-->
-        <div v-if="showModalDetail" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+        <div v-if="showModalDetail" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-50 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20">
                 <!--content-->
-                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
@@ -240,10 +240,10 @@
             </div>
         </div><!-- end MODAL DETAIL-->
         <!-- MODAL HISTORY-->
-        <div v-if="showModalHistory" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none justify-center items-center flex">
+        <div v-if="showModalHistory" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20">
                 <!--content-->
-                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
@@ -309,10 +309,10 @@
             </div>
         </div><!-- end MODAL HISTORY-->
         <!-- MODAL HOW TO DEPOSITE-->
-        <div v-if="showModalHowToDeposite" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none justify-center items-center flex">
+        <div v-if="showModalHowToDeposite" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20">
                 <!--content-->
-                <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
