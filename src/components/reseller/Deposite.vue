@@ -242,7 +242,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL DETAIL-->
+        </div>
         <!-- MODAL HISTORY-->
         <div v-if="showModalHistory" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20">
@@ -311,7 +311,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL HISTORY-->
+        </div>
         <!-- MODAL HOW TO DEPOSITE-->
         <div v-if="showModalHowToDeposite" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/4 pl-20">
@@ -334,26 +334,46 @@
                         <div class="title">
                             {{howDeposite.content}}
                         </div>
-                        <div v-for="(item, i) in howDeposite.admin_banks" :key="i">
-                            <div class="md:flex my-4">
+                        <div
+                            v-for="(item, i) in howDeposite.admin_banks" 
+                            :key="i">
+                            <div class="md:flex my-4 shadow px-2 py-2 rounded border items-center">
                                 <div class="md:flex-shrink-0">
                                     <img class="rounded md:h-36 shadow border object-cover" :src="item.bank.logo" :alt="item.bank.name">
                                 </div>
-                                <div class="mt-4 md:mt-0 md:ml-6">
-                                    <div class="uppercase tracking-wide text-sm text-indigo-600 font-bold">
-                                        {{item.account_name}}
+                                <div class="mt-4 md:mt-0 md:ml-6 text-gray-500">
+                                    <div class="flex items-center uppercase tracking-wide font-semibold">
+                                        <div class="mr-2">
+                                            Atas Nama :
+                                        </div>
+                                        <div>
+                                            {{item.account_name}}
+                                        </div>
                                     </div>
-                                    <a href="#" class="block mt-1 text-lg leading-tight font-semibold text-gray-900 hover:underline">
-                                        {{item.bank.name}} | {{item.account_no}}
-                                    </a>
-                                    <p class="mt-2 text-gray-600">{{item.created_at | momentDateIndoTime}}</p>
+                                    <!-- <div class="flex items-center uppercase tracking-wide font-semibold">
+                                        <div class="mr-2">
+                                            Nama Bank :
+                                        </div>
+                                        <div>
+                                            {{item.bank.name}}
+                                        </div>
+                                    </div> -->
+                                    <div class="flex items-center uppercase tracking-wide font-semibold">
+                                        <div class="mr-2">
+                                            No Rekening :
+                                        </div>
+                                        <div>
+                                            {{item.account_no}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="upload">
                             <button
+                                @click="getUploadBukti"
                                 class="flex items-center text-green-500 bg-transparent border border-solid border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 font-semibold uppercase text-sm px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
-                                <svg class="w-4 mr-1 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg class="w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
                                 <span>Upload Bukti Transfer</span>
@@ -370,7 +390,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL HOW TO DEPOSITE-->
+        </div>
         <!-- MODAL HOW TO DEPOSITE-->
         <div v-if="showModalUploadBukti" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20 pb-4">
@@ -497,7 +517,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL HOW TO DEPOSITE-->
+        </div>
         <div v-if="showModalDetail || showModalHistory || showModalHowToDeposite || showModalUploadBukti" class="opacity-25 absolute inset-0 z-30 h-full"></div>
     </main>
 </template>
@@ -662,6 +682,7 @@ export default {
             }).then((response) => {
                 this.uploadBukti = response.data;
                 this.showModalUploadBukti = true;
+                this.showModalHowToDeposite = false;
                 console.log(response.data);
             }).catch((error) => {
                 this.$swal("Error!", `${error}`, "error");
