@@ -423,8 +423,8 @@
                                             required
                                             :value="item.bank_id"
                                             :id="item.bank_id"
+                                            :checked="item.bank_id == upload.admin_bank_id"
                                             type="radio"
-                                            :checked="check_active"
                                             class="focus:ring-indigo-500 h-4 w-4 text-white border-gray-300">
                                         <img
                                             class="object-contain w-20" 
@@ -440,7 +440,8 @@
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Jumlah transfer *
                                 </label>
-                                <input 
+                                <input
+                                    v-model="upload.amount" 
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                             <div class="px-3 w-1/2">
@@ -457,7 +458,7 @@
                                         <date-picker
                                             placeholder="Select time" 
                                             v-model="upload.transfer_time"
-                                            value-type="HH:MM:SS"
+                                            value-type="hh:mm:ss"
                                             :time-picker-options="{
                                                 start: '05:30',
                                                 step: '00:15',
@@ -473,14 +474,27 @@
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Di transfer dari Bank *
                                 </label>
-                                <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                                <select
+                                    required
+                                    name="bank_tujuan"
+                                    v-model="upload.bank_id"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2"
+                                >
+                                    <option 
+                                        v-for="(bank, i) in uploadBukti.banks"
+                                        :value="bank.id"
+                                        :selected="upload.bank_id == bank.id"
+                                        :key="i">
+                                        {{ bank.name }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="md:w-full px-3">
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Nama rekening *
                                 </label>
-                                <input 
+                                <input
+                                    v-model="upload.account_name" 
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                         </div>
@@ -490,6 +504,7 @@
                                     Nomor rekening *
                                 </label>
                                 <input 
+                                    v-model="upload.account_no"
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                             <div class="md:w-full px-3 mt-5 flex items-center">
@@ -505,8 +520,8 @@
                             </div>
                         </div>
                         <!-- display file transfer -->
-                        <div class="flex mb-4 flex-col" v-if="url">
-                            <img :src="url" class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg"/>
+                        <div class="flex mb-4 flex-col" v-if="urlFile">
+                            <img :src="urlFile" class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg"/>
                             <div class="my-2">
                                 <span 
                                     class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFile">
@@ -520,7 +535,7 @@
                         <button
                             @click="uploadFileTransfer" 
                             class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
-                            Submit
+                            {{ isSubmit ? 'Processing...':'Submit' }}
                         </button>
                         <button
                             @click="showModalUploadBukti = false" 
@@ -543,7 +558,7 @@ export default {
     components: { DatePicker },
     data(){
         return {
-            isUpdate: false,
+            isSubmit: false,
             check_active: false,
             check_inactive: false,
             showModalDetail: false,
@@ -644,18 +659,18 @@ export default {
             howDeposite: '',
             uploadBukti: '',
             upload: {
-                admin_bank_id: '',
+                admin_bank_id: 2,
                 amount: '',
                 transfer_date: null,
                 transfer_time: null,
-                bank_id: '',
+                bank_id: 2,
                 account_name: '',
                 account_no: '',
                 proof_of_payment: '',
             },
             userBalance: 0,
             historyType: 'all',
-            url: '',
+            urlFile: '',
         }
     },
     watch: {
@@ -678,40 +693,56 @@ export default {
     },
     methods: {
         clearFile(){
-            this.url = '';
+            this.urlFile = '';
             this.upload.proof_of_payment = '';
         },
         onFileChange(e) {
             const file = e.target.files[0];
-            this.url = URL.createObjectURL(file);
+            this.urlFile = URL.createObjectURL(file);
             this.upload.proof_of_payment = file;
             console.log(this.upload.proof_of_payment);
         },
         refreshTable(){
             this.getRecords();
         },
-        async uploadFileTransfer(){
-            const formData = new FormData();
-            formData.append('admin_bank_id', this.upload.admin_bank_id);
-            formData.append('amount', this.upload.amount);
-            formData.append('transfer_date', this.upload.transfer_date);
-            formData.append('transfer_time', this.upload.transfer_time);
-            formData.append('bank_id', this.upload.bank_id);
-            formData.append('account_name', this.upload.account_name);
-            formData.append('account_no', this.upload.account_no);
-            formData.append('proof_of_payment', this.upload.proof_of_payment);
+        uploadFileTransfer(){
+            this.$swal({
+                title: "Anda Yakin?",
+                text: "Periksa kembali inputan anda!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ya, proses ini!",
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.isSubmit = true;
+                    const formData = new FormData();
+                    formData.append('admin_bank_id', this.upload.admin_bank_id);
+                    formData.append('amount', this.upload.amount);
+                    formData.append('transfer_date', this.upload.transfer_date);
+                    formData.append('transfer_time', this.upload.transfer_time);
+                    formData.append('bank_id', this.upload.bank_id);
+                    formData.append('account_name', this.upload.account_name);
+                    formData.append('account_no', this.upload.account_no);
+                    formData.append('proof_of_payment', this.upload.proof_of_payment);
 
-            await axios.post(`/api/deposites/add`,{
-                headers: {
-                    'Authorization': 'Bearer ' + this.userToken,
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((response) => {
-                this.$swal('Success', `${response}`, 'info');
-                this.showModalUploadBukti = false;
-                console.log(response);
-            }).catch((error) => {
-                this.$swal("Error!", `${error}`, "error");
+                    axios.post(`/api/deposites/add`, formData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.userToken,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then((response) => {
+                        this.$swal('Success', `Data berhasil dikirim`, 'success');
+                        this.showModalUploadBukti = false;
+                        this.upload = {};
+                        this.urlFile = '';
+                        this.isSubmit = false;
+                        console.log(response);
+                    }).catch((error) => {
+                        this.$swal("Error!", `${error}`, "error");
+                    });
+                } 
             });
         },
         async getUploadBukti(){
