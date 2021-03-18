@@ -56,7 +56,12 @@
                                     <a class="text-indigo-800 hover:text-blue-600" :href="item.resellerproduct.url">{{ item.resellerproduct.url }}</a>
                                 </div>
                                 <div>
-                                    <a href="javascript:void(0)" class="copy-product-link bg-blue-700 text-white px-2 py-1 rounded text-sm"> Copy Link</a>
+                                    <input type="hidden" id="copy-url" :value="item.resellerproduct.url">
+                                    <a @click="copyurl(item.resellerproduct.url)" href="javascript:void(0)" 
+                                    class="copy-product-link text-white px-2 py-1 rounded text-sm" 
+                                    :class="{ 'bg-gray-500':copied,'bg-blue-700':!copied }"> 
+                                        {{ copied ? 'Copied!!!' : 'Copy Link'  }} 
+                                    </a>
                                 </div>    
                             </div>
 
@@ -73,8 +78,8 @@
 
 
         <!-- MODAL HOW TO Detail-->
-        <div v-if="showModalDetail" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
-            <div class="relative w-2/3 pl-20">
+        <div v-if="showModalDetail" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-5/6 pl-20">
                 <!--content-->
                 <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
@@ -155,6 +160,7 @@ export default {
             products: '',
             product:'',
             showModalDetail:false,
+            copied: false,
         }
     },
     mounted() {
@@ -192,6 +198,21 @@ export default {
             this.showModalDetail = true
             this.product = data
             // console.log(data.name)
+        },
+        copyurl: function(url){
+
+            let copyURL = document.querySelector('#copy-url')
+            copyURL.setAttribute('type', 'text')    
+            copyURL.select()
+            document.execCommand("copy");
+
+            copyURL.setAttribute('type', 'hidden')
+            window.getSelection().removeAllRanges()
+
+            this.copied = true
+            setTimeout(() => {
+                this.copied = false
+            }, 3000);
         }
     },
 }
