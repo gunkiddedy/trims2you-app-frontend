@@ -1,5 +1,5 @@
 module.exports = {
     devServer: {
-        proxy: 'http://trims2you.local'
+        proxy: 'http://127.0.0.1:8000/'
     } 
 }
