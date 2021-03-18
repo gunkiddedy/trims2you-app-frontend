@@ -391,16 +391,14 @@
                 </div>
             </div>
         </div>
-        <!-- MODAL HOW TO DEPOSITE-->
+        <!-- MODAL UPLOAD BUKTI-->
         <div v-if="showModalUploadBukti" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20 pb-4">
                 <!--content-->
                 <div class="border rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
-                        <span class="text-xl font-semibold pt-2">
-                        Upload bukti transfer
-                        </span>
+                        <span class="text-xl font-semibold pt-2 text-gray-600">Upload bukti transfer</span>
                         <button 
                             class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalUploadBukti = !showModalUploadBukti">
                             <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
@@ -412,7 +410,7 @@
                     <div class="relative px-4 py-2 flex-auto">
                         <div class="-mx-3 md:flex mb-4">
                             <div class="md:w-full px-3 flex items-center">
-                                <div class="block uppercase tracking-wide text-xs font-bold">
+                                <div class="block uppercase text-gray-500 tracking-wide text-xs font-bold">
                                     Bank tujuan transfer *
                                 </div>
                                 <div class="flex items-center justify-start">
@@ -438,53 +436,62 @@
                             </div>
                         </div>
                         <div class="-mx-3 md:flex mb-4">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                            <div class="px-3 w-1/2">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Jumlah transfer *
                                 </label>
                                 <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
-                                    Tanggal dan jam transfer *
-                                </label>
-                                <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                            <div class="px-3 w-1/2">
+                                    <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                        Tanggal dan jam transfer *
+                                    </label>
+                                    <div class="flex date-time">
+                                        <date-picker
+                                            placeholder="Select date"
+                                            class="mr-2 "
+                                            value-type="YYYY-MM-DD" 
+                                            v-model="upload.transfer_date" 
+                                            valueType="format"></date-picker>
+                                        <date-picker
+                                            placeholder="Select time" 
+                                            v-model="upload.transfer_time"
+                                            value-type="HH:MM:SS"
+                                            :time-picker-options="{
+                                                start: '05:30',
+                                                step: '00:15',
+                                                end: '23:55',
+                                            }"
+                                            format="hh:mm a"
+                                            type="time"></date-picker>
+                                    </div>
                             </div>
                         </div>
                         <div class="-mx-3 md:flex mb-4">
                             <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Di transfer dari Bank *
                                 </label>
                                 <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                             <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Nama rekening *
                                 </label>
                                 <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                         </div>
                         <div class="-mx-3 flex mb-4 items-center">
                             <div class="md:w-full px-3">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-1">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Nomor rekening *
                                 </label>
                                 <input 
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-4">
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
-                            <!-- <div class="flex items-center my-4">
-                                <div v-if="url" class="title w-40 min font-semibold text-md sm:block hidden">*Bukti Transfer</div>
-                                <div class="value w-full sm:w-1/2 px-2 flex justify-end">
-                                    <div class="bg-gray-100 mx-auto">
-                                        <img v-if="url" :src="url" class="object-contain w-full border-dashed border-2 border-gray-300 rounded-lg"/>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="md:w-full px-3 mt-5 flex items-center">
                                 <label class="border flex justify-center w-1/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500">
 									<svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -497,6 +504,7 @@
 							    </label>
                             </div>
                         </div>
+                        <!-- display file transfer -->
                         <div class="flex mb-4 flex-col" v-if="url">
                             <img :src="url" class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg"/>
                             <div class="my-2">
@@ -509,6 +517,11 @@
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="uploadFileTransfer" 
+                            class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Submit
+                        </button>
                         <button
                             @click="showModalUploadBukti = false" 
                             class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
@@ -524,7 +537,10 @@
 
 <script>
 import axios from 'axios'
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 export default {
+    components: { DatePicker },
     data(){
         return {
             isUpdate: false,
@@ -630,8 +646,8 @@ export default {
             upload: {
                 admin_bank_id: '',
                 amount: '',
-                transfer_date: '',
-                transfer_time: '',
+                transfer_date: null,
+                transfer_time: null,
                 bank_id: '',
                 account_name: '',
                 account_no: '',
@@ -673,6 +689,30 @@ export default {
         },
         refreshTable(){
             this.getRecords();
+        },
+        async uploadFileTransfer(){
+            const formData = new FormData();
+            formData.append('admin_bank_id', this.upload.admin_bank_id);
+            formData.append('amount', this.upload.amount);
+            formData.append('transfer_date', this.upload.transfer_date);
+            formData.append('transfer_time', this.upload.transfer_time);
+            formData.append('bank_id', this.upload.bank_id);
+            formData.append('account_name', this.upload.account_name);
+            formData.append('account_no', this.upload.account_no);
+            formData.append('proof_of_payment', this.upload.proof_of_payment);
+
+            await axios.post(`/api/deposites/add`,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken,
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((response) => {
+                this.$swal('Success', `${response}`, 'info');
+                this.showModalUploadBukti = false;
+                console.log(response);
+            }).catch((error) => {
+                this.$swal("Error!", `${error}`, "error");
+            });
         },
         async getUploadBukti(){
             await axios.get(`/api/deposites/add`,{
@@ -792,3 +832,23 @@ export default {
     },
 }
 </script>
+
+<style>
+.mx-input {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 42px;
+    padding: 6px 30px;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+}
+</style>
