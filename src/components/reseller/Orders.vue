@@ -316,7 +316,10 @@ export default {
             this.getRecords();
         },
         detailData(param){
-            alert(param)
+            this.$router.push({
+                name: 'OrderDetail',
+                params: { id: param }
+            });
         },
         sendToWarehouse(param) {
             this.$swal({
@@ -344,9 +347,6 @@ export default {
                     });
                 } 
             });
-        },
-        updateData(param){
-            alert(param)
         },
         async getRecords(){
             this.isLoading = true;

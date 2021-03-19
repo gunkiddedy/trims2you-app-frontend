@@ -1,7 +1,7 @@
 <template>
     <main class="pt-16 sm:pl-28 dashboard-wrape">
         <!-- MAIN CONTENT -->
-        <div class="main-content p-4 lg:h-screen h-full bg-indigo-50">
+        <div class="main-content pl-16 pt-4 lg:h-screen h-full bg-indigo-50">
             <div class="bg-white">
 
                 <!-- TITLE -->
@@ -200,7 +200,8 @@ export default {
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         }
     },
     methods: {

@@ -149,7 +149,8 @@ export default {
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         }
     },
     methods: {

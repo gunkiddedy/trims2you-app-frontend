@@ -32,6 +32,12 @@ const route = [
 		component: () => import('../components/reseller/Orders.vue')
 	},
 	{
+		path: '/order-detail/:id',
+		name: 'OrderDetail',
+		component: () => import('../components/reseller/OrderDetail.vue'),
+		props: true
+	},
+	{
 		path: '/reseller-bank',
 		name: 'ResellerBank',
 		component: () => import('../components/reseller/ResellerBank.vue')

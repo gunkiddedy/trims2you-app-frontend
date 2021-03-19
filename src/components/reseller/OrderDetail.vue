@@ -19,7 +19,7 @@
 
                 <!-- summary_table -->
                 <div class="summary_table px-10 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
-                    <div class="grid grid-cols-2 gap-8 text-gray-500">
+                    <div class="grid grid-cols-1 gap-8 text-gray-500">
 
                         <!-- ====================TRANSAKSI -->
                         <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
@@ -312,17 +312,19 @@
                                         <tr>
                                             <td colspan="4" class=" text-right">Promo</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">{{ productDetailOrder.promo_name }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class=" text-right">Ongkir</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">{{ productDetailOrder.shipping_cost }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class=" text-right">Total</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">
+                                                {{ totalBayar }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -365,14 +367,14 @@ export default {
     computed: {
         userToken(){
             return localStorage.access_token;
-            // return this.$store.getters['currentUser/userToken'];
         },
-        // statusOrder(){
-        //     if(this.productDetailOrder.status == 1)
-        //         return 2;
-        //     else
-        //         return 3
-        // }
+        totalBayar(){
+            let qty = this.productDetailOrder.qty;
+            let price = this.productDetailOrder.price;
+            let shipping_cost = this.productDetailOrder.shipping_cost;
+            let total = qty * price + parseInt(shipping_cost);
+            return total;
+        }
     },
     methods: {
         addBarcode(param){
@@ -521,8 +523,7 @@ export default {
                 this.warehouse.provinsi = response.data.order.warehouse.province.province_name;
                 this.warehouse.postal_code = response.data.order.warehouse.postal_code;
                 this.warehouse.phone = response.data.order.warehouse.phone;
-                this.$store.dispatch('warehouseData/handleOutgoingProductDetail', response.data);
-                // console.log(response.data);
+                console.log(response);
                 // this.$swal(response.data.order.address);
             })
             .catch((error) => {
