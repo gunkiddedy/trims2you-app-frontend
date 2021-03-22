@@ -1,7 +1,7 @@
 <template>
     <main class="pt-16 sm:pl-28 dashboard-wrape">
         <!-- MAIN CONTENT -->
-        <div class="main-content p-4 h-full bg-indigo-50">
+        <div class="main-content pl-16 pt-4 h-full bg-indigo-50">
             <div class="bg-white">
 
                 <!-- TITLE -->
@@ -22,7 +22,7 @@
                     <div class="grid grid-cols-2 gap-8 text-gray-500">
 
                         <!-- ====================TRANSAKSI -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table text-left w-full table-auto">
                                 <tr>
                                     <td>Kode Transaksi</td>
@@ -86,7 +86,7 @@
                         </div>
 
                         <!-- ====================KURIR -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td class="">Kurir</td>
@@ -133,7 +133,7 @@
                         </div>
 
                         <!-- ====================ALAMAT GUDANG -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2" class="font-bold text-gray-700">
@@ -186,7 +186,7 @@
                         </div>
 
                         <!-- ======================ALAMAT PENGIRIMAN -->
-                        <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
@@ -267,7 +267,7 @@
                             </div>
 
                             <!-- INFORMASI PRODUK -->
-                            <div class="my-card transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-100 hover:bg-white bg-white shadow px-10 rounded-b border py-4">
+                            <div class="my-card hover:bg-white bg-white shadow px-10 rounded-b border py-4">
                                 
                                 <table class="table border-collapse text-left w-full">
                                     <thead class="font-bold text-gray-700">
@@ -364,7 +364,8 @@ export default {
     },
     computed: {
         userToken(){
-            return this.$store.getters['currentUser/userToken'];
+            return localStorage.access_token;
+            // return this.$store.getters['currentUser/userToken'];
         },
         // statusOrder(){
         //     if(this.productDetailOrder.status == 1)
