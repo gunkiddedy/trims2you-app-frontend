@@ -40,13 +40,13 @@
                                 <a @click="getDetail(item)" href="javascript:void(0)" class="bg-blue-700 opacity-80 px-2 py-1 rounded">
                                     <i class="fa fa-eye text-white"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="bg-green-600 opacity-100 px-2 py-1 mx-1 rounded" v-if="!item.resellerproduct">
+                                <a @click="addProduct(item)" href="javascript:void(0)" class="bg-green-600 opacity-100 px-2 py-1 mx-1 rounded" v-if="!item.resellerproduct">
                                     <i class="fa fa-plus text-white"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="bg-red-600 opacity-80 px-2 py-1 mx-1 rounded" v-if="item.resellerproduct">
+                                <a @click="removeProduct(item)" href="javascript:void(0)" class="bg-red-600 opacity-80 px-2 py-1 mx-1 rounded" v-if="item.resellerproduct">
                                     <i class="fa fa-trash text-white"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct">
+                                <a @click="editSettingForm(item)" href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct">
                                     <i class="fa fa-gear text-white"></i>
                                 </a>
                             </div>
@@ -144,7 +144,67 @@
                 </div>
             </div>
         </div><!-- end MODAL Detail-->
+
+        <!-- MODAL Setting Form-->
+        <div v-if="showModalSettingForm" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-5/6 pl-20">
+                <!--content-->
+                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
+                        <span class="text-xl font-semibold pt-2">
+                        Detail Product
+                        </span>
+                        <button 
+                            class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalSettingForm = false" >
+                            <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!--body-->
+                    <div class="relative px-4 py-2 flex">
+                        <div class=" w-1/2 p-4 pl-0">
+                            <img :src="product.photo"/>
+                        </div>
+                        <div class="w-1/2 p-4 pr-0">
+                            
+                        </div>
+                        <div class="-mx-3 flex mb-4 items-center">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Nomor rekening *
+                                </label>
+                                <input 
+                                    v-model="upload.account_no"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                            <div class="md:w-full px-3 mt-5 flex items-center">
+                                <label class="border flex justify-center w-1/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500">
+									<svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+										<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+									</svg>
+									<span class="font-semibold ml-1" >Pilih file</span>
+									<input 
+										type='file' class="hidden" name="proof_of_payment" ref="file" @change="onFileChange"
+									/>
+							    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="showModalSettingForm = false" 
+                            class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end MODAL Setting Form-->
         <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
+        <div v-if="showModalSettingForm" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
 
     </main>
 </template>
@@ -160,6 +220,7 @@ export default {
             products: '',
             product:'',
             showModalDetail:false,
+            showModalSettingForm:false,
             copied: false,
         }
     },
@@ -193,16 +254,54 @@ export default {
                 console.log('woooo...'+error);
             });
         },
-         getDetail: function (data) {
+        async addProduct(data){
+            console.log(data);
+            const formData = new FormData();
+            formData.append('product_id', data.id);
+            await axios.post(`/api/reseller_products/add`,formData,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            }).then((response) => {
+                this.isLoading = false;
+                console.log(response);
+                this.getRecords();
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
+        async removeProduct(data){
+            console.log(data);
+            await axios.delete(`/api/reseller_products/remove/`+data.id,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            }).then((response) => {
+                this.isLoading = false;
+                console.log(response);
+                this.getRecords();
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
+        getDetail: function (data) {
             // alert(message)
             this.showModalDetail = true
+            this.product = data
+            // console.log(data.name)
+        },
+        editSettingForm: function (data) {
+            // alert(message)
+            this.showModalSettingForm = true
             this.product = data
             // console.log(data.name)
         },
         copyurl: function(url){
 
             let copyURL = document.querySelector('#copy-url')
-            copyURL.setAttribute('type', 'text')    
+            copyURL.setAttribute('type', 'text')
             copyURL.select()
             document.execCommand("copy");
 
