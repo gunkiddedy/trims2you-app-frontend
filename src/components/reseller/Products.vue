@@ -153,7 +153,7 @@
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
-                        Detail Product
+                        Setting Form Product
                         </span>
                         <button 
                             class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalSettingForm = false" >
@@ -165,35 +165,81 @@
                     <!--body-->
                     <div class="relative px-4 py-2 flex">
                         <div class=" w-1/2 p-4 pl-0">
-                            <img :src="product.photo"/>
+
+                            <div class="md:w-full  mb-4 px-3" >
+                                <div v-if="urlFile">
+                                    <img :src="urlFile" class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg"/>
+                                    <div class="my-2">
+                                        <span 
+                                            class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFile">
+                                            Clear file
+                                        </span>
+                                    </div>
+                                </div>
+                                <div v-if="!urlFile">
+                                    <div class="object-contain w-full h-64 border-dashed border-2 border-gray-300 rounded-lg">
+                                         <label class="border mx-auto my-24 flex justify-center w-1/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500">
+                                            <svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                            </svg>
+                                            <span class="font-semibold ml-1" >Pilih file</span>
+                                            <input 
+                                                type='file' class="hidden" name="photo_product" ref="file" @change="onFileChange"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="md:w-full mb-4 px-3">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Fee CS
+                                </label>
+                                <input 
+                                    v-model="data.fee_cs"                                    
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+
+                            <div class="md:w-full mb-4 px-3">
+                                <label class="block uppercase text-blue-500 tracking-wide text-xs font-bold mb-1">
+                                    Facebook Pixel
+                                </label>
+                                
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Pixel IDs
+                                </label>
+                                <!-- <div class="flex flex-col items-center"> -->
+                                    <div class="flex items-center my-2" v-for="(pixel, i) in data.facebook_pixel" :key="i">
+                                        <input 
+                                        v-model="data.facebook_pixel[i]"
+                                        class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
+                                        <div class="float-right ">
+                                            <a @click="delPixelID(i)" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-white"></i>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                <!-- </div> -->
+                                
+                                <div><button @click="addPixelID" class="px-3 py-2 mt-3 float-right bg-blue-600 text-white rounded border-gray-500 border ">Add</button></div>
+                            </div>
                         </div>
                         <div class="w-1/2 p-4 pr-0">
                             
                         </div>
-                        <div class="-mx-3 flex mb-4 items-center">
-                            <div class="md:w-full px-3">
-                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
-                                    Nomor rekening *
-                                </label>
-                                <input 
-                                    v-model="upload.account_no"
-                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
-                            </div>
-                            <div class="md:w-full px-3 mt-5 flex items-center">
-                                <label class="border flex justify-center w-1/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500">
-									<svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-										<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-									</svg>
-									<span class="font-semibold ml-1" >Pilih file</span>
-									<input 
-										type='file' class="hidden" name="proof_of_payment" ref="file" @change="onFileChange"
-									/>
-							    </label>
-                            </div>
-                        </div>
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="submitForm" 
+                            class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            {{ isSubmit ? 'Processing...':'Submit' }}
+                        </button>
                         <button
                             @click="showModalSettingForm = false" 
                             class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
@@ -222,6 +268,13 @@ export default {
             showModalDetail:false,
             showModalSettingForm:false,
             copied: false,
+            data : {
+                photo_product : '',
+                fee_cs: '',
+                facebook_pixel: [''],
+            },
+            urlFile: '',
+            isSubmit: false,
         }
     },
     mounted() {
@@ -254,6 +307,22 @@ export default {
                 console.log('woooo...'+error);
             });
         },
+        clearFile(){
+            this.urlFile = '';
+            this.data.photo_product = '';
+        },
+        onFileChange(e) {
+            const file = e.target.files[0];
+            this.urlFile = URL.createObjectURL(file);
+            this.data.photo_product = file;
+            console.log(this.data.photo_product);
+        },
+        submitForm(){
+            this.isSubmit = true
+            setTimeout(() => {                
+                this.isSubmit = false
+            }, 1000);
+        },
         async addProduct(data){
             console.log(data);
             const formData = new FormData();
@@ -285,6 +354,13 @@ export default {
             .catch((error) => {
                 console.log('woooo...'+error);
             });
+        },
+        addPixelID: function () {
+            this.data.facebook_pixel.push([]);
+        },
+        delPixelID:function(i){
+            this.data.facebook_pixel.splice(i,1);
+            console.log(i)
         },
         getDetail: function (data) {
             // alert(message)
