@@ -33,17 +33,6 @@
                             <div class="text-sm text-purple-400">Click to detail</div>
                         </div>
                     </div>
-                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg font-semibold text-center hover:shadow-md">
-                        <div class="flex flex-col items-center justify-start">
-                            <svg class="w-10 mr-1 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <div class="uang flex flex-col">
-                                <span class="text-gray-500">Your Balance</span> 
-                                <span class="text-gray-500 text-2xl">{{userBalance}}</span>
-                            </div>
-                        </div>
-                    </div>
                     <div
                         @click="getTransactionHistory" 
                         class="kotak3 px-4 py-4 bg-white rounded border shadow-lg cursor-pointer font-semibold text-center hover:shadow-md">
@@ -55,6 +44,17 @@
                                 Transaction History
                             </div>
                             <div class="text-sm text-green-400">Click to detail</div>
+                        </div>
+                    </div>
+                    <div class="kotak3 px-4 py-4 bg-white rounded border shadow-lg font-semibold text-center hover:shadow-md">
+                        <div class="flex flex-col items-center justify-start">
+                            <svg class="w-10 mr-1 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="uang flex flex-col">
+                                <span class="text-gray-500">Your Balance</span> 
+                                <span class="text-gray-500 text-2xl">{{userBalance}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,6 +69,20 @@
                             <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                             <span>Refresh</span>
                         </button>
+                    </div>
+                    <div class="filter flex items-center justify-start mt-4 mb-2 text-gray-400">
+                        <span
+                            @click="changeStatusDeposite(1)"
+                            :class="{'bg-blue-500 text-white':statusDeposite == 'pending'}" 
+                            class="px-2 py-1 font-semibold cursor-pointer">Pending</span>
+                        <span
+                            @click="changeStatusDeposite(2)"
+                            :class="{'bg-blue-500 text-white':statusDeposite == 'approved'}" 
+                            class="px-2 py-1 font-semibold cursor-pointer">Approved</span>
+                        <span
+                            @click="changeStatusDeposite(3)"
+                            :class="{'bg-blue-500 text-white':statusDeposite == 'rejected'}" 
+                            class="px-2 py-1 font-semibold cursor-pointer">Rejected</span>
                     </div>
                     <vue-good-table
                         mode="remote"
@@ -112,8 +126,9 @@
                             <span v-if="props.column.field == 'status_custom'">
                                 <span 
                                     :class="{
-                                        'bg-yellow-500': props.row.status == 0,
+                                        'bg-yellow-500': props.row.status == 'pending',
                                         'bg-green-500': props.row.status == 'approved',
+                                        'bg-red-500': props.row.status == 'rejected',
                                     }"
                                     class="px-1 text-white font-bold py-0 leading-loose flex items-center justify-center max-w-min">
                                     {{ props.row.status }}
@@ -657,6 +672,7 @@ export default {
             depositeDetail: '',
             customerHistory: '',
             howDeposite: '',
+            statusDeposite: 'approved',
             uploadBukti: '',
             upload: {
                 admin_bank_id: 2,
@@ -676,6 +692,9 @@ export default {
     watch: {
         historyType(oldValue, newValue){
             this.getTransactionHistory();
+        },
+        statusDeposite(oldValue, newValue){
+            this.getRecords();
         },
         deep: true
     },
@@ -813,10 +832,18 @@ export default {
                 this.$swal("Error!", `${error}`, "error");
             });
         },
+        changeStatusDeposite(param){
+            if(param == 1){
+                this.statusDeposite = 'pending';
+            }else if(param == 2){
+                this.statusDeposite = 'approved';
+            }else{
+                this.statusDeposite = 'rejected';
+            }
+        },
         async getRecords(){
             this.isLoading = true;
-            // {{url}}/api/deposites?perpage=2&keyword=&page=1&status=approved
-            await axios.get(`/api/deposites?perpage=${this.serverParams.perPage}&keyword=${this.keyword}&page=${this.serverParams.page}&status=approved`,{
+            await axios.get(`/api/deposites?perpage=${this.serverParams.perPage}&keyword=${this.keyword}&page=${this.serverParams.page}&status=${this.statusDeposite}`,{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
