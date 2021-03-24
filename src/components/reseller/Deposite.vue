@@ -243,7 +243,7 @@
                             <tr class="">
                                 <td class="py-2 px-2">Status</td>
                                 <td class="text-gray-600 font-semibold">
-                                    {{depositeDetail.status}}
+                                    <span class="bg-gray-500 text-gray-50 px-2 py-1">{{ depositeDetail.status }}</span>
                                 </td>
                             </tr>
                             </tbody>

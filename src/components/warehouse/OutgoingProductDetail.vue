@@ -22,7 +22,8 @@
                     <div class="grid grid-cols-2 gap-8 text-gray-500">
 
                         <!-- ====================TRANSAKSI -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <!-- <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4"> -->
+                        <div>
                             <table class="table text-left w-full table-auto">
                                 <tr>
                                     <td>Kode Transaksi</td>
@@ -86,7 +87,8 @@
                         </div>
 
                         <!-- ====================KURIR -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <!-- <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4"> -->
+                        <div>
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td class="">Kurir</td>
@@ -133,11 +135,12 @@
                         </div>
 
                         <!-- ====================ALAMAT GUDANG -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <!-- <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4"> -->
+                        <div>
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2" class="font-bold text-gray-700">
-                                        <span class="">Alamat Gudang</span>
+                                        <span class="">#Alamat Gudang</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -186,10 +189,11 @@
                         </div>
 
                         <!-- ======================ALAMAT PENGIRIMAN -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <!-- <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4"> -->
+                        <div>
                             <table class="table border-collapse text-left w-full">
                                 <tr>
-                                    <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
+                                    <td colspan="2 " class="font-bold text-gray-700">#Alamat Pengiriman</td>
                                 </tr>
                                 <tr>
                                     <td class="">Nama</td>
