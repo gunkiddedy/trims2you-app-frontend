@@ -672,7 +672,7 @@ export default {
             depositeDetail: '',
             customerHistory: '',
             howDeposite: '',
-            statusDeposite: 'approved',
+            statusDeposite: 'pending',
             uploadBukti: '',
             upload: {
                 admin_bank_id: 2,
