@@ -316,17 +316,17 @@
                                         <tr>
                                             <td colspan="4" class=" text-right">Promo</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">{{ productDetailOrder.promo_name }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class=" text-right">Ongkir</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">{{ productDetailOrder.shipping_cost }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class=" text-right">Total</td>
                                             <td class="">:</td>
-                                            <td class="">isi promo</td>
+                                            <td class="">{{ totalBayar }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -371,6 +371,13 @@ export default {
             return localStorage.access_token;
             // return this.$store.getters['currentUser/userToken'];
         },
+        totalBayar(){
+            let qty = this.productDetailOrder.qty;
+            let price = this.productDetailOrder.price;
+            let shipping_cost = this.productDetailOrder.shipping_cost;
+            let total = qty * price + parseInt(shipping_cost);
+            return total;
+        }
         // statusOrder(){
         //     if(this.productDetailOrder.status == 1)
         //         return 2;

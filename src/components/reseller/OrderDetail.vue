@@ -19,10 +19,10 @@
 
                 <!-- summary_table -->
                 <div class="summary_table px-10 py-8 w-full overflow-auto rounded font-semibold text-center hover:shadow-md bg-white">
-                    <div class="grid grid-cols-1 gap-8 text-gray-500">
+                    <div class="grid grid-cols-2 gap-8 text-gray-500">
 
                         <!-- ====================TRANSAKSI -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card">
                             <table class="table text-left w-full table-auto">
                                 <tr>
                                     <td>Kode Transaksi</td>
@@ -68,14 +68,14 @@
                                         <div class="mt-4">
                                             <button
                                                 @click="changeStatusOrder(productDetailOrder.status)" 
-                                                class="bg-blue-600 px-6 hover:bg-blue-700 focus:bg-blue-700 rounded-full shadow py-1 text-white mr-2">
+                                                class="bg-blue-600 px-6 hover:bg-blue-700 focus:bg-blue-700 rounded py-2 focus:outline-none text-white mr-2">
                                                 <span class="font-semibold">
                                                     {{ productDetailOrder.status == 1 ? 'Kemas': 'Kirim' }}
                                                 </span>
                                             </button>
                                             <button
                                                 @click="cancelOrder" 
-                                                class="bg-yellow-500 px-6 hover:bg-yellow-600 focus:bg-yellow-600 rounded-full shadow-lg py-1 text-white mr-2">
+                                                class="bg-yellow-500 px-6 hover:bg-yellow-600 focus:bg-yellow-600 rounded py-2 focus:outline-none text-white mr-2">
                                                 <span class="font-semibold">Cancel</span>
                                             </button>
                                             <!-- {{ statusOrder }} -->
@@ -86,7 +86,7 @@
                         </div>
 
                         <!-- ====================KURIR -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td class="">Kurir</td>
@@ -121,7 +121,7 @@
                                         <div class="mt-4">
                                             <button
                                                 @click="changeTrackingNumber" 
-                                                class="bg-blue-500 px-6 hover:bg-blue-600 focus:bg-blue-600 rounded-full shadow-lg py-1 text-white mr-2">
+                                                class="bg-green-500 px-6 hover:bg-green-600 focus:bg-green-600 rounded shadow py-2 text-white mr-2">
                                                 <span class="font-semibold">
                                                     Update
                                                 </span>
@@ -133,11 +133,11 @@
                         </div>
 
                         <!-- ====================ALAMAT GUDANG -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
                                     <td colspan="2" class="font-bold text-gray-700">
-                                        <span class="">Alamat Gudang</span>
+                                        <span class="">#Alamat Gudang</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -186,10 +186,10 @@
                         </div>
 
                         <!-- ======================ALAMAT PENGIRIMAN -->
-                        <div class="my-card hover:shadow-lg bg-white shadow px-8 rounded border py-4">
+                        <div class="my-card">
                             <table class="table border-collapse text-left w-full">
                                 <tr>
-                                    <td colspan="2 " class="font-bold text-gray-700">Alamat Pengiriman</td>
+                                    <td colspan="2 " class="font-bold text-gray-700">#Alamat Pengiriman</td>
                                 </tr>
                                 <tr>
                                     <td class="">Nama</td>
@@ -407,19 +407,16 @@ export default {
                 if (result.isConfirmed) {
                     this.isChangeTrackingNumber = true;
                     axios.put(`/api/outgoing_product/tracking_number/${this.id}`, 
-                    {tracking_number: this.tracking_number},
-                    {
+                    {tracking_number: this.tracking_number},{
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
                         }
-                    })
-                    .then((response) => {
+                    }).then((response) => {
                         this.isChangeTrackingNumber = false;
                         this.$swal('Tracking Number berhasil diupdate!');
                         this.getRecords();
                         console.log(response);
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log('woooo...'+error);
                     });
                 } 
@@ -436,30 +433,22 @@ export default {
                 confirmButtonText: 'Cancel Orderan',
                 cancelButtonText: 'Batal',
                 // showLoaderOnConfirm: true,
-            })
-            .then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     this.isChangeStatusOrder = false;
                     // this.$swal(result.value)
                     let message = result.value;
                     let status = 7; //cancel by warehouse
-                    axios.put(`/api/outgoing_product/status/${this.id}`, 
-                    {
-                        status: status,
-                        remarks: message
-                    },
-                    {
+                    axios.put(`/api/outgoing_product/status/${this.id}`,{status: status, remarks: message},{
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
                         }
-                    })
-                    .then((response) => {
+                    }).then((response) => {
                         this.isChangeStatusOrder = false;
                         this.$swal('Status Order berhasil diupdate!');
                         this.getRecords();
                         console.log(response);
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log('woooo...'+error);
                     });
                 }
@@ -480,20 +469,16 @@ export default {
                     this.isChangeStatusOrder = true;
                     // alert(param)
                     let status = parseInt(param) + 1;
-                    axios.put(`/api/outgoing_product/status/${this.id}`, 
-                    {status: status},
-                    {
+                    axios.put(`/api/outgoing_product/status/${this.id}`,{status: status},{
                         headers: {
                             'Authorization': 'Bearer ' + this.userToken
                         }
-                    })
-                    .then((response) => {
+                    }).then((response) => {
                         this.isChangeStatusOrder = false;
                         this.$swal('Status Order berhasil diupdate!');
                         this.getRecords();
                         console.log(response);
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.log('woooo...'+error);
                     });
                 } 
@@ -507,13 +492,11 @@ export default {
         },
         async getRecords(){
             if(!this.id) return false;
-            await axios.get(`/api/orders/detail/${this.id}`,
-            {
+            await axios.get(`/api/orders/detail/${this.id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
-            })
-            .then((response) => {
+            }).then((response) => {
                 this.productDetailOrder = response.data.order;
                 this.tracking_number = response.data.order.tracking_number;
                 this.warehouse.name = response.data.order.warehouse.name;
@@ -525,8 +508,7 @@ export default {
                 this.warehouse.phone = response.data.order.warehouse.phone;
                 console.log(response);
                 // this.$swal(response.data.order.address);
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.log('woooo...'+error);
             });
         },
