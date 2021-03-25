@@ -56,12 +56,13 @@
                                     <a class="text-indigo-800 hover:text-blue-600" :href="item.resellerproduct.url">{{ item.resellerproduct.url }}</a>
                                 </div>
                                 <div>
-                                    <input type="hidden" id="copy-url" :value="item.resellerproduct.url">
-                                    <a @click="copyurl(item.resellerproduct.url)" href="javascript:void(0)" 
+                                    <input type="hidden" :id="'copy-url-'+i" :value="item.resellerproduct.url">
+                                    <a @click="copyurl(i)" href="javascript:void(0)" 
                                     class="copy-product-link text-white px-2 py-1 rounded text-sm" 
-                                    :class="{ 'bg-gray-500':copied,'bg-blue-700':!copied }"> 
-                                        {{ copied ? 'Copied!!!' : 'Copy Link'  }} 
+                                    :class="{ 'bg-gray-500':copied===i,'bg-blue-700':copied!==i }"> 
+                                        {{ copied===i ? 'Copied!!!' : 'Copy Link'  }} 
                                     </a>
+                                    
                                 </div>    
                             </div>
 
@@ -207,14 +208,14 @@
                                 </label>
                                 
                             </div>
-                            <div class="md:w-full mb-4 px-3">
-                                
+                            <div class="md:w-full mb-4 px-3">                                
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Pixel IDs
                                 </label>
                                 <!-- <div class="flex flex-col items-center"> -->
                                     <div class="flex items-center my-2" v-for="(pixel, i) in data.facebook_pixel" :key="i">
                                         <input 
+                                        placeholder="Pixel ID"
                                         v-model="data.facebook_pixel[i]"
                                         class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
                                         <div class="float-right ">
@@ -228,7 +229,33 @@
                                 
                                 <div><button @click="addPixelID" class="px-3 py-2 mt-3 float-right bg-blue-600 text-white rounded border-gray-500 border ">Add</button></div>
                             </div>
+                            <div class="md:w-full mb-4 px-3 clear-both">                                
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Pixel Events
+                                </label>
+                                <!-- <div class="flex flex-col items-center"> -->
+                                    <div class="flex items-center my-2" v-for="(pixel, i) in data.pixel_events" :key="i">
+                                        <input 
+                                        placeholder="Pixel Event"
+                                        v-model="data.pixel_events[i]"
+                                        class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
+                                        <div class="float-right flex">
+                                            <a @click="setPixelEvent(i)" class="bg-gray-300 px-4 py-2.5" href="javascript:void(0)">
+                                                <i class="fa fa-gear text-black"></i>
+                                            </a>
+                                            <a @click="delPixelEvent(i)" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-white"></i>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                <!-- </div> -->
+                                
+                                <div><button @click="addPixelEvent" class="px-3 py-2 mt-3 float-right bg-blue-600 text-white rounded border-gray-500 border ">Add</button></div>
+                            </div>
                         </div>
+
+
                         <div class="w-1/2 p-4 pr-0">
                             
                         </div>
@@ -267,11 +294,12 @@ export default {
             product:'',
             showModalDetail:false,
             showModalSettingForm:false,
-            copied: false,
+            copied: '',
             data : {
                 photo_product : '',
                 fee_cs: '',
                 facebook_pixel: [''],
+                pixel_events:[''],
             },
             urlFile: '',
             isSubmit: false,
@@ -301,7 +329,6 @@ export default {
             .then((response) => {
                 this.products = response.data.data.data;
                 this.isLoading = false;
-                console.log(response.data.data.data);
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -324,7 +351,7 @@ export default {
             }, 1000);
         },
         async addProduct(data){
-            console.log(data);
+            // console.log(data);
             const formData = new FormData();
             formData.append('product_id', data.id);
             await axios.post(`/api/reseller_products/add`,formData,{
@@ -360,7 +387,14 @@ export default {
         },
         delPixelID:function(i){
             this.data.facebook_pixel.splice(i,1);
-            console.log(i)
+            // console.log(i)
+        },
+        addPixelEvent: function () {
+            this.data.pixel_events.push([]);
+        },
+        delPixelEvent:function(i){
+            this.data.pixel_events.splice(i,1);
+            // console.log(i)
         },
         getDetail: function (data) {
             // alert(message)
@@ -374,9 +408,9 @@ export default {
             this.product = data
             // console.log(data.name)
         },
-        copyurl: function(url){
-
-            let copyURL = document.querySelector('#copy-url')
+        copyurl: function(i){
+            // this.copied[i] = false
+            let copyURL = document.querySelector('#copy-url-'+i)
             copyURL.setAttribute('type', 'text')
             copyURL.select()
             document.execCommand("copy");
@@ -384,10 +418,11 @@ export default {
             copyURL.setAttribute('type', 'hidden')
             window.getSelection().removeAllRanges()
 
-            this.copied = true
+            this.copied = i
             setTimeout(() => {
-                this.copied = false
-            }, 3000);
+                this.copied = ''
+            }, 2000);
+
         }
     },
 }
