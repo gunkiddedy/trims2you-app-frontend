@@ -69,14 +69,14 @@
                                         <div class="mt-4">
                                             <button
                                                 @click="changeStatusOrder(productDetailOrder.status)" 
-                                                class="bg-blue-600 px-6 hover:bg-blue-700 focus:bg-blue-700 rounded-full shadow py-1 text-white mr-2">
+                                                class="bg-blue-600 px-6 hover:bg-blue-700 focus:bg-blue-700 rounded focus:outline-none py-2 text-white mr-2">
                                                 <span class="font-semibold">
                                                     {{ productDetailOrder.status == 1 ? 'Kemas': 'Kirim' }}
                                                 </span>
                                             </button>
                                             <button
                                                 @click="cancelOrder" 
-                                                class="bg-yellow-500 px-6 hover:bg-yellow-600 focus:bg-yellow-600 rounded-full shadow-lg py-1 text-white mr-2">
+                                                class="bg-yellow-500 px-6 hover:bg-yellow-600 focus:bg-yellow-600 rounded focus:outline-none py-2 text-white mr-2">
                                                 <span class="font-semibold">Cancel</span>
                                             </button>
                                             <!-- {{ statusOrder }} -->
@@ -123,7 +123,7 @@
                                         <div class="mt-4">
                                             <button
                                                 @click="changeTrackingNumber" 
-                                                class="bg-blue-500 px-6 hover:bg-blue-600 focus:bg-blue-600 rounded-full shadow-lg py-1 text-white mr-2">
+                                                class="bg-green-500 px-6 hover:bg-green-600 focus:bg-green-600 rounded focus:outline-none shadow py-2 text-white mr-2">
                                                 <span class="font-semibold">
                                                     Update
                                                 </span>

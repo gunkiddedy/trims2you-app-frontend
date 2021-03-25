@@ -262,7 +262,7 @@
         <div v-if="showModalHistory" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20">
                 <!--content-->
-                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
@@ -331,7 +331,7 @@
         <div v-if="showModalHowToDeposite" class="overflow-x-hidden overflow-y-auto fixed inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/4 pl-20">
                 <!--content-->
-                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
@@ -410,7 +410,7 @@
         <div v-if="showModalUploadBukti" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-4 z-40 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/3 pl-20 pb-4">
                 <!--content-->
-                <div class="border rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div class="border rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2 text-gray-600">Upload bukti transfer</span>
