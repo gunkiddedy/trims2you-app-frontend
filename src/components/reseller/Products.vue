@@ -46,7 +46,7 @@
                                 <a @click="removeProduct(item)" href="javascript:void(0)" class="bg-red-600 opacity-80 px-2 py-1 mx-1 rounded" v-if="item.resellerproduct">
                                     <i class="fa fa-trash text-white"></i>
                                 </a>
-                                <a @click="editSettingForm(item)" href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct">
+                                <a @click="editSettingForm(item,i)" href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct">
                                     <i class="fa fa-gear text-white"></i>
                                 </a>
                             </div>
@@ -64,12 +64,6 @@
                                     </a>
                                     
                                 </div>    
-                            </div>
-
-                            <div class="flex flex-col items-start ml-2">
-                                <div class="title text-gray-400">
-                                    
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -276,8 +270,115 @@
                 </div>
             </div>
         </div><!-- end MODAL Setting Form-->
+        
+        <!-- MODAL HOW TO Detail-->
+        <div v-if="showModalSetFBPixel" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-40 z-50 outline-none focus:outline-none justify-center items-center flex">
+            <div class="relative w-2/4 pl-20">
+                <!--content-->
+                <div class="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    <!--header-->
+                    <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
+                        <span class="text-xl font-semibold pt-2">
+                        Pixel Event Settings
+                        </span>
+                        <button 
+                            class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalSetFBPixel = false" >
+                            <svg class="w-8 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!--body-->
+                    <div class="relative px-4 py-2 flex">
+                        <div class=" w-1/2 p-4 pl-0">
+                            <div class="md:w-full mb-4 px-3">
+                                <input 
+                                    value="value"
+                                    readonly="readonly"                                    
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <input 
+                                    value="currency"
+                                    readonly="readonly"                                    
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <input 
+                                    value="content_name"
+                                    readonly="readonly"                                    
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <input 
+                                    value="content_category"
+                                    readonly="readonly"                                    
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                        </div>
+                        <div class="w-1/2 p-4 pr-0">
+                            <div class="md:w-full mb-4 px-3">
+                                <select 
+                                    v-model="data.pixel_event_set[paramSetForm].value"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                                    <option value=""></option>
+                                    <option value="{total_price}">{total_price}</option>
+                                    <option value="{product_price}">{product_price}</option>
+                                    <option value="{product_name}">{product_name}</option>
+                                    <option value="{product_category_full}">{product_category_full}</option>
+                                </select>
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <input 
+                                    v-model="data.pixel_event_set[paramSetForm].currency" 
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <select 
+                                    v-model="data.pixel_event_set[paramSetForm].content_name"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                                    <option value=""></option>
+                                    <option value="{total_price}">{total_price}</option>
+                                    <option value="{product_price}">{product_price}</option>
+                                    <option value="{product_name}">{product_name}</option>
+                                    <option value="{product_category_full}">{product_category_full}</option>
+                                </select>
+                            </div>
+                            <div class="md:w-full mb-4 px-3">
+                                <select 
+                                    v-model="data.pixel_event_set[paramSetForm].content_category"
+                                    class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
+                                    <option value=""></option>
+                                    <option value="{total_price}">{total_price}</option>
+                                    <option value="{product_price}">{product_price}</option>
+                                    <option value="{product_name}">{product_name}</option>
+                                    <option value="{product_category_full}">{product_category_full}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    <!--footer-->
+                    <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
+                        <button
+                            @click="submitFormPixelEventSetting" 
+                            class="text-blue-500 bg-transparent border border-solid border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            {{ isSubmit2 ? 'Processing...':'Submit' }}
+                        </button>
+                        <button
+                            @click="showModalSetFBPixel = false" 
+                            class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-semibold uppercase text-sm px-4 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end MODAL Detail-->
+
         <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
         <div v-if="showModalSettingForm" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
+        <div v-if="showModalSetFBPixel" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 
     </main>
 </template>
@@ -294,15 +395,25 @@ export default {
             product:'',
             showModalDetail:false,
             showModalSettingForm:false,
+            showModalSetFBPixel:false,
             copied: '',
+            paramSetForm:'',
+            pixel_event_value:[{
+                    value : '',
+                    currency : '',
+                    content_name : '',
+                    content_category : '',
+                }],
             data : {
                 photo_product : '',
                 fee_cs: '',
-                facebook_pixel: [''],
-                pixel_events:[''],
+                facebook_pixel: [[]],
+                pixel_events:[[]],
+                pixel_event_set:[this.pixel_event_value],
             },
             urlFile: '',
             isSubmit: false,
+            isSubmit2: false,
         }
     },
     mounted() {
@@ -329,6 +440,10 @@ export default {
             .then((response) => {
                 this.products = response.data.data.data;
                 this.isLoading = false;
+                this.products.forEach((v,k) => {
+                    this.data.pixel_event_set[k] = this.pixel_event_value
+                });
+                // console.log(this.data.pixel_event_set)
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -348,6 +463,15 @@ export default {
             this.isSubmit = true
             setTimeout(() => {                
                 this.isSubmit = false
+            }, 1000);
+        },
+        submitFormPixelEventSetting(){
+            this.isSubmit2 = true
+
+            console.log(this.data.pixel_event_set)
+
+            setTimeout(() => {                
+                this.isSubmit2 = false
             }, 1000);
         },
         async addProduct(data){
@@ -390,11 +514,21 @@ export default {
             // console.log(i)
         },
         addPixelEvent: function () {
+            
             this.data.pixel_events.push([]);
+            this.data.pixel_event_set.push(this.pixel_event_value);
+            console.log('add')
+            console.log(this.data.pixel_events)
         },
         delPixelEvent:function(i){
             this.data.pixel_events.splice(i,1);
             // console.log(i)
+        },   
+        setPixelEvent:function(i){
+            this.data.pixel_event_set[i]= this.pixel_event_value;
+            this.showModalSetFBPixel = true
+            console.log('set')
+            console.log(this.data.pixel_event_set)
         },
         getDetail: function (data) {
             // alert(message)
@@ -402,10 +536,11 @@ export default {
             this.product = data
             // console.log(data.name)
         },
-        editSettingForm: function (data) {
+        editSettingForm: function (data,i) {
             // alert(message)
             this.showModalSettingForm = true
             this.product = data
+            this.paramSetForm= i
             // console.log(data.name)
         },
         copyurl: function(i){
