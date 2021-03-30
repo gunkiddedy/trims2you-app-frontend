@@ -256,18 +256,12 @@
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Promo
                                 </label>
+                                <div class="flex items-center my-2" v-for="(val, i) in data.promo" :key="i">
                                 <label class="flex items-center">
-                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
-                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
+                                    <input type="checkbox" :value="i" v-model="data.promo_reseller[i]" @change="pilihPromo($event,i)" class="form-checkbox">
+                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">{{ val }}</span>
                                 </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
-                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
-                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
-                                </label>
+                                </div>
                             </div>
 
                             <div class="md:w-full mb-4 px-3 mt-5">                                
@@ -317,16 +311,16 @@
                                 <div class="flex"  v-for="(point, i) in data.testimoni" :key="i">
                                     <div class="md:w-1/3"> 
                                         <div class="md:w-full  mb-4 pr-2" >
-                                            <div v-if="urlFile">
-                                                <img :src="urlFile" class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg"/>
+                                            <div v-if="urlFileTesti[i]">
+                                                <img :src="urlFileTesti[i]" class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg"/>
                                                 <div class="my-2">
                                                     <span 
-                                                        class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFile">
+                                                        class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFileTesti(i)">
                                                         Clear file
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div v-if="!urlFile">
+                                            <div v-if="!urlFileTesti[i]">
                                                 <div class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg">
                                                     <label class="border mx-auto my-14 flex justify-center w-2/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500 text-xs">
                                                         <svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -334,7 +328,7 @@
                                                         </svg>
                                                         <span class="font-semibold ml-1" >Pilih Foto</span>
                                                         <input 
-                                                            type='file' class="hidden" name="testimoni_photo[]" ref="file" @change="onFileChange"
+                                                            type='file' class="hidden" name="testimoni_photo[]" ref="file" @change="onFileChangeTesti($event,i)"
                                                         />
                                                     </label>
                                                 </div>
@@ -344,7 +338,7 @@
                                     <div class="md:w-2/3">
                                         <div class="flex flex-row"> 
                                             <input 
-                                            placeholder=""
+                                            placeholder="Nama"
                                             v-model="data.testimoni_name[i]"
                                             class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
                                             <div class="float-right mt-2">
@@ -355,7 +349,7 @@
                                         </div>
                                         <div class="mt-1">
                                             <textarea 
-                                            placeholder=""
+                                            placeholder="Pesan"
                                             v-model="data.testimoni_desc[i]"
                                             class="h-24 appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2"></textarea>
                                         </div>
@@ -520,6 +514,7 @@ export default {
                 photo_product : '',
                 fee_cs: '',
                 promo:[],
+                promo_reseller:[],
                 facebook_pixel: [[]],
                 pixel_events:[[]],
                 pixel_event_set:[{
@@ -535,6 +530,7 @@ export default {
                 testimoni_name:[[]],
                 testimoni_desc:[[]],
             },
+            urlFileTesti:[],
             urlFile: '',
             isSubmit: false,
             isSubmit2: false,
@@ -583,7 +579,17 @@ export default {
             const file = e.target.files[0];
             this.urlFile = URL.createObjectURL(file);
             this.data.photo_product = file;
-            console.log(this.data.photo_product);
+            // console.log(this.data.photo_product);
+        },clearFileTesti(i){
+            this.urlFileTesti[i] = '';
+            this.data.testimoni_photo[i] = '';
+        },
+        onFileChangeTesti(e ,i) {
+            // console.log(i)
+            const file = e.target.files[i];
+            this.urlFileTesti[i] = URL.createObjectURL(file);
+            this.data.testimoni_photo[i] = file;
+            // console.log(this.data.testimoni_photo);
         },
         submitForm(){
             this.isSubmit = true
@@ -622,6 +628,15 @@ export default {
             .catch((error) => {
                 console.log('woooo...'+error);
             });
+        },
+        pilihPromo:function(e,i){
+            if(e.target.checked){
+                this.data.promo_reseller[i] = 1
+            }else{
+                this.data.promo_reseller[i] = 0
+            }
+
+            console.log(this.data.promo_reseller)
         },
         addPixelID: function () {
             this.data.facebook_pixel.push([]);
@@ -681,24 +696,16 @@ export default {
             // console.log(data.name)
         },
         editSettingForm: function (data,i) {
-            // alert(message)
-            // this.clearData()
             this.showModalSettingForm = true
             this.product = data
-            // console.log(data.name)
+            // console.log(this.product.promo)
+            this.product.promo.name.forEach((v, i) => {
+                this.data.promo[i] = v+' - '+this.product.promo.price[i]
+                this.data.promo_reseller[i] = 0
+            });
+            // console.log(this.data.promo)
+
         },
-        // clearData:function(){
-        //     this.data.photo_product = ''
-        //     this.data.fee_cs = ''
-        //     this.data.facebook_pixel = [[]]
-        //     this.data.pixel_events = [[]]
-        //     this.data.pixel_event_set = [{
-        //             value : '',
-        //             currency : '',
-        //             content_name : '',
-        //             content_category : '',
-        //         }]
-        // },
         copyurl: function(i){
             // this.copied[i] = false
             let copyURL = document.querySelector('#copy-url-'+i)
