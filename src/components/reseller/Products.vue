@@ -177,7 +177,7 @@
                                             <svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                             </svg>
-                                            <span class="font-semibold ml-1" >Pilih file</span>
+                                            <span class="font-semibold ml-1" >Pilih Foto</span>
                                             <input 
                                                 type='file' class="hidden" name="photo_product" ref="file" @change="onFileChange"
                                             />
@@ -252,7 +252,119 @@
 
                         <div class="w-1/2 p-4 pr-0">
                             
+                            <div class="md:w-full mb-4 px-3">
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Promo
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
+                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
+                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" v-model="data.promo" class="form-checkbox">
+                                    <span class="ml-2 text-gray-500 tracking-wide text-sm">Beli 1 Gratis 2 - Rp 199.000</span>
+                                </label>
+                            </div>
+
+                            <div class="md:w-full mb-4 px-3 mt-5">                                
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                    Bullet points
+                                </label>
+                                <!-- <div class="flex flex-col items-center"> -->
+                                    <div class="flex items-center my-2" v-for="(point, i) in data.bullet_point" :key="i">
+                                        <input 
+                                        placeholder=""
+                                        v-model="data.bullet_point[i]"
+                                        class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
+                                        <div class="float-right ">
+                                            <a @click="delBulletPoint(i)" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-white"></i>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                <!-- </div> -->
+                                
+                                <div><button @click="addBulletPoint" class="px-3 py-2 mt-3 float-right bg-blue-600 text-white rounded border-gray-500 border ">Add Bullet Point</button></div>
+                            </div>
+
+                            <div class="md:w-full mb-4 px-3 mt-20 clear-both">                                
+                                <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                Guarantee Seals
+                                </label>
+                                <select  
+                                v-model="data.guarantee_seal"
+                                class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
+                                    <option value="0" selected=""></option>
+                                    <option value="1">100% Jaminan Kepuasan</option>
+                                    <option value="2">Garansi Uang Kembali</option>
+                                    <option value="3">Enkripsi 256-Bit</option>
+                                    <option value="4">100% Satisfaction Seal</option>
+                                    <option value="5">Money Back Guarantee</option>
+                                    <option value="6">256-Bit Encrypted</option>
+                                </select>
+                                <div class="text-xs text-gray-500 mt-1">Menampilkan segel jaminan di bagian atas halaman</div>
+                            </div>
+                            
+                            <div class="md:w-full mb-4 px-3 mt-8 clear-both">
+                               <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
+                                Testimoni
+                                </label>
+                                <div class="flex"  v-for="(point, i) in data.testimoni" :key="i">
+                                    <div class="md:w-1/3"> 
+                                        <div class="md:w-full  mb-4 pr-2" >
+                                            <div v-if="urlFile">
+                                                <img :src="urlFile" class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg"/>
+                                                <div class="my-2">
+                                                    <span 
+                                                        class="text-red-400 text-sm border px-2 rounded font-semibold cursor-pointer hover:text-red-600" @click="clearFile">
+                                                        Clear file
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div v-if="!urlFile">
+                                                <div class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg">
+                                                    <label class="border mx-auto my-14 flex justify-center w-2/3 px-1 py-2 rounded cursor-pointer hover:bg-green-600 hover:text-white text-green-500 text-xs">
+                                                        <svg class="w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                                        </svg>
+                                                        <span class="font-semibold ml-1" >Pilih Foto</span>
+                                                        <input 
+                                                            type='file' class="hidden" name="testimoni_photo[]" ref="file" @change="onFileChange"
+                                                        />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="md:w-2/3">
+                                        <div class="flex flex-row"> 
+                                            <input 
+                                            placeholder=""
+                                            v-model="data.testimoni_name[i]"
+                                            class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
+                                            <div class="float-right mt-2">
+                                                <a @click="delTestimoni(i)" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
+                                                    <i class="fa fa-trash text-white"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="mt-1">
+                                            <textarea 
+                                            placeholder=""
+                                            v-model="data.testimoni_desc[i]"
+                                            class="h-24 appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div><button @click="addTestimoni" class="px-3 py-2 mt-3 float-right bg-blue-600 text-white rounded border-gray-500 border ">Add Testimonial</button></div>
                         </div>
+                        
                     </div>
                     <!--footer-->
                     <div class="flex items-center justify-end py-3 px-4 border-t border-solid border-gray-300 rounded-b">
@@ -271,7 +383,7 @@
             </div>
         </div><!-- end MODAL Setting Form-->
         
-        <!-- MODAL HOW TO Detail-->
+        <!-- MODAL showModalSetFBPixel-->
         <div v-if="showModalSetFBPixel" class="overflow-x-hidden overflow-y-auto absolute inset-x-0 top-40 z-50 outline-none focus:outline-none justify-center items-center flex">
             <div class="relative w-2/4 pl-20">
                 <!--content-->
@@ -374,7 +486,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- end MODAL Detail-->
+        </div><!-- end MODAL showModalSetFBPixel-->
 
         <div v-if="showModalDetail" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
         <div v-if="showModalSettingForm" class="opacity-25 fixed inset-0 z-30 bg-black"></div>
@@ -397,19 +509,31 @@ export default {
             showModalSettingForm:false,
             showModalSetFBPixel:false,
             copied: '',
-            paramSetForm:'',
-            pixel_event_value:[{
+            paramSetForm:0,
+            pixel_event_value:{
+                    value : '',
+                    currency : '',
+                    content_name : '',
+                    content_category : '',
+                },
+            data : {
+                photo_product : '',
+                fee_cs: '',
+                promo:[],
+                facebook_pixel: [[]],
+                pixel_events:[[]],
+                pixel_event_set:[{
                     value : '',
                     currency : '',
                     content_name : '',
                     content_category : '',
                 }],
-            data : {
-                photo_product : '',
-                fee_cs: '',
-                facebook_pixel: [[]],
-                pixel_events:[[]],
-                pixel_event_set:[this.pixel_event_value],
+                bullet_point:[[]],
+                guarantee_seal:'',
+                testimoni:[[]],
+                testimoni_photo:[[]],
+                testimoni_name:[[]],
+                testimoni_desc:[[]],
             },
             urlFile: '',
             isSubmit: false,
@@ -440,10 +564,12 @@ export default {
             .then((response) => {
                 this.products = response.data.data.data;
                 this.isLoading = false;
-                this.products.forEach((v,k) => {
-                    this.data.pixel_event_set[k] = this.pixel_event_value
-                });
-                // console.log(this.data.pixel_event_set)
+                // this.products.forEach((v,k) => {
+                //     this.data.pixel_event_set[k] = this.pixel_event_value
+                // });
+                console.log('reload')
+                console.log(this.data.pixel_events)
+                console.log(this.data.pixel_event_set)
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -463,15 +589,6 @@ export default {
             this.isSubmit = true
             setTimeout(() => {                
                 this.isSubmit = false
-            }, 1000);
-        },
-        submitFormPixelEventSetting(){
-            this.isSubmit2 = true
-
-            console.log(this.data.pixel_event_set)
-
-            setTimeout(() => {                
-                this.isSubmit2 = false
             }, 1000);
         },
         async addProduct(data){
@@ -499,7 +616,7 @@ export default {
                 }
             }).then((response) => {
                 this.isLoading = false;
-                console.log(response);
+                // console.log(response);
                 this.getRecords();
             })
             .catch((error) => {
@@ -513,22 +630,49 @@ export default {
             this.data.facebook_pixel.splice(i,1);
             // console.log(i)
         },
+        addBulletPoint: function () {
+            this.data.bullet_point.push([]);
+        },
+        delBulletPoint:function(i){
+            this.data.bullet_point.splice(i,1);
+            // console.log(i)
+        },
+        addTestimoni:function(){
+            this.data.testimoni.push([]);
+        },
+        delTestimoni:function(i){
+            this.data.testimoni.splice(i,1);
+            this.data.testimoni_name.splice(i,1);
+            this.data.testimoni_desc.splice(i,1);
+            console.log(this.data.testimoni)
+        },
         addPixelEvent: function () {
             
             this.data.pixel_events.push([]);
             this.data.pixel_event_set.push(this.pixel_event_value);
             console.log('add')
             console.log(this.data.pixel_events)
+            console.log(this.data.pixel_event_set)
         },
         delPixelEvent:function(i){
             this.data.pixel_events.splice(i,1);
             // console.log(i)
         },   
         setPixelEvent:function(i){
-            this.data.pixel_event_set[i]= this.pixel_event_value;
+            this.paramSetForm= i
+            this.data.pixel_event_set[i]= this.pixel_event_value
             this.showModalSetFBPixel = true
-            console.log('set')
+            console.log('set :'+i)
             console.log(this.data.pixel_event_set)
+        },
+        submitFormPixelEventSetting(){
+            this.isSubmit2 = true
+
+            console.log(this.data.pixel_event_set)
+
+            setTimeout(() => {                
+                this.isSubmit2 = false
+            }, 1000);
         },
         getDetail: function (data) {
             // alert(message)
@@ -538,11 +682,23 @@ export default {
         },
         editSettingForm: function (data,i) {
             // alert(message)
+            // this.clearData()
             this.showModalSettingForm = true
             this.product = data
-            this.paramSetForm= i
             // console.log(data.name)
         },
+        // clearData:function(){
+        //     this.data.photo_product = ''
+        //     this.data.fee_cs = ''
+        //     this.data.facebook_pixel = [[]]
+        //     this.data.pixel_events = [[]]
+        //     this.data.pixel_event_set = [{
+        //             value : '',
+        //             currency : '',
+        //             content_name : '',
+        //             content_category : '',
+        //         }]
+        // },
         copyurl: function(i){
             // this.copied[i] = false
             let copyURL = document.querySelector('#copy-url-'+i)
@@ -559,6 +715,6 @@ export default {
             }, 2000);
 
         }
-    },
+    }
 }
 </script>
