@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed top-0 inset-x-0 z-40 h-16 text-white bg-gray-100 font-medium flex justify-between items-center shadow-lg">
+    <nav class="fixed top-0 inset-x-0 z-40 h-16 bg-white font-medium flex justify-between items-center border-b">
         <!-- Extract: MobileMenu Vue component -->
         <div class="w-16 h-16 flex justify-center items-center text-gray-600 sm:hidden">
             <button class="p-1 hover:text-white" :class="{'text-white': isMenuOpen}" @click="toggleMenu">
