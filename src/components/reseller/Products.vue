@@ -499,6 +499,7 @@ export default {
             isLoading: false,
             products: '',
             product:'',
+            reseller_product_id:0,
             showModalDetail:false,
             showModalSettingForm:false,
             showModalSetFBPixel:false,
@@ -527,6 +528,7 @@ export default {
                 guarantee_seal:'',
                 testimoni:[[]],
                 testimoni_photo:[[]],
+                testimoni_photo_old:[[]],
                 testimoni_name:[[]],
                 testimoni_desc:[[]],
             },
@@ -572,6 +574,7 @@ export default {
             });
         },
         clearFile(){
+            URL.revokeObjectURL(this.urlFile)
             this.urlFile = '';
             this.data.photo_product = '';
         },
@@ -581,21 +584,79 @@ export default {
             this.data.photo_product = file;
             // console.log(this.data.photo_product);
         },clearFileTesti(i){
-            this.urlFileTesti[i] = '';
-            this.data.testimoni_photo[i] = '';
+            // this.urlFileTesti.$set(i,'');
+            // Vue.set(this.urlFileTesti, i, '')
+            URL.revokeObjectURL(this.urlFileTesti[i])
+            this.urlFileTesti[i] = ''
+            this.data.testimoni_photo[i] = ''
+            // console.log(this.urlFileTesti[i])
+            this.$forceUpdate()
         },
         onFileChangeTesti(e ,i) {
             // console.log(i)
-            const file = e.target.files[i];
+            // console.log(e.target.files)
+            const file = e.target.files[0];
             this.urlFileTesti[i] = URL.createObjectURL(file);
             this.data.testimoni_photo[i] = file;
             // console.log(this.data.testimoni_photo);
+            this.$forceUpdate();
         },
         submitForm(){
+            // console.log(this.product)
             this.isSubmit = true
-            setTimeout(() => {                
-                this.isSubmit = false
-            }, 1000);
+            const formData = new FormData();
+            formData.append('fee_cs', this.data.fee_cs);
+            formData.append('photo_product',  this.data.photo_product);
+            formData.append('facebook_pixel[]',  this.data.facebook_pixel);
+            formData.append('bullet_points[]',  this.data.bullet_point);
+            formData.append('promo[]',  this.data.promo_reseller);
+            formData.append('guarantee_seal',  this.data.guarantee_seal);
+            formData.append('testimoni_name[]',  this.data.testimoni_name);
+            formData.append('testimoni_desc[]',  this.data.testimoni_desc);
+            formData.append('testimoni_photo[]',  this.data.testimoni_photo);
+            formData.append('testimoni_photo_old[]',  this.data.testimoni_photo_old);
+
+            formData.append('_method', 'PUT');
+            axios.post(`/api/reseller_products/update/${this.product.resellerproduct.id}`, formData, {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken,
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((response) => {
+                // this.$swal('Success', `Data berhasil dikirim`, 'success');
+                this.showModalSettingForm = false;
+                this.clearDataFormSetting()
+                // this.upload = {};
+                // this.urlFile = '';
+                this.isSubmit = false;
+                // console.log(response);
+            }).catch((error) => {
+                this.$swal("Error!", `${error}`, "error");
+            });
+        },
+        clearDataFormSetting(){
+            // window.location.reload()
+            this.data = {
+                photo_product : '',
+                fee_cs: '',
+                promo:[],
+                promo_reseller:[],
+                facebook_pixel: [[]],
+                pixel_events:[[]],
+                pixel_event_set:[{
+                    value : '',
+                    currency : '',
+                    content_name : '',
+                    content_category : '',
+                }],
+                bullet_point:[[]],
+                guarantee_seal:'',
+                testimoni:[[]],
+                testimoni_photo:[[]],
+                testimoni_photo_old:[[]],
+                testimoni_name:[[]],
+                testimoni_desc:[[]],
+            }
         },
         async addProduct(data){
             // console.log(data);
@@ -659,7 +720,9 @@ export default {
             this.data.testimoni.splice(i,1);
             this.data.testimoni_name.splice(i,1);
             this.data.testimoni_desc.splice(i,1);
-            console.log(this.data.testimoni)
+            this.data.testimoni_photo.splice(i,1);
+            this.urlFileTesti[i] = ''
+            // this.$forceUpdate();
         },
         addPixelEvent: function () {
             
@@ -695,14 +758,67 @@ export default {
             this.product = data
             // console.log(data.name)
         },
-        editSettingForm: function (data,i) {
+        async editSettingForm(data,i) {
             this.showModalSettingForm = true
             this.product = data
-            // console.log(this.product.promo)
+            
             this.product.promo.name.forEach((v, i) => {
                 this.data.promo[i] = v+' - '+this.product.promo.price[i]
                 this.data.promo_reseller[i] = 0
             });
+            await axios.get(`/api/reseller_products/${data.resellerproduct.id}`,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                // this.products = response.data.data.data;
+                // console.log(response.data)
+                let d = response.data
+                this.isLoading = false;
+
+                this.data.photo_product = ''
+                this.data.fee_cs = d.fee_cs
+                // this.data.promo_reseller = d.promo
+                this.data.facebook_pixel= d.facebook_pixel
+                // this.data.promo = [[]]
+                // this.data.photo_product = ''
+
+                // this.data = {
+                //     photo_product : '',
+                //     fee_cs: d.fee_cs,
+                //     // promo:[],
+                //     // promo_reseller:d.promo,
+                //     facebook_pixel: [[]],
+                //     pixel_events:[[]],
+                //     pixel_event_set:[{
+                //         value : '',
+                //         currency : '',
+                //         content_name : '',
+                //         content_category : '',
+                //     }],
+                //     bullet_point:[[]],
+                //     guarantee_seal:'',
+                //     testimoni:[[]],
+                //     testimoni_photo:[[]],
+                //     testimoni_name:[[]],
+                //     testimoni_desc:[[]],
+                // }
+                // this.data.promo = []
+                // var dataPromo = []
+                // console.log(this.product.promo.name)
+                // this.product.promo.name.forEach((v, i) => {
+                //     this.data.promo[i] = v+' - '+this.product.promo.price[i]
+                //     // this.data.promo = v
+                //     // this.data.promo_reseller[i] = 0
+                // });
+                // console.log(this.data.promo)
+                // this.data.promo = dataPromo
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+            
             // console.log(this.data.promo)
 
         },
