@@ -256,9 +256,9 @@
                                 <label class="block uppercase text-gray-500 tracking-wide text-xs font-bold mb-1">
                                     Promo
                                 </label>
-                                <div class="flex items-center my-2" v-for="(val, i) in data.promo" :key="i">
+                                <div class="flex items-center my-2" v-for="(val, i) in data.promo_product" :key="i">
                                 <label class="flex items-center">
-                                    <input type="checkbox" :value="i" v-model="data.promo_reseller[i]" @change="pilihPromo($event,i)" class="form-checkbox">
+                                    <input type="checkbox" :value="i" v-model="data.promo[i]" @change="pilihPromo($event,i)" class="form-checkbox">
                                     <span class="ml-2 text-gray-500 tracking-wide text-sm">{{ val }}</span>
                                 </label>
                                 </div>
@@ -514,8 +514,8 @@ export default {
             data : {
                 photo_product : '',
                 fee_cs: '',
+                promo_product:[],
                 promo:[],
-                promo_reseller:[],
                 facebook_pixel: [[]],
                 pixel_events:[[]],
                 pixel_event_set:[{
@@ -536,6 +536,7 @@ export default {
             urlFile: '',
             isSubmit: false,
             isSubmit2: false,
+            mypromo:[],
         }
     },
     mounted() {
@@ -609,13 +610,14 @@ export default {
             formData.append('photo_product',  this.data.photo_product);
             formData.append('facebook_pixel[]',  this.data.facebook_pixel);
             formData.append('bullet_points[]',  this.data.bullet_point);
-            formData.append('promo[]',  this.data.promo_reseller);
+            formData.append('promo',  this.data.promo);
             formData.append('guarantee_seal',  this.data.guarantee_seal);
             formData.append('testimoni_name[]',  this.data.testimoni_name);
             formData.append('testimoni_desc[]',  this.data.testimoni_desc);
             formData.append('testimoni_photo[]',  this.data.testimoni_photo);
             formData.append('testimoni_photo_old[]',  this.data.testimoni_photo_old);
-
+            // console.log(this.data.promo)
+            // return false
             formData.append('_method', 'PUT');
             axios.post(`/api/reseller_products/update/${this.product.resellerproduct.id}`, formData, {
                 headers: {
@@ -639,8 +641,8 @@ export default {
             this.data = {
                 photo_product : '',
                 fee_cs: '',
+                promo_product:[],
                 promo:[],
-                promo_reseller:[],
                 facebook_pixel: [[]],
                 pixel_events:[[]],
                 pixel_event_set:[{
@@ -657,6 +659,7 @@ export default {
                 testimoni_name:[[]],
                 testimoni_desc:[[]],
             }
+            this.mypromo = []
         },
         async addProduct(data){
             // console.log(data);
@@ -691,13 +694,19 @@ export default {
             });
         },
         pilihPromo:function(e,i){
+            // var mypromo = []
             if(e.target.checked){
-                this.data.promo_reseller[i] = 1
+                this.data.promo[i] = i
             }else{
-                this.data.promo_reseller[i] = 0
+                this.data.promo[i] = null
             }
 
-            console.log(this.data.promo_reseller)
+            // var p = ''
+            // this.mypromo.forEach((v, i) => {
+            //     p += ','+i
+            // });
+            // this.data.promo = p
+            console.log(this.data.promo)
         },
         addPixelID: function () {
             this.data.facebook_pixel.push([]);
@@ -763,8 +772,8 @@ export default {
             this.product = data
             
             this.product.promo.name.forEach((v, i) => {
-                this.data.promo[i] = v+' - '+this.product.promo.price[i]
-                this.data.promo_reseller[i] = 0
+                this.data.promo_product[i] = v+' - '+this.product.promo.price[i]
+                this.data.promo[i] = null
             });
             await axios.get(`/api/reseller_products/${data.resellerproduct.id}`,{
                 headers: {
@@ -777,10 +786,13 @@ export default {
                 let d = response.data
                 this.isLoading = false;
 
-                this.data.photo_product = ''
-                this.data.fee_cs = d.fee_cs
+                this.urlFile = d.resellerProduct.photo_product
+                this.data.photo_product = d.resellerProduct.photo_product
+                this.data.fee_cs = d.resellerProduct.fee_cs
+                this.data.guarantee_seal = d.resellerProduct.guarantee_seal
                 // this.data.promo_reseller = d.promo
                 this.data.facebook_pixel= d.facebook_pixel
+                this.data.bullet_point= d.bullet_points
                 // this.data.promo = [[]]
                 // this.data.photo_product = ''
 
