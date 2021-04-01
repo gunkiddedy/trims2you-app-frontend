@@ -311,6 +311,7 @@
                                 <div class="flex"  v-for="(point, i) in data.testimoni" :key="i">
                                     <div class="md:w-1/3"> 
                                         <div class="md:w-full  mb-4 pr-2" >
+                                            <input type="hidden" placeholder="testimoni_photo_old" v-model="data.testimoni_photo_old[i]">
                                             <div v-if="urlFileTesti[i]">
                                                 <img :src="urlFileTesti[i]" class="object-contain w-full h-36 border-dashed border-2 border-gray-300 rounded-lg"/>
                                                 <div class="my-2">
@@ -337,6 +338,7 @@
                                     </div>
                                     <div class="md:w-2/3">
                                         <div class="flex flex-row"> 
+                                            <input type="hidden" placeholder="testimoni_id" v-model="data.testimoni_id[i]">
                                             <input 
                                             placeholder="Nama"
                                             v-model="data.testimoni_name[i]"
@@ -527,6 +529,7 @@ export default {
                 bullet_point:[[]],
                 guarantee_seal:'',
                 testimoni:[[]],
+                testimoni_id:[[]],
                 testimoni_photo:[[]],
                 testimoni_photo_old:[[]],
                 testimoni_name:[[]],
@@ -616,10 +619,29 @@ export default {
             });
 
             formData.append('guarantee_seal',  this.data.guarantee_seal);
-            formData.append('testimoni_name[]',  this.data.testimoni_name);
-            formData.append('testimoni_desc[]',  this.data.testimoni_desc);
-            formData.append('testimoni_photo[]',  this.data.testimoni_photo);
-            formData.append('testimoni_photo_old[]',  this.data.testimoni_photo_old);
+            // formData.append('testimoni_name[]',  this.data.testimoni_name);
+            this.data.testimoni_id.forEach((v,i) => {
+                formData.append('testimoni_id[]',  v);
+            });
+            this.data.testimoni_name.forEach((v,i) => {
+                formData.append('testimoni_name[]',  v);
+            });
+            this.data.testimoni_desc.forEach((v,i) => {
+                formData.append('testimoni_desc[]',  v);
+            });
+            this.data.testimoni_photo.forEach((v,i) => {
+                formData.append(`testimoni_photo[${i}]`,  v);
+                // console.log(v)
+            });
+            this.data.testimoni_photo_old.forEach((v,i) => {
+                formData.append('testimoni_photo_old[]',  v);
+                console.log(v)
+            });
+// console.log(this.data)
+// return 
+            // formData.append('testimoni_desc[]',  this.data.testimoni_desc);
+            // formData.append('testimoni_photo[]',  this.data.testimoni_photo);
+            // formData.append('testimoni_photo_old[]',  this.data.testimoni_photo_old);
             // console.log(this.data.promo)
             // return false
             formData.append('_method', 'PUT');
@@ -658,6 +680,7 @@ export default {
                 bullet_point:[[]],
                 guarantee_seal:'',
                 testimoni:[[]],
+                testimoni_id:[[]],
                 testimoni_photo:[[]],
                 testimoni_photo_old:[[]],
                 testimoni_name:[[]],
@@ -776,6 +799,7 @@ export default {
             this.showModalSettingForm = true
             this.product = data
             this.data.promo_product = []
+            this.data.testimoni = []
             this.product.promo.name.forEach((v, i) => {
                 this.data.promo_product[i] = v+' - '+this.product.promo.price[i]
                 this.data.promo[i] = null
@@ -791,14 +815,18 @@ export default {
                 let d = response.data
                 this.isLoading = false;
 
-                console.log(this.product.promo.name)
+                // console.log(this.product.promo.name)
                 this.product.promo.name.forEach((v,i) => {
-                    if(d.resellerProduct.promo.includes(i.toString())){
-                        this.data.promo[i] =  i.toString()
-                    } else {
-                        this.data.promo[i] = null
-                    }
-                    // this.data.promo[i] = d.resellerProduct.promo.indexOf(i) ? i : null;                 
+                    this.data.promo[i] =  d.resellerProduct.promo.includes(i.toString()) ? i.toString() : null            
+                });
+
+                d.resellerProduct.testimoni.forEach((v,i) => {
+                    this.data.testimoni.push([]);
+                    this.data.testimoni_id[i] =  v.id
+                    this.data.testimoni_name[i] =  v.name
+                    this.data.testimoni_desc[i] =  v.text
+                    this.data.testimoni_photo_old[i] =  v.image                    
+                    this.urlFileTesti[i] =  v.image
                 });
                 // console.log(d.resellerProduct.promo)
                 // console.log(this.data.promo)
