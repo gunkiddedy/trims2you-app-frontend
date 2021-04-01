@@ -775,7 +775,7 @@ export default {
         async editSettingForm(data,i) {
             this.showModalSettingForm = true
             this.product = data
-            
+            this.data.promo_product = []
             this.product.promo.name.forEach((v, i) => {
                 this.data.promo_product[i] = v+' - '+this.product.promo.price[i]
                 this.data.promo[i] = null
@@ -800,8 +800,8 @@ export default {
                     }
                     // this.data.promo[i] = d.resellerProduct.promo.indexOf(i) ? i : null;                 
                 });
-                console.log(d.resellerProduct.promo)
-                console.log(this.data.promo)
+                // console.log(d.resellerProduct.promo)
+                // console.log(this.data.promo)
                 this.urlFile = d.resellerProduct.photo_product
                 this.data.photo_product = d.resellerProduct.photo_product
                 this.data.fee_cs = d.resellerProduct.fee_cs
