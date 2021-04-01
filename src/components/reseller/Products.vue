@@ -610,7 +610,11 @@ export default {
             formData.append('photo_product',  this.data.photo_product);
             formData.append('facebook_pixel[]',  this.data.facebook_pixel);
             formData.append('bullet_points[]',  this.data.bullet_point);
-            formData.append('promo',  this.data.promo);
+            // formData.append('promo[]',  this.data.promo);
+            this.data.promo.forEach((v,i) => {
+                formData.append('promo[]',  v);
+            });
+
             formData.append('guarantee_seal',  this.data.guarantee_seal);
             formData.append('testimoni_name[]',  this.data.testimoni_name);
             formData.append('testimoni_desc[]',  this.data.testimoni_desc);
@@ -696,7 +700,7 @@ export default {
         pilihPromo:function(e,i){
             // var mypromo = []
             if(e.target.checked){
-                this.data.promo[i] = i
+                this.data.promo[i] = i.toString()
             }else{
                 this.data.promo[i] = null
             }
@@ -706,6 +710,7 @@ export default {
             //     p += ','+i
             // });
             // this.data.promo = p
+            // console.log(i)
             console.log(this.data.promo)
         },
         addPixelID: function () {
@@ -786,6 +791,17 @@ export default {
                 let d = response.data
                 this.isLoading = false;
 
+                console.log(this.product.promo.name)
+                this.product.promo.name.forEach((v,i) => {
+                    if(d.resellerProduct.promo.includes(i.toString())){
+                        this.data.promo[i] =  i.toString()
+                    } else {
+                        this.data.promo[i] = null
+                    }
+                    // this.data.promo[i] = d.resellerProduct.promo.indexOf(i) ? i : null;                 
+                });
+                console.log(d.resellerProduct.promo)
+                console.log(this.data.promo)
                 this.urlFile = d.resellerProduct.photo_product
                 this.data.photo_product = d.resellerProduct.photo_product
                 this.data.fee_cs = d.resellerProduct.fee_cs
