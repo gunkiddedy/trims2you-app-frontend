@@ -406,7 +406,7 @@ export default {
     },
     methods: {
         deleteBarcode(param){
-            alert(param)
+            // alert(param)
             this.barcodes.splice(param, 1);
             axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
             {
@@ -423,7 +423,8 @@ export default {
         },
         addBarcode(){
             this.barcodes.push(this.new_barcode);
-
+            this.barcodes = this.barcodes.filter(barcode => barcode);
+            console.log(this.barcodes);
             axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
             {
                 headers: {
