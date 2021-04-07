@@ -25,7 +25,7 @@
                                 v-model="incomingData"
                                 class="shadow rounded w-full py-2 leading-none border px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" 
                                 type="text" 
-                                placeholder="Transaction Code">
+                                placeholder="Barcode product">
                             <button 
                                 @click="addIncoming(incomingData)"
                                 class="bg-gray-200 px-3 py-2 rounded ml-2">
