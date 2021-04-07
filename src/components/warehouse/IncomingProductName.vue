@@ -219,7 +219,7 @@ export default {
                 this.$swal('cannot empty!');
                 return false;
             }
-            await axios.post(`/api/incoming_product/status/${param}`, {status: this.incomingData},
+            await axios.put(`/api/incoming_product/status/${param}`, {status: this.incomingData},
             {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken

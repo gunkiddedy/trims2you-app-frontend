@@ -387,7 +387,8 @@
                     <!--header-->
                     <div class="flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t">
                         <span class="text-xl font-semibold pt-2">
-                        Pixel Event Settings
+                        Pixel Event Settings 
+                        <!-- {{data.pixel_event_set}} -->
                         </span>
                         <button 
                             class="p-1 ml-auto bg-transparent border-0 text-black float-right text-2xl leading-none font-semibold outline-none focus:outline-none" @click="showModalSetFBPixel = false" >
@@ -776,6 +777,7 @@ export default {
         setPixelEvent:function(i){
             this.paramSetForm= i
             this.data.pixel_event_set[i]= this.pixel_event_value
+            // console.log(this.data.pixel_event_set[i]);
             this.showModalSetFBPixel = true
             console.log('set :'+i)
             console.log(this.data.pixel_event_set)
