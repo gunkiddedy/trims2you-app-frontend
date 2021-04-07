@@ -89,22 +89,12 @@
                                         'bg-red-400': props.row.status == 1,
                                         'bg-yellow-400': props.row.status == 2,
                                         'bg-green-400': props.row.status == 3,
-                                        'bg-blue-400': props.row.status == 4,
-                                        'bg-indigo-400': props.row.status == 5,
-                                        'bg-purple-400': props.row.status == 6,
-                                        'bg-pink-400': props.row.status == 7,
-                                        'bg-gray-600': props.row.status == 8
                                     }"
                                     class="px-2 text-white font-bold py-0 leading-loose flex items-center justify-center max-w-max">
-                                    {{ props.row.status == 0 ? 'Review' : '' }}
-                                    {{ props.row.status == 1 ? 'Proses' : '' }}
+                                    {{ props.row.status == 0 ? 'Belum dikirim' : '' }}
+                                    {{ props.row.status == 1 ? 'Sedang dikirim' : '' }}
                                     {{ props.row.status == 2 ? 'Sudah diterima' : '' }}
                                     {{ props.row.status == 3 ? 'Terjual' : '' }}
-                                    {{ props.row.status == 4 ? 'Terkirim' : '' }}
-                                    {{ props.row.status == 5 ? 'Cancel oleh user' : '' }}
-                                    {{ props.row.status == 6 ? 'Cancel oleh reseller' : '' }}
-                                    {{ props.row.status == 7 ? 'Cancel oleh warehouse' : '' }}
-                                    {{ props.row.status == 8 ? 'Retur' : '' }}
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
