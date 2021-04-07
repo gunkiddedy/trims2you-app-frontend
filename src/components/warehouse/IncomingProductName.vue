@@ -218,6 +218,8 @@ export default {
             if(param == ''){
                 this.$swal('cannot empty!');
                 return false;
+            }else{
+                this.incomingData = 2;
             }
             await axios.put(`/api/incoming_product/status/${param}`, {status: this.incomingData},
             {
