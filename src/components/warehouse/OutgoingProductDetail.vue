@@ -247,12 +247,12 @@
                                 <div class="input flex items-center justify-start">
                                     <div class="flex items-center mr-2">
                                         <input
-                                            v-model="barcodes"
+                                            v-model="new_barcode"
                                             class="shadow rounded w-full py-2 leading-none border px-3 text-grey-darker focus:outline-none focus:border-blue-300 focus:shadow-inner focus:bg-gray-100" 
                                             type="text" 
                                             placeholder="Transaction Code">
                                         <button 
-                                            @click="addBarcode(barcodes)"
+                                            @click="addBarcode"
                                             class="hover:bg-gray-400 bg-gray-300 px-3 py-2 rounded ml-2">
                                             <span class="text-gray-600">Add</span>
                                         </button>
@@ -295,9 +295,24 @@
                                                 </div>
                                             </td>
                                             <td class="">
-                                                <span
-                                                    class="text-left" 
-                                                    v-html="productDetailOrder.barcode_html">
+                                                <span 
+                                                    v-for="(barcode, i) in productDetailOrder.barcodes"
+                                                    :key="i"
+                                                    v-if="barcode"
+                                                    class="text-left flex items-center" 
+                                                >
+                                                    <vue-barcode 
+                                                        :value="barcode" 
+                                                        :options="{ displayValue: false, height:40 }">
+                                                    </vue-barcode>
+                                                    <!-- {{productDetailOrder.barcodes}} -->
+                                                    <span >
+                                                        <svg
+                                                            @click="deleteBarcode(i)" 
+                                                            class="w-8 text-red-400 hover:text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </span>   
                                                 </span>
                                             </td>
                                             <td class="">
@@ -341,7 +356,10 @@
 
 <script>
 import axios from 'axios'
+import VueBarcode from '@chenfengyuan/vue-barcode';
+// app.component(VueBarcode.name, VueBarcode);
 export default {
+    components: {VueBarcode},
     props: ['id'],
     data(){
         return {
@@ -361,6 +379,7 @@ export default {
             },
             tracking_number: '',
             barcodes: [],
+            new_barcode: ''
         }
     },
     mounted() {
@@ -386,19 +405,35 @@ export default {
         // }
     },
     methods: {
-        addBarcode(param){
-            axios.put(`/api/outgoing_product/barcode/${this.id}`, 
-            {barcodes: param},
+        deleteBarcode(param){
+            alert(param)
+            this.barcodes.splice(param, 1);
+            axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
             {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
-            })
-            .then((response) => {
+            }).then((response) => {
                 this.getRecords();
+                this.new_barcode = '';
                 console.log(response);
-            })
-            .catch((error) => {
+            }).catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
+        addBarcode(){
+            this.barcodes.push(this.new_barcode);
+
+            axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            }).then((response) => {
+                this.getRecords();
+                this.new_barcode = '';
+                console.log(response);
+            }).catch((error) => {
                 console.log('woooo...'+error);
             });
         },
@@ -523,7 +558,9 @@ export default {
                 }
             })
             .then((response) => {
+                this.barcodes = response.data.order.barcodes;
                 this.productDetailOrder = response.data.order;
+                console.log(response.data.order);
                 this.tracking_number = response.data.order.tracking_number;
                 this.warehouse.name = response.data.order.warehouse.name;
                 this.warehouse.address = response.data.order.warehouse.address;
