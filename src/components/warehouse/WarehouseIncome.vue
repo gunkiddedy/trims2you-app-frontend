@@ -41,12 +41,37 @@
                     slot-scope="props"
                     v-if="role === 'gudang' || role === 'reseller'"
                 >
+                    <span v-if="props.column.field == 'status_custom'">
+                        <span 
+                            :class="{
+                                'bg-gray-400': props.row.status == 0, 
+                                'bg-red-400': props.row.status == 1,
+                                'bg-yellow-400': props.row.status == 2,
+                                'bg-green-400': props.row.status == 3,
+                                'bg-blue-400': props.row.status == 4,
+                                'bg-indigo-400': props.row.status == 5,
+                                'bg-purple-400': props.row.status == 6,
+                                'bg-pink-400': props.row.status == 7,
+                                'bg-gray-600': props.row.status == 8
+                            }"
+                            class="px-3 text-white font-bold py-0 leading-loose flex items-center justify-center w-2/3">
+                            {{ props.row.status == 0 ? 'Review' : '' }}
+                            {{ props.row.status == 1 ? 'Proses' : '' }}
+                            {{ props.row.status == 2 ? 'Dikemas' : '' }}
+                            {{ props.row.status == 3 ? 'Dikirim' : '' }}
+                            {{ props.row.status == 4 ? 'Terkirim' : '' }}
+                            {{ props.row.status == 5 ? 'Cancel oleh user' : '' }}
+                            {{ props.row.status == 6 ? 'Cancel oleh reseller' : '' }}
+                            {{ props.row.status == 7 ? 'Cancel oleh warehouse' : '' }}
+                            {{ props.row.status == 8 ? 'Retur' : '' }}
+                        </span>
+                    </span>
                     <span v-if="props.column.field == 'action'">
                         <button
-                            class="bg-indigo-500 rounded border border-indigo-600 hover:bg-indigo-600 px-2 py-0 text-white font-semibold mx-1 flex items-center justify-between"
-                            @click="editData(props.row.id)"
+                            class="bg-pink-500 rounded border border-pink-600 hover:bg-pink-600 px-2 py-1 text-white font-semibold flex items-center justify-center shadow-lg"
+                            @click="detailData(props.row.id)"
                         >
-                            <svg class="w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> Edit
+                            <svg class="w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Detail
                         </button>
                     </span>
                     <span v-else>
@@ -82,7 +107,7 @@ export default {
                 },
                 {
                     label: "Reseller",
-                    field: "cms_users_id",
+                    field: "reseller.name",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -118,7 +143,7 @@ export default {
                 },
                 {
                     label: "Status",
-                    field: "status",
+                    field: "status_custom",
                     sortable: true,
                     width: "150px",
                     filterable: true,
@@ -201,8 +226,11 @@ export default {
             this.updateParams(params);
             this.getRecords();
         },
-        editData(param) {
-            alert(param);
+        detailData(param){
+            this.$router.push({
+                name: 'OutgoingProductDetail',
+                params: { id: param }
+            });
         },
         deleteData(param) {
             //alert(param);
