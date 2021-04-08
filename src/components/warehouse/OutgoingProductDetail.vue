@@ -406,18 +406,23 @@ export default {
     },
     methods: {
         deleteBarcode(param){
-            // alert(param)
             this.barcodes.splice(param, 1);
-            console.log(this.barcodes);
-            axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
-            {
+            let new_barcode;
+            if(this.barcodes.length > 0){
+                new_barcode = this.barcodes.join(',');
+                console.log('join', new_barcode);
+            }else{
+                new_barcode = '';
+                console.log('new',new_barcode);
+            }
+            axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: new_barcode}, {
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
-            }).then((response) => {
+            }).then(response => {
                 this.getRecords();
-                console.log(response);
-            }).catch((error) => {
+                console.log(this.barcodes);
+            }).catch(error => {
                 console.log('woooo...'+error);
             });
         },
