@@ -408,6 +408,7 @@ export default {
         deleteBarcode(param){
             // alert(param)
             this.barcodes.splice(param, 1);
+            console.log(this.barcodes);
             axios.put(`/api/outgoing_product/barcode/${this.id}`, {barcodes: this.barcodes.join(',')},
             {
                 headers: {
@@ -415,7 +416,6 @@ export default {
                 }
             }).then((response) => {
                 this.getRecords();
-                this.new_barcode = '';
                 console.log(response);
             }).catch((error) => {
                 console.log('woooo...'+error);
@@ -561,7 +561,7 @@ export default {
             .then((response) => {
                 this.barcodes = response.data.order.barcodes;
                 this.productDetailOrder = response.data.order;
-                console.log(response.data.order);
+                // console.log(response.data.order);
                 this.tracking_number = response.data.order.tracking_number;
                 this.warehouse.name = response.data.order.warehouse.name;
                 this.warehouse.address = response.data.order.warehouse.address;
