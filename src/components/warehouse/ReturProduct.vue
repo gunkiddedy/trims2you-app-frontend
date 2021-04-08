@@ -133,7 +133,7 @@ export default {
             columns: [
                 {
                     label: "Reseller",
-                    field: "cms_users_id",
+                    field: "reseller.name",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
@@ -335,7 +335,7 @@ export default {
                 this.totalRecords = response.data.total;
                 this.rows = response.data.data;
                 this.$store.dispatch('warehouseData/handleRetur', response.data);
-                console.log(response);
+                console.log(response.data);
                 console.log(this.serverParams);
             })
             .catch((error) => {
