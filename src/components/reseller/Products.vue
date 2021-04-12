@@ -9,7 +9,7 @@
                     <div
                         v-for="(item, i) in products"
                         :key="i"
-                        :class="{'bg-gray-200':item.resellerproduct}"   
+                        :class="{'bg-gray-200':item.resellerproduct && item.resellerproduct.status!=='0'}"   
                         class="kotak3 px-4 py-8 bg-white rounded shadow-lg text-center hover:shadow-md">
                         
                         <div class="md:block -shrink-0">
@@ -40,18 +40,18 @@
                                 <a @click="getDetail(item)" href="javascript:void(0)" class="bg-blue-700 opacity-80 px-2 py-1 rounded">
                                     <i class="fa fa-eye text-white"></i>
                                 </a>
-                                <a @click="addProduct(item)" href="javascript:void(0)" class="bg-green-600 opacity-100 px-2 py-1 mx-1 rounded" v-if="!item.resellerproduct">
+                                <a @click="addProduct(item)" href="javascript:void(0)" class="bg-green-600 opacity-100 px-2 py-1 mx-1 rounded" v-if="!item.resellerproduct || item.resellerproduct.status==='0'">
                                     <i class="fa fa-plus text-white"></i>
                                 </a>
-                                <a @click="removeProduct(item)" href="javascript:void(0)" class="bg-red-600 opacity-80 px-2 py-1 mx-1 rounded" v-if="item.resellerproduct">
+                                <a @click="removeProduct(item)" href="javascript:void(0)" class="bg-red-600 opacity-80 px-2 py-1 mx-1 rounded" v-if="item.resellerproduct && item.resellerproduct.status==='1'"> 
                                     <i class="fa fa-trash text-white"></i>
                                 </a>
-                                <a @click="editSettingForm(item,i)" href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct">
+                                <a @click="editSettingForm(item,i)" href="javascript:void(0)" class="bg-yellow-500 opacity-80 px-2 py-1 rounded" v-if="item.resellerproduct && item.resellerproduct.status==='1'">
                                     <i class="fa fa-gear text-white"></i>
                                 </a>
                             </div>
 
-                            <div class="link-product-reseller" v-if="item.resellerproduct">
+                            <div class="link-product-reseller" v-if="item.resellerproduct && item.resellerproduct.status==='1'">
                                 <div class="mb-3 overflow-hidden">
                                     <a class="text-indigo-800 hover:text-blue-600" :href="item.resellerproduct.url">{{ item.resellerproduct.url }}</a>
                                 </div>
