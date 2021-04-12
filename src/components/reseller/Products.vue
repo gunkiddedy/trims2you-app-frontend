@@ -508,12 +508,6 @@ export default {
             showModalSetFBPixel:false,
             copied: '',
             paramSetForm:0,
-            pixel_event_value:{
-                    value : '',
-                    currency : '',
-                    content_name : '',
-                    content_category : '',
-                },
             data : {
                 photo_product : '',
                 fee_cs: '',
@@ -571,8 +565,8 @@ export default {
                 // this.products.forEach((v,k) => {
                 //     this.data.pixel_event_set[k] = this.pixel_event_value
                 // });
-                console.log('reload')
-                console.log(this.data.pixel_events)
+                // console.log('reload')
+                // console.log(this.data.pixel_events)
                 // console.log(this.data.pixel_event_set)
             })
             .catch((error) => {
@@ -812,11 +806,31 @@ export default {
             this.showModalSettingForm = true
             this.product = data
             this.data.promo_product = []
-            this.data.testimoni = []
+            this.data.testimoni = [[]]
             this.product.promo.name.forEach((v, i) => {
                 this.data.promo_product[i] = v+' - '+this.product.promo.price[i]
                 this.data.promo[i] = null
             });
+            this.urlFile = ''
+            this.data.photo_product = ''
+            this.data.fee_cs = 0
+            this.data.guarantee_seal = ''
+            this.data.facebook_pixel= [[]]
+            this.data.bullet_point= [[]]
+
+            this.data.pixel_events = [[]]
+            this.data.pixel_events_value = [[]]
+            this.data.pixel_events_currency = [[]]
+            this.data.pixel_events_content_name = [[]]
+            this.data.pixel_events_content_category = [[]]
+
+            this.data.testimoni_id           = [[]]
+            this.data.testimoni_name         = [[]]
+            this.data.testimoni_desc         = [[]]
+            this.data.testimoni_photo        = [[]]
+            this.data.testimoni_photo_old    = [[]]
+            this.urlFileTesti                = ['']
+
             await axios.get(`/api/reseller_products/${data.resellerproduct.id}`,{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
@@ -834,27 +848,29 @@ export default {
                 });
 
                 d.resellerProduct.testimoni.forEach((v,i) => {
-                    this.data.testimoni.push([]);
-                    this.data.testimoni_id[i] =  v.id
-                    this.data.testimoni_name[i] =  v.name
-                    this.data.testimoni_desc[i] =  v.text
-                    this.data.testimoni_photo_old[i] =  v.image                    
-                    this.urlFileTesti[i] =  v.image
+                    if(i>0){
+                        this.data.testimoni.push([]);                        
+                    }
+                    this.data.testimoni_id[i]           = v.id
+                    this.data.testimoni_name[i]         = v.name
+                    this.data.testimoni_desc[i]         = v.text
+                    this.data.testimoni_photo_old[i]    = v.image                    
+                    this.urlFileTesti[i]                = v.image
                 });
                 d.resellerProduct.pixel_events.pixel_events.forEach((v,i) => {
-                    this.data.pixel_events[i] =  v
+                    this.data.pixel_events[i]           = v
                 });
                 d.resellerProduct.pixel_events.pixel_events_value.forEach((v,i) => {
-                    this.data.pixel_events_value[i] =  v
+                    this.data.pixel_events_value[i]     = v
                 });
                 d.resellerProduct.pixel_events.pixel_events_currency.forEach((v,i) => {
-                    this.data.pixel_events_currency[i] =  v
+                    this.data.pixel_events_currency[i]  = v
                 });
                 d.resellerProduct.pixel_events.pixel_events_content_name.forEach((v,i) => {
-                    this.data.pixel_events_content_name[i] =  v
+                    this.data.pixel_events_content_name[i] = v
                 });
                 d.resellerProduct.pixel_events.pixel_events_content_category.forEach((v,i) => {
-                    this.data.pixel_events_content_category[i] =  v
+                    this.data.pixel_events_content_category[i] = v
                 });
                 // console.log(d.resellerProduct.promo)
                 // console.log(this.data.promo)
@@ -867,37 +883,6 @@ export default {
                 this.data.bullet_point= d.bullet_points
                 // this.data.promo = [[]]
                 // this.data.photo_product = ''
-
-                // this.data = {
-                //     photo_product : '',
-                //     fee_cs: d.fee_cs,
-                //     // promo:[],
-                //     // promo_reseller:d.promo,
-                //     facebook_pixel: [[]],
-                //     pixel_events:[[]],
-                //     pixel_event_set:[{
-                //         value : '',
-                //         currency : '',
-                //         content_name : '',
-                //         content_category : '',
-                //     }],
-                //     bullet_point:[[]],
-                //     guarantee_seal:'',
-                //     testimoni:[[]],
-                //     testimoni_photo:[[]],
-                //     testimoni_name:[[]],
-                //     testimoni_desc:[[]],
-                // }
-                // this.data.promo = []
-                // var dataPromo = []
-                // console.log(this.product.promo.name)
-                // this.product.promo.name.forEach((v, i) => {
-                //     this.data.promo[i] = v+' - '+this.product.promo.price[i]
-                //     // this.data.promo = v
-                //     // this.data.promo_reseller[i] = 0
-                // });
-                // console.log(this.data.promo)
-                // this.data.promo = dataPromo
             })
             .catch((error) => {
                 console.log('woooo...'+error);
