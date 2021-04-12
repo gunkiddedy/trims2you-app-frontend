@@ -428,7 +428,7 @@
                         <div class="w-1/2 p-4 pr-0">
                             <div class="md:w-full mb-4 px-3">
                                 <select 
-                                    v-model="data.pixel_event_set[paramSetForm].value"
+                                    v-model="data.pixel_events_value[paramSetForm]"
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                                     <option value=""></option>
                                     <option value="{total_price}">{total_price}</option>
@@ -439,12 +439,12 @@
                             </div>
                             <div class="md:w-full mb-4 px-3">
                                 <input 
-                                    v-model="data.pixel_event_set[paramSetForm].currency" 
+                                    v-model="data.pixel_events_currency[paramSetForm]" 
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                             </div>
                             <div class="md:w-full mb-4 px-3">
                                 <select 
-                                    v-model="data.pixel_event_set[paramSetForm].content_name"
+                                    v-model="data.pixel_events_content_name[paramSetForm]"
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                                     <option value=""></option>
                                     <option value="{total_price}">{total_price}</option>
@@ -455,7 +455,7 @@
                             </div>
                             <div class="md:w-full mb-4 px-3">
                                 <select 
-                                    v-model="data.pixel_event_set[paramSetForm].content_category"
+                                    v-model="data.pixel_events_content_category[paramSetForm]"
                                     class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded py-2 px-2">
                                     <option value=""></option>
                                     <option value="{total_price}">{total_price}</option>
@@ -519,14 +519,15 @@ export default {
                 fee_cs: '',
                 promo_product:[],
                 promo:[],
+
                 facebook_pixel: [[]],
                 pixel_events:[[]],
-                pixel_event_set:[{
-                    value : '',
-                    currency : '',
-                    content_name : '',
-                    content_category : '',
-                }],
+                pixel_events_value:[[]],
+                pixel_events_currency:[[]],
+                pixel_events_content_name:[[]],
+                pixel_events_content_category:[[]],
+                pixel_event_set:[[]],
+                
                 bullet_point:[[]],
                 guarantee_seal:'',
                 testimoni:[[]],
@@ -572,7 +573,7 @@ export default {
                 // });
                 console.log('reload')
                 console.log(this.data.pixel_events)
-                console.log(this.data.pixel_event_set)
+                // console.log(this.data.pixel_event_set)
             })
             .catch((error) => {
                 console.log('woooo...'+error);
@@ -638,13 +639,21 @@ export default {
                 formData.append('testimoni_photo_old[]',  v);
                 console.log(v)
             });
-// console.log(this.data)
-// return 
-            // formData.append('testimoni_desc[]',  this.data.testimoni_desc);
-            // formData.append('testimoni_photo[]',  this.data.testimoni_photo);
-            // formData.append('testimoni_photo_old[]',  this.data.testimoni_photo_old);
-            // console.log(this.data.promo)
-            // return false
+            this.data.pixel_events.forEach((v,i) => {
+                formData.append('pixel_events[]',  v);
+            });
+            this.data.pixel_events_value.forEach((v,i) => {
+                formData.append('pixel_events_value[]',  v);
+            });
+            this.data.pixel_events_currency.forEach((v,i) => {
+                formData.append('pixel_events_currency[]',  v);
+            });
+            this.data.pixel_events_content_name.forEach((v,i) => {
+                formData.append('pixel_events_content_name[]',  v);
+            });
+            this.data.pixel_events_content_category.forEach((v,i) => {
+                formData.append('pixel_events_content_category[]',  v);
+            });
             formData.append('_method', 'PUT');
             axios.post(`/api/reseller_products/update/${this.product.resellerproduct.id}`, formData, {
                 headers: {
@@ -670,14 +679,15 @@ export default {
                 fee_cs: '',
                 promo_product:[],
                 promo:[],
+                
                 facebook_pixel: [[]],
                 pixel_events:[[]],
-                pixel_event_set:[{
-                    value : '',
-                    currency : '',
-                    content_name : '',
-                    content_category : '',
-                }],
+                pixel_events_value:[[]],
+                pixel_events_currency:[[]],
+                pixel_events_content_name:[[]],
+                pixel_events_content_category:[[]],
+                pixel_event_set:[[]],
+
                 bullet_point:[[]],
                 guarantee_seal:'',
                 testimoni:[[]],
@@ -765,10 +775,10 @@ export default {
         addPixelEvent: function () {
             
             this.data.pixel_events.push([]);
-            this.data.pixel_event_set.push(this.pixel_event_value);
-            console.log('add')
-            console.log(this.data.pixel_events)
-            console.log(this.data.pixel_event_set)
+            this.data.pixel_events_value.push([[]])
+            this.data.pixel_events_currency.push([[]])
+            this.data.pixel_events_content_name.push([[]])
+            this.data.pixel_events_content_category.push([[]])
         },
         delPixelEvent:function(i){
             this.data.pixel_events.splice(i,1);
@@ -780,15 +790,16 @@ export default {
             // console.log(this.data.pixel_event_set[i]);
             this.showModalSetFBPixel = true
             console.log('set :'+i)
-            console.log(this.data.pixel_event_set)
+            // console.log(this.data.pixel_event_set)
         },
         submitFormPixelEventSetting(){
             this.isSubmit2 = true
 
-            console.log(this.data.pixel_event_set)
+            // console.log(this.data.pixel_events_currency)
 
             setTimeout(() => {                
                 this.isSubmit2 = false
+                this.showModalSetFBPixel = false
             }, 1000);
         },
         getDetail: function (data) {
@@ -829,6 +840,21 @@ export default {
                     this.data.testimoni_desc[i] =  v.text
                     this.data.testimoni_photo_old[i] =  v.image                    
                     this.urlFileTesti[i] =  v.image
+                });
+                d.resellerProduct.pixel_events.pixel_events.forEach((v,i) => {
+                    this.data.pixel_events[i] =  v
+                });
+                d.resellerProduct.pixel_events.pixel_events_value.forEach((v,i) => {
+                    this.data.pixel_events_value[i] =  v
+                });
+                d.resellerProduct.pixel_events.pixel_events_currency.forEach((v,i) => {
+                    this.data.pixel_events_currency[i] =  v
+                });
+                d.resellerProduct.pixel_events.pixel_events_content_name.forEach((v,i) => {
+                    this.data.pixel_events_content_name[i] =  v
+                });
+                d.resellerProduct.pixel_events.pixel_events_content_category.forEach((v,i) => {
+                    this.data.pixel_events_content_category[i] =  v
                 });
                 // console.log(d.resellerProduct.promo)
                 // console.log(this.data.promo)
