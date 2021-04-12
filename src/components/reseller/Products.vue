@@ -703,7 +703,7 @@ export default {
                 }
             }).then((response) => {
                 this.isLoading = false;
-                console.log(response);
+                // console.log(response);
                 this.getRecords();
             })
             .catch((error) => {
