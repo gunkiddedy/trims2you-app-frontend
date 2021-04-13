@@ -514,15 +514,15 @@ export default {
                 promo_product:[],
                 promo:[],
 
-                facebook_pixel: [[]],
-                pixel_events:[[]],
-                pixel_events_value:[[]],
-                pixel_events_currency:[[]],
-                pixel_events_content_name:[[]],
-                pixel_events_content_category:[[]],
-                pixel_event_set:[[]],
+                facebook_pixel: [''],
+                pixel_events:[''],
+                pixel_events_value:[''],
+                pixel_events_currency:[''],
+                pixel_events_content_name:[''],
+                pixel_events_content_category:[''],
+                pixel_event_set:[''],
                 
-                bullet_point:[[]],
+                bullet_point:[''],
                 guarantee_seal:'',
                 testimoni:[[]],
                 testimoni_id:[[]],
@@ -625,9 +625,10 @@ export default {
             this.data.testimoni_desc.forEach((v,i) => {
                 formData.append('testimoni_desc[]',  v);
             });
+            // console.log(this.data.testimoni_photo)
             this.data.testimoni_photo.forEach((v,i) => {
                 formData.append(`testimoni_photo[${i}]`,  v);
-                // console.log(v)
+                console.log(v)
             });
             this.data.testimoni_photo_old.forEach((v,i) => {
                 formData.append('testimoni_photo_old[]',  v);
@@ -768,11 +769,11 @@ export default {
         },
         addPixelEvent: function () {
             
-            this.data.pixel_events.push([]);
-            this.data.pixel_events_value.push([[]])
-            this.data.pixel_events_currency.push([[]])
-            this.data.pixel_events_content_name.push([[]])
-            this.data.pixel_events_content_category.push([[]])
+            this.data.pixel_events.push('');
+            this.data.pixel_events_value.push('')
+            this.data.pixel_events_currency.push('')
+            this.data.pixel_events_content_name.push('')
+            this.data.pixel_events_content_category.push('')
         },
         delPixelEvent:function(i){
             this.data.pixel_events.splice(i,1);
@@ -781,9 +782,8 @@ export default {
         setPixelEvent:function(i){
             this.paramSetForm= i
             this.data.pixel_event_set[i]= this.pixel_event_value
-            // console.log(this.data.pixel_event_set[i]);
             this.showModalSetFBPixel = true
-            console.log('set :'+i)
+            // console.log('set :'+i)
             // console.log(this.data.pixel_event_set)
         },
         submitFormPixelEventSetting(){
