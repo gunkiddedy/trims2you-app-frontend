@@ -344,7 +344,7 @@
                                             v-model="data.testimoni_name[i]"
                                             class="appearance-none border focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent block w-full rounded-tl rounded-bl py-2 px-2">
                                             <div class="float-right mt-2">
-                                                <a @click="delTestimoni(i)" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
+                                                <a @click="delTestimoni(i,data.testimoni_id[i])" class="bg-red-600 text-white rounded-tr rounded-br px-4 py-2.5" href="javascript:void(0)">
                                                     <i class="fa fa-trash text-white"></i>
                                                 </a>
                                             </div>
@@ -526,10 +526,11 @@ export default {
                 guarantee_seal:'',
                 testimoni:[[]],
                 testimoni_id:[[]],
-                testimoni_photo:[[]],
-                testimoni_photo_old:[[]],
+                testimoni_photo:[''],
+                testimoni_photo_old:[''],
                 testimoni_name:[[]],
                 testimoni_desc:[[]],
+                testimoni_del:[''],
             },
             urlFileTesti:[],
             urlFile: '',
@@ -588,8 +589,8 @@ export default {
             // Vue.set(this.urlFileTesti, i, '')
             URL.revokeObjectURL(this.urlFileTesti[i])
             this.urlFileTesti[i] = ''
-            this.data.testimoni_photo[i] = ''
-            // console.log(this.urlFileTesti[i])
+            this.data.testimoni_photo[i] = 'del'
+            // console.log(this.data.testimoni_photo)
             this.$forceUpdate()
         },
         onFileChangeTesti(e ,i) {
@@ -632,7 +633,9 @@ export default {
             });
             this.data.testimoni_photo_old.forEach((v,i) => {
                 formData.append('testimoni_photo_old[]',  v);
-                console.log(v)
+            });
+            this.data.testimoni_del.forEach((v,i) => {
+                formData.append('testimoni_del[]',  v);
             });
             this.data.pixel_events.forEach((v,i) => {
                 formData.append('pixel_events[]',  v);
@@ -691,6 +694,7 @@ export default {
                 testimoni_photo_old:[[]],
                 testimoni_name:[[]],
                 testimoni_desc:[[]],
+                testimoni_del:[''],
             }
             this.mypromo = []
         },
@@ -759,13 +763,15 @@ export default {
         addTestimoni:function(){
             this.data.testimoni.push([]);
         },
-        delTestimoni:function(i){
+        delTestimoni:function(i,id){
             this.data.testimoni.splice(i,1);
+            this.data.testimoni_id.splice(i,1);
             this.data.testimoni_name.splice(i,1);
             this.data.testimoni_desc.splice(i,1);
             this.data.testimoni_photo.splice(i,1);
-            this.urlFileTesti[i] = ''
-            // this.$forceUpdate();
+            this.data.testimoni_photo_old.splice(i,1);
+            this.urlFileTesti.splice(i,1);
+            this.data.testimoni_del.push(id);
         },
         addPixelEvent: function () {
             
@@ -777,6 +783,10 @@ export default {
         },
         delPixelEvent:function(i){
             this.data.pixel_events.splice(i,1);
+            this.data.pixel_events_value.splice(i,1);
+            this.data.pixel_events_currency.splice(i,1);
+            this.data.pixel_events_content_name.splice(i,1);
+            this.data.pixel_events_content_category.splice(i,1);
             // console.log(i)
         },   
         setPixelEvent:function(i){
@@ -788,9 +798,7 @@ export default {
         },
         submitFormPixelEventSetting(){
             this.isSubmit2 = true
-
             // console.log(this.data.pixel_events_currency)
-
             setTimeout(() => {                
                 this.isSubmit2 = false
                 this.showModalSetFBPixel = false
@@ -829,6 +837,7 @@ export default {
             this.data.testimoni_desc         = [[]]
             this.data.testimoni_photo        = [[]]
             this.data.testimoni_photo_old    = [[]]
+            this.data.testimoni_del          = [[]]
             this.urlFileTesti                = ['']
 
             await axios.get(`/api/reseller_products/${data.resellerproduct.id}`,{
