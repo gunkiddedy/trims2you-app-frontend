@@ -68,6 +68,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="mb-10 w-full text-center">
+                <button @click="loadmore(url_loadmore)" class="bg-yellow-500 hover:bg-yellow-600 p-2 w-40 text-center text-white cursor-pointer rounded">Load more</button>
+
+                </div>
+
             </div>
         </div>
 
@@ -498,6 +504,7 @@ export default {
     data(){
         return {
             role: 'reseller',
+            url_loadmore:'',
             loading: true,
             isLoading: false,
             products: '',
@@ -562,6 +569,8 @@ export default {
             })
             .then((response) => {
                 this.products = response.data.data.data;
+                this.url_loadmore = response.data.data.next_page_url
+                // console.log(response.data.next_page_url)
                 this.isLoading = false;
                 // this.products.forEach((v,k) => {
                 //     this.data.pixel_event_set[k] = this.pixel_event_value
@@ -569,6 +578,22 @@ export default {
                 // console.log('reload')
                 // console.log(this.data.pixel_events)
                 // console.log(this.data.pixel_event_set)
+            })
+            .catch((error) => {
+                console.log('woooo...'+error);
+            });
+        },
+        async loadmore(url){
+            this.isLoading = true;
+            await axios.get(url,{
+                headers: {
+                    'Authorization': 'Bearer ' + this.userToken
+                }
+            })
+            .then((response) => {
+                this.products = response.data.data.data;
+                this.url_loadmore = response.data.data.next_page_url
+                this.isLoading = false;
             })
             .catch((error) => {
                 console.log('woooo...'+error);
