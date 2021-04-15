@@ -269,7 +269,7 @@ export default {
             columns: [
                 {
                     label: "Reseller Name",
-                    field: "cms_users_id",
+                    field: "reseller.name",
                     sortable: true,
                     width: "150px",
                     // filterable: true,
