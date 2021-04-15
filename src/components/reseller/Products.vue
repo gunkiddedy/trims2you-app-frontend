@@ -5,23 +5,23 @@
                 <div class="title px-4 py-4 border-b">
                     <span class="text-xl text-gray-600 font-semibold">Products</span>
                 </div>
-                <div class="index_statistic grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
+                <div class="products grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
                     <div
                         v-for="(item, i) in products"
                         :key="i"
-                        :class="{'bg-gray-200':item.resellerproduct && item.resellerproduct.status!=='0'}"   
-                        class="kotak3 px-4 py-8 bg-white rounded shadow-lg text-center hover:shadow-md">
+                        :class="{'bg-gray-50':item.resellerproduct && item.resellerproduct.status!=='0'}"   
+                        class="kotak3 px-0 py-0 bg-white rounded shadow hover:shadow-md h-80">
                         
                         <div class="md:block -shrink-0">
-                            <img class="rounded-lg md:w-56" :src="item.photo" :alt="item.name">
+                            <img class="rounded-t md:w-full object-cover h-44" :src="item.photo" :alt="item.name">
                         </div>
                         
                         <div class="flex-col">
-                            <div class="mt-2 text-lg font-semibold">
+                            <div class="pt-1 text-xl font-semibold ml-2">
                                 {{ item.name }}
                             </div>
                             
-                            <div class="text-sm">
+                            <!-- <div class="text-sm">
                                 {{ item.reseller_price }}
                             </div>
                             <div class="text-xs mb-3 text-gray-500">
@@ -34,9 +34,9 @@
                             
                             <div class="text-xs mb-3 text-gray-500">
                                 Harga Jual
-                            </div>
+                            </div> -->
 
-                            <div class="my-4">
+                            <div class="my-2 ml-2">
                                 <a @click="getDetail(item)" href="javascript:void(0)" class="bg-blue-700 opacity-80 px-2 py-1 rounded">
                                     <i class="fa fa-eye text-white"></i>
                                 </a>
@@ -51,9 +51,9 @@
                                 </a>
                             </div>
 
-                            <div class="link-product-reseller" v-if="item.resellerproduct && item.resellerproduct.status==='1'">
+                            <div class="link-product-reseller ml-2" v-if="item.resellerproduct && item.resellerproduct.status==='1'">
                                 <div class="mb-3 overflow-hidden">
-                                    <a class="text-indigo-800 hover:text-blue-600" :href="item.resellerproduct.url">{{ item.resellerproduct.url }}</a>
+                                    <a class="text-indigo-800 hover:text-blue-600 text-xs" :href="item.resellerproduct.url">{{ item.resellerproduct.url }}</a>
                                 </div>
                                 <div>
                                     <input type="hidden" :id="'copy-url-'+i" :value="item.resellerproduct.url">
