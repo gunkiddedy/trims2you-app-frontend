@@ -5,7 +5,7 @@
                 <div class="title px-4 py-4 border-b">
                     <span class="text-xl text-gray-600 font-semibold">Products</span>
                 </div>
-                <div class="products grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
+                <div class="products grid lg:grid-cols-4 md:grid-cols-3 gap-8 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
                     <div
                         v-for="(item, i) in products"
                         :key="i"
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="mb-10 w-full text-center">
-                <button @click="loadmore(url_loadmore)" class="bg-yellow-500 hover:bg-yellow-600 p-2 w-40 text-center text-white cursor-pointer rounded">Load more</button>
+                <button v-if="url_loadmore" @click="loadmore(url_loadmore)" class="bg-yellow-500 hover:bg-yellow-600 p-2 w-40 text-center text-white cursor-pointer rounded">Load more</button>
 
                 </div>
 
@@ -504,7 +504,7 @@ export default {
     data(){
         return {
             role: 'reseller',
-            url_loadmore:'',
+            url_loadmore:null,
             loading: true,
             isLoading: false,
             products: '',
@@ -570,7 +570,7 @@ export default {
             .then((response) => {
                 this.products = response.data.data.data;
                 this.url_loadmore = response.data.data.next_page_url
-                // console.log(response.data.next_page_url)
+                console.log(this.url_loadmore)
                 this.isLoading = false;
                 // this.products.forEach((v,k) => {
                 //     this.data.pixel_event_set[k] = this.pixel_event_value
@@ -585,14 +585,19 @@ export default {
         },
         async loadmore(url){
             this.isLoading = true;
+            url = url.replace('trims2you.local','127.0.0.1:8080');
             await axios.get(url,{
                 headers: {
                     'Authorization': 'Bearer ' + this.userToken
                 }
             })
             .then((response) => {
-                this.products = response.data.data.data;
+                let products = response.data.data.data;
+                products.forEach(data => {
+                    this.products.push(data);                    
+                });
                 this.url_loadmore = response.data.data.next_page_url
+                console.log(this.url_loadmore)
                 this.isLoading = false;
             })
             .catch((error) => {
