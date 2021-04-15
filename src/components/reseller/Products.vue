@@ -5,7 +5,7 @@
                 <div class="title px-4 py-4 border-b">
                     <span class="text-xl text-gray-600 font-semibold">Products</span>
                 </div>
-                <div class="products grid lg:grid-cols-4 md:grid-cols-3 gap-4 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
+                <div class="products grid lg:grid-cols-4 md:grid-cols-3 gap-8 pb-4 sm:grid-cols-2 xs:grid-cols-1 px-4 py-8">
                     <div
                         v-for="(item, i) in products"
                         :key="i"
