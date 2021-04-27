@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './assets/css/tailwind.css'
 import './assets/css/custom.css'
+import '../vue.config'
 
 import VueGoodTablePlugin from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.css'
@@ -30,6 +31,8 @@ Vue.use(VueHtmlToPaper, options);
 
 // MOMENT JS
 import moment from 'moment'
+import axios from 'axios'
+import { devServer } from '../vue.config'
 moment.locale('en'); //change to id for indonesian time
 Vue.filter('momentDateIndoTime', function(value) {
 	if (value) {
@@ -37,6 +40,7 @@ Vue.filter('momentDateIndoTime', function(value) {
   	}
 });
 
+axios.defaults.baseURL = devServer.proxy;
 
 Vue.config.productionTip = false
 
